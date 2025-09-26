@@ -14,24 +14,32 @@
 }
 
 .lang-btn {
-  padding: 8px 15px;
+  padding: 10px 15px;
   border: 2px solid #3498db;
   background: white;
   color: #3498db;
-  border-radius: 20px;
+  border-radius: 25px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 45px;
+  height: 40px;
 }
 
 .lang-btn:hover {
   background: #3498db;
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
 }
 
 .lang-btn.active {
   background: #3498db;
   color: white;
+  box-shadow: 0 2px 6px rgba(52, 152, 219, 0.4);
 }
 
 .appointment-form-container h2 {

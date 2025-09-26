@@ -5,12 +5,69 @@ import { Language } from '../types/i18n';
 import { getTranslations, detectLanguage } from '../i18n';
 import './AppointmentForm.css';
 
+// Lista de marcas e modelos de carro para autocomplete
+const CAR_BRANDS = [
+  "Toyota", "Volkswagen", "Ford", "Chevrolet", "Honda", "Hyundai", "Nissan",
+  "Fiat", "Renault", "Jeep", "Peugeot", "Citroën", "Kia", "BMW", "Mercedes-Benz",
+  "Audi", "Mitsubishi", "Subaru", "Chery", "Land Rover", "Volvo", "JAC", "Suzuki"
+];
+
+const CAR_MODELS: { [brand: string]: string[] } = {
+  Toyota: ["Corolla", "Hilux", "Yaris", "Etios", "SW4", "RAV4", "Camry"],
+  Volkswagen: ["Gol", "Polo", "Virtus", "T-Cross", "Nivus", "Saveiro", "Jetta"],
+  Ford: ["Ka", "Fiesta", "Focus", "EcoSport", "Ranger", "Fusion", "Edge"],
+  Chevrolet: ["Onix", "Prisma", "S10", "Tracker", "Spin", "Cruze", "Cobalt"],
+  Honda: ["Civic", "Fit", "HR-V", "City", "WR-V", "CR-V"],
+  Hyundai: ["HB20", "Creta", "Tucson", "Santa Fe", "ix35"],
+  Nissan: ["Kicks", "Versa", "March", "Sentra", "Frontier"],
+  Fiat: ["Uno", "Argo", "Mobi", "Toro", "Strada", "Cronos", "Pulse"],
+  Renault: ["Sandero", "Logan", "Duster", "Kwid", "Captur"],
+  Jeep: ["Renegade", "Compass", "Commander", "Wrangler"],
+  Peugeot: ["208", "2008", "3008", "308"],
+  "Citroën": ["C3", "C4 Cactus", "Aircross", "C4 Lounge"],
+  Kia: ["Sportage", "Cerato", "Soul", "Picanto"],
+  BMW: ["320i", "X1", "X3", "X5", "118i"],
+  "Mercedes-Benz": ["Classe C", "Classe A", "GLA", "GLC", "Classe E"],
+  Audi: ["A3", "A4", "Q3", "Q5", "A1"],
+  Mitsubishi: ["L200", "ASX", "Outlander", "Pajero"],
+  Subaru: ["Impreza", "Forester", "XV", "Outback"],
+  Chery: ["Tiggo 2", "Tiggo 5X", "Arrizo 5", "QQ"],
+  "Land Rover": ["Evoque", "Discovery", "Defender", "Range Rover"],
+  Volvo: ["XC60", "XC40", "XC90", "S60"],
+  JAC: ["T40", "T50", "T60", "iEV40"],
+  Suzuki: ["Vitara", "Jimny", "S-Cross", "Swift"]
+};
+
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => CURRENT_YEAR - i);
+
+const BrazilFlag: React.FC<{ size?: number }> = ({ size = 20 }) => (
+  <svg width={size} height={size * 0.7} viewBox="0 0 60 42" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+    <rect width="60" height="42" fill="#009639"/>
+    <polygon points="30,6 54,21 30,36 6,21" fill="#FEDF00"/>
+    <circle cx="30" cy="21" r="7" fill="#002776"/>
+    <path d="M25,18 Q30,15 35,18 Q30,24 25,18" fill="#FEDF00"/>
+  </svg>
+);
+
+const USFlag: React.FC<{ size?: number }> = ({ size = 20 }) => (
+  <svg width={size} height={size * 0.7} viewBox="0 0 60 42" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+    <rect width="60" height="42" fill="#B22234"/>
+    <rect y="0" width="60" height="3.23" fill="#FFFFFF"/>
+    <rect y="6.46" width="60" height="3.23" fill="#FFFFFF"/>
+    <rect y="12.92" width="60" height="3.23" fill="#FFFFFF"/>
+    <rect y="19.38" width="60" height="3.23" fill="#FFFFFF"/>
+    <rect y="25.84" width="60" height="3.23" fill="#FFFFFF"/>
+    <rect y="32.3" width="60" height="3.23" fill="#FFFFFF"/>
+    <rect y="38.76" width="60" height="3.23" fill="#FFFFFF"/>
+    <rect width="24" height="21" fill="#3C3B6E"/>
+  </svg>
+);
 
 export const AppointmentForm: React.FC = () => {
   const [language, setLanguage] = useState<Language>(detectLanguage());
   const t = getTranslations(language);
+  const [modelOptions, setModelOptions] = useState<string[]>([]);
 
   const SERVICE_TYPES = [
     { value: t['service.oilChange'], label: t['service.oilChange'] },
@@ -50,6 +107,12 @@ export const AppointmentForm: React.FC = () => {
       ...prev,
       [name]: value
     }));
+
+    // Atualiza modelos ao trocar a marca
+    if (name === 'vehicleBrand') {
+      setModelOptions(CAR_MODELS[value] || []);
+      setFormData(prev => ({ ...prev, vehicleModel: '' }));
+    }
 
     // Clear appointment time when date changes
     if (name === 'appointmentDate') {
@@ -128,14 +191,16 @@ export const AppointmentForm: React.FC = () => {
         <button 
           className={`lang-btn ${language === 'pt-BR' ? 'active' : ''}`}
           onClick={() => handleLanguageChange('pt-BR')}
+          title="Português (Brasil)"
         >
-          🇧🇷 PT
+          <BrazilFlag size={18} />&nbsp;BR
         </button>
         <button 
           className={`lang-btn ${language === 'en-US' ? 'active' : ''}`}
           onClick={() => handleLanguageChange('en-US')}
+          title="English (United States)"
         >
-          🇺🇸 EN
+          <USFlag size={18} />&nbsp;US
         </button>
       </div>
       
@@ -188,9 +253,16 @@ export const AppointmentForm: React.FC = () => {
                 value={formData.vehicleBrand}
                 onChange={handleInputChange}
                 required
+                list="car-brands-list"
+                autoComplete="off"
+                placeholder={CAR_BRANDS[0]}
               />
+              <datalist id="car-brands-list">
+                {CAR_BRANDS.map(brand => (
+                  <option key={brand} value={brand} />
+                ))}
+              </datalist>
             </div>
-            
             <div className="form-group">
               <label htmlFor="vehicleModel">{t['form.vehicleModel']}</label>
               <input
@@ -200,7 +272,16 @@ export const AppointmentForm: React.FC = () => {
                 value={formData.vehicleModel}
                 onChange={handleInputChange}
                 required
+                list="car-models-list"
+                autoComplete="off"
+                placeholder={modelOptions[0] || ''}
+                disabled={!formData.vehicleBrand}
               />
+              <datalist id="car-models-list">
+                {modelOptions.map(model => (
+                  <option key={model} value={model} />
+                ))}
+              </datalist>
             </div>
           </div>
           

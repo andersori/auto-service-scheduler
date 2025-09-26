@@ -6,7 +6,7 @@ export const enUS: Translations = {
   'form.clientInfo': 'Client Information',
   'form.vehicleInfo': 'Vehicle Information',
   'form.serviceScheduling': 'Service and Scheduling',
-  'form.clientName': 'Full name *',
+  'form.clientName': 'Name *',
   'form.clientPhone': 'Phone *',
   'form.vehicleBrand': 'Brand *',
   'form.vehicleModel': 'Model *',

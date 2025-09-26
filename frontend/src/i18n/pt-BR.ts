@@ -6,7 +6,7 @@ export const ptBR: Translations = {
   'form.clientInfo': 'Informações do Cliente',
   'form.vehicleInfo': 'Informações do Veículo',
   'form.serviceScheduling': 'Serviço e Agendamento',
-  'form.clientName': 'Nome completo *',
+  'form.clientName': 'Nome *',
   'form.clientPhone': 'Telefone *',
   'form.vehicleBrand': 'Marca *',
   'form.vehicleModel': 'Modelo *',
