@@ -86,7 +86,6 @@ export const AppointmentForm: React.FC = () => {
     vehicleBrand: '',
     vehicleModel: '',
     vehicleYear: '',
-    vehiclePlate: '',
     serviceType: '',
     appointmentDate: '',
     appointmentTime: ''
@@ -148,7 +147,6 @@ export const AppointmentForm: React.FC = () => {
         vehicleBrand: formData.vehicleBrand,
         vehicleModel: formData.vehicleModel,
         vehicleYear: parseInt(formData.vehicleYear),
-        vehiclePlate: formData.vehiclePlate,
         serviceType: formData.serviceType,
         appointmentDate: `${formData.appointmentDate}T${formData.appointmentTime}:00`
       };
@@ -164,7 +162,6 @@ export const AppointmentForm: React.FC = () => {
         vehicleBrand: '',
         vehicleModel: '',
         vehicleYear: '',
-        vehiclePlate: '',
         serviceType: '',
         appointmentDate: '',
         appointmentTime: ''
@@ -243,26 +240,27 @@ export const AppointmentForm: React.FC = () => {
 
         <div className="form-section">
           <h3>{t['form.vehicleInfo']}</h3>
+          <div className="form-group">
+            <label htmlFor="vehicleBrand">{t['form.vehicleBrand']}</label>
+            <input
+              type="text"
+              id="vehicleBrand"
+              name="vehicleBrand"
+              value={formData.vehicleBrand}
+              onChange={handleInputChange}
+              required
+              list="car-brands-list"
+              autoComplete="off"
+              placeholder={CAR_BRANDS[0]}
+            />
+            <datalist id="car-brands-list">
+              {CAR_BRANDS.map(brand => (
+                <option key={brand} value={brand} />
+              ))}
+            </datalist>
+          </div>
+          
           <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="vehicleBrand">{t['form.vehicleBrand']}</label>
-              <input
-                type="text"
-                id="vehicleBrand"
-                name="vehicleBrand"
-                value={formData.vehicleBrand}
-                onChange={handleInputChange}
-                required
-                list="car-brands-list"
-                autoComplete="off"
-                placeholder={CAR_BRANDS[0]}
-              />
-              <datalist id="car-brands-list">
-                {CAR_BRANDS.map(brand => (
-                  <option key={brand} value={brand} />
-                ))}
-              </datalist>
-            </div>
             <div className="form-group">
               <label htmlFor="vehicleModel">{t['form.vehicleModel']}</label>
               <input
@@ -283,9 +281,6 @@ export const AppointmentForm: React.FC = () => {
                 ))}
               </datalist>
             </div>
-          </div>
-          
-          <div className="form-row">
             <div className="form-group">
               <label htmlFor="vehicleYear">{t['form.vehicleYear']}</label>
               <select
@@ -300,19 +295,6 @@ export const AppointmentForm: React.FC = () => {
                   <option key={year} value={year}>{year}</option>
                 ))}
               </select>
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="vehiclePlate">{t['form.vehiclePlate']}</label>
-              <input
-                type="text"
-                id="vehiclePlate"
-                name="vehiclePlate"
-                value={formData.vehiclePlate}
-                onChange={handleInputChange}
-                placeholder={t['placeholder.licensePlate']}
-                required
-              />
             </div>
           </div>
         </div>

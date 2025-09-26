@@ -31,10 +31,6 @@ data class Appointment(
     val vehicleYear: Int,
     
     @NotBlank
-    @Column(name = "vehicle_plate")
-    val vehiclePlate: String,
-    
-    @NotBlank
     @Column(name = "service_type")
     val serviceType: String,
     

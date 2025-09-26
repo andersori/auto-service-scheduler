@@ -121,7 +121,6 @@ Accept-Language: pt-BR
   "vehicleBrand": "Toyota",
   "vehicleModel": "Corolla", 
   "vehicleYear": 2020,
-  "vehiclePlate": "ABC-1234",
   "serviceType": "Troca de óleo",
   "appointmentDate": "2025-01-15T10:00:00"
 }

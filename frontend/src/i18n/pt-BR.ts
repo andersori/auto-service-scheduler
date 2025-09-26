@@ -11,7 +11,6 @@ export const ptBR: Translations = {
   'form.vehicleBrand': 'Marca *',
   'form.vehicleModel': 'Modelo *',
   'form.vehicleYear': 'Ano *',
-  'form.vehiclePlate': 'Placa *',
   'form.serviceType': 'Tipo de serviço *',
   'form.appointmentDate': 'Data *',
   'form.appointmentTime': 'Horário *',
@@ -38,5 +37,4 @@ export const ptBR: Translations = {
   
   // Placeholders
   'placeholder.phone': '(11) 99999-9999',
-  'placeholder.licensePlate': 'ABC-1234'
 };

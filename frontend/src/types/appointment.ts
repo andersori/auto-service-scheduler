@@ -4,7 +4,6 @@ export interface AppointmentRequest {
   vehicleBrand: string;
   vehicleModel: string;
   vehicleYear: number;
-  vehiclePlate: string;
   serviceType: string;
   appointmentDate: string;
 }
@@ -16,7 +15,6 @@ export interface AppointmentResponse {
   vehicleBrand: string;
   vehicleModel: string;
   vehicleYear: number;
-  vehiclePlate: string;
   serviceType: string;
   appointmentDate: string;
   createdAt: string;
@@ -33,7 +31,6 @@ export interface FormData {
   vehicleBrand: string;
   vehicleModel: string;
   vehicleYear: string;
-  vehiclePlate: string;
   serviceType: string;
   appointmentDate: string;
   appointmentTime: string;
