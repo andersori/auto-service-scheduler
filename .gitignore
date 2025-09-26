@@ -7,6 +7,10 @@ build/
 dist/
 target/
 
+# Gradle
+.gradle/
+*/build/
+
 # IDE files
 .idea/
 .vscode/
