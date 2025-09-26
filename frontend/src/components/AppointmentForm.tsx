@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
 import { AppointmentService } from '../services/appointmentService';
 import { FormData, AvailableTimeSlot } from '../types/appointment';
+import { Language } from '../types/i18n';
+import { getTranslations, detectLanguage } from '../i18n';
 import './AppointmentForm.css';
-
-const SERVICE_TYPES = [
-  'Troca de óleo',
-  'Revisão completa',
-  'Alinhamento e balanceamento',
-  'Troca de pneus',
-  'Freios',
-  'Suspensão',
-  'Ar condicionado',
-  'Outros'
-];
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => CURRENT_YEAR - i);
 
 export const AppointmentForm: React.FC = () => {
+  const [language, setLanguage] = useState<Language>(detectLanguage());
+  const t = getTranslations(language);
+
+  const SERVICE_TYPES = [
+    { value: t['service.oilChange'], label: t['service.oilChange'] },
+    { value: t['service.fullRevision'], label: t['service.fullRevision'] },
+    { value: t['service.alignment'], label: t['service.alignment'] },
+    { value: t['service.tireChange'], label: t['service.tireChange'] },
+    { value: t['service.brakes'], label: t['service.brakes'] },
+    { value: t['service.suspension'], label: t['service.suspension'] },
+    { value: t['service.airConditioning'], label: t['service.airConditioning'] },
+    { value: t['service.others'], label: t['service.others'] }
+  ];
+
   const [formData, setFormData] = useState<FormData>({
     clientName: '',
     clientPhone: '',
@@ -33,6 +38,11 @@ export const AppointmentForm: React.FC = () => {
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleLanguageChange = (newLanguage: Language) => {
+    setLanguage(newLanguage);
+    setMessage(null);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -53,7 +63,7 @@ export const AppointmentForm: React.FC = () => {
     
     setIsLoading(true);
     try {
-      const slots: AvailableTimeSlot = await AppointmentService.getAvailableTimeSlots(date);
+      const slots: AvailableTimeSlot = await AppointmentService.getAvailableTimeSlots(date, language);
       setAvailableSlots(slots.timeSlots);
     } catch (error) {
       console.error('Error fetching time slots:', error);
@@ -80,9 +90,9 @@ export const AppointmentForm: React.FC = () => {
         appointmentDate: `${formData.appointmentDate}T${formData.appointmentTime}:00`
       };
 
-      await AppointmentService.createAppointment(appointmentRequest);
+      await AppointmentService.createAppointment(appointmentRequest, language);
       
-      setMessage({ type: 'success', text: 'Agendamento realizado com sucesso!' });
+      setMessage({ type: 'success', text: t['message.success'] });
       
       // Reset form
       setFormData({
@@ -100,7 +110,7 @@ export const AppointmentForm: React.FC = () => {
       
     } catch (error) {
       console.error('Error creating appointment:', error);
-      setMessage({ type: 'error', text: 'Erro ao criar agendamento. Tente novamente.' });
+      setMessage({ type: 'error', text: t['message.error'] });
     } finally {
       setIsLoading(false);
     }
@@ -114,7 +124,22 @@ export const AppointmentForm: React.FC = () => {
 
   return (
     <div className="appointment-form-container">
-      <h2>Agendamento de Serviços</h2>
+      <div className="language-selector">
+        <button 
+          className={`lang-btn ${language === 'pt-BR' ? 'active' : ''}`}
+          onClick={() => handleLanguageChange('pt-BR')}
+        >
+          🇧🇷 PT
+        </button>
+        <button 
+          className={`lang-btn ${language === 'en-US' ? 'active' : ''}`}
+          onClick={() => handleLanguageChange('en-US')}
+        >
+          🇺🇸 EN
+        </button>
+      </div>
+      
+      <h2>{t['form.title']}</h2>
       
       {message && (
         <div className={`message ${message.type}`}>
@@ -124,9 +149,9 @@ export const AppointmentForm: React.FC = () => {
       
       <form onSubmit={handleSubmit} className="appointment-form">
         <div className="form-section">
-          <h3>Informações do Cliente</h3>
+          <h3>{t['form.clientInfo']}</h3>
           <div className="form-group">
-            <label htmlFor="clientName">Nome completo *</label>
+            <label htmlFor="clientName">{t['form.clientName']}</label>
             <input
               type="text"
               id="clientName"
@@ -138,24 +163,24 @@ export const AppointmentForm: React.FC = () => {
           </div>
           
           <div className="form-group">
-            <label htmlFor="clientPhone">Telefone *</label>
+            <label htmlFor="clientPhone">{t['form.clientPhone']}</label>
             <input
               type="tel"
               id="clientPhone"
               name="clientPhone"
               value={formData.clientPhone}
               onChange={handleInputChange}
-              placeholder="(11) 99999-9999"
+              placeholder={t['placeholder.phone']}
               required
             />
           </div>
         </div>
 
         <div className="form-section">
-          <h3>Informações do Veículo</h3>
+          <h3>{t['form.vehicleInfo']}</h3>
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="vehicleBrand">Marca *</label>
+              <label htmlFor="vehicleBrand">{t['form.vehicleBrand']}</label>
               <input
                 type="text"
                 id="vehicleBrand"
@@ -167,7 +192,7 @@ export const AppointmentForm: React.FC = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="vehicleModel">Modelo *</label>
+              <label htmlFor="vehicleModel">{t['form.vehicleModel']}</label>
               <input
                 type="text"
                 id="vehicleModel"
@@ -181,7 +206,7 @@ export const AppointmentForm: React.FC = () => {
           
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="vehicleYear">Ano *</label>
+              <label htmlFor="vehicleYear">{t['form.vehicleYear']}</label>
               <select
                 id="vehicleYear"
                 name="vehicleYear"
@@ -189,7 +214,7 @@ export const AppointmentForm: React.FC = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Selecione o ano</option>
+                <option value="">{t['message.selectYear']}</option>
                 {YEARS.map(year => (
                   <option key={year} value={year}>{year}</option>
                 ))}
@@ -197,14 +222,14 @@ export const AppointmentForm: React.FC = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="vehiclePlate">Placa *</label>
+              <label htmlFor="vehiclePlate">{t['form.vehiclePlate']}</label>
               <input
                 type="text"
                 id="vehiclePlate"
                 name="vehiclePlate"
                 value={formData.vehiclePlate}
                 onChange={handleInputChange}
-                placeholder="ABC-1234"
+                placeholder={t['placeholder.licensePlate']}
                 required
               />
             </div>
@@ -212,9 +237,9 @@ export const AppointmentForm: React.FC = () => {
         </div>
 
         <div className="form-section">
-          <h3>Serviço e Agendamento</h3>
+          <h3>{t['form.serviceScheduling']}</h3>
           <div className="form-group">
-            <label htmlFor="serviceType">Tipo de serviço *</label>
+            <label htmlFor="serviceType">{t['form.serviceType']}</label>
             <select
               id="serviceType"
               name="serviceType"
@@ -222,16 +247,16 @@ export const AppointmentForm: React.FC = () => {
               onChange={handleInputChange}
               required
             >
-              <option value="">Selecione o serviço</option>
+              <option value="">{t['message.selectService']}</option>
               {SERVICE_TYPES.map(service => (
-                <option key={service} value={service}>{service}</option>
+                <option key={service.value} value={service.value}>{service.label}</option>
               ))}
             </select>
           </div>
           
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="appointmentDate">Data *</label>
+              <label htmlFor="appointmentDate">{t['form.appointmentDate']}</label>
               <input
                 type="date"
                 id="appointmentDate"
@@ -244,7 +269,7 @@ export const AppointmentForm: React.FC = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="appointmentTime">Horário *</label>
+              <label htmlFor="appointmentTime">{t['form.appointmentTime']}</label>
               <select
                 id="appointmentTime"
                 name="appointmentTime"
@@ -254,7 +279,7 @@ export const AppointmentForm: React.FC = () => {
                 disabled={!formData.appointmentDate || isLoading}
               >
                 <option value="">
-                  {isLoading ? 'Carregando...' : 'Selecione o horário'}
+                  {isLoading ? t['message.loading'] : t['message.selectTime']}
                 </option>
                 {availableSlots.map(time => (
                   <option key={time} value={time}>{time}</option>
@@ -269,7 +294,7 @@ export const AppointmentForm: React.FC = () => {
           className="submit-button"
           disabled={isLoading}
         >
-          {isLoading ? 'Processando...' : 'Agendar Serviço'}
+          {isLoading ? t['form.processing'] : t['form.submit']}
         </button>
       </form>
     </div>

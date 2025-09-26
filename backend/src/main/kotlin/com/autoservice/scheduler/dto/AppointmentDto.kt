@@ -5,28 +5,28 @@ import jakarta.validation.constraints.NotNull
 import java.time.LocalDateTime
 
 data class AppointmentRequestDto(
-    @field:NotBlank(message = "Client name is required")
+    @field:NotBlank(message = "{validation.clientName.notBlank}")
     val clientName: String,
     
-    @field:NotBlank(message = "Client phone is required")
+    @field:NotBlank(message = "{validation.clientPhone.notBlank}")
     val clientPhone: String,
     
-    @field:NotBlank(message = "Vehicle brand is required")
+    @field:NotBlank(message = "{validation.vehicleBrand.notBlank}")
     val vehicleBrand: String,
     
-    @field:NotBlank(message = "Vehicle model is required")
+    @field:NotBlank(message = "{validation.vehicleModel.notBlank}")
     val vehicleModel: String,
     
-    @field:NotNull(message = "Vehicle year is required")
+    @field:NotNull(message = "{validation.vehicleYear.notNull}")
     val vehicleYear: Int,
     
-    @field:NotBlank(message = "Vehicle plate is required")
+    @field:NotBlank(message = "{validation.vehiclePlate.notBlank}")
     val vehiclePlate: String,
     
-    @field:NotBlank(message = "Service type is required")
+    @field:NotBlank(message = "{validation.serviceType.notBlank}")
     val serviceType: String,
     
-    @field:NotNull(message = "Appointment date is required")
+    @field:NotNull(message = "{validation.appointmentDate.notNull}")
     val appointmentDate: LocalDateTime
 )
 
@@ -46,4 +46,10 @@ data class AppointmentResponseDto(
 data class AvailableTimeSlotDto(
     val date: String,
     val timeSlots: List<String>
+)
+
+data class ErrorResponseDto(
+    val message: String,
+    val timestamp: LocalDateTime = LocalDateTime.now(),
+    val status: Int
 )

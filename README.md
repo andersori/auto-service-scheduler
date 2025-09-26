@@ -5,6 +5,9 @@ Website SaaS para agendamento de serviços em oficinas mecânicas.
 ## Funcionalidades
 
 - ✅ Formulário de agendamento com validação
+- ✅ Suporte a idiomas (Português e Inglês)
+- ✅ Seletor de idioma com detecção automática
+- ✅ Mensagens de erro localizadas
 - ✅ Informações do cliente (nome, telefone)  
 - ✅ Informações do veículo (marca, modelo, ano, placa)
 - ✅ Seleção de tipo de serviço
@@ -16,14 +19,17 @@ Website SaaS para agendamento de serviços em oficinas mecânicas.
 
 ### Frontend
 - **React 18** com TypeScript
+- **Sistema de internacionalização** (i18n) com pt-BR e en-US
 - **CSS3** com design responsivo
 - **Fetch API** para comunicação com backend
+- **Detecção automática de idioma** do navegador
 
 ### Backend  
 - **Spring Boot 3.1.0** com Kotlin
+- **Gradle** para gerenciamento de dependências e build
 - **H2 Database** (in-memory para desenvolvimento)
 - **JPA/Hibernate** para persistência
-- **Maven** para gerenciamento de dependências
+- **Internacionalização** com suporte a pt-BR e en-US
 
 ## Estrutura do Projeto
 
@@ -51,7 +57,7 @@ auto-service-scheduler/
 
 - **Node.js 18+** e npm
 - **Java 17+**
-- **Maven 3.6+**
+- **Gradle 8.2+** (wrapper incluído)
 
 ### Backend (Spring Boot)
 
@@ -60,12 +66,20 @@ auto-service-scheduler/
    cd backend
    ```
 
-2. Execute a aplicação:
+2. Execute a aplicação com Gradle:
    ```bash
-   mvn spring-boot:run
+   ./gradlew bootRun
    ```
 
 3. O backend estará disponível em: `http://localhost:8080`
+
+### Suporte a Idiomas
+
+A aplicação suporta automaticamente:
+- **Português (pt-BR)** - idioma padrão
+- **Inglês (en-US)**
+
+O idioma é detectado automaticamente pelo navegador, mas pode ser alterado manualmente usando os botões de idioma no topo da página.
 
 ### Frontend (React)
 
@@ -99,6 +113,7 @@ auto-service-scheduler/
 ```json
 POST /api/appointments
 Content-Type: application/json
+Accept-Language: pt-BR
 
 {
   "clientName": "João Silva",
@@ -111,6 +126,12 @@ Content-Type: application/json
   "appointmentDate": "2025-01-15T10:00:00"
 }
 ```
+
+### Cabeçalhos de Idioma
+
+A API aceita o cabeçalho `Accept-Language` para localização:
+- `pt-BR` - Mensagens em português
+- `en-US` - Mensagens em inglês
 
 ## Desenvolvimento
 
@@ -129,7 +150,7 @@ npm test
 ### Build do Backend
 ```bash
 cd backend
-mvn clean compile
+./gradlew build
 ```
 
 ## Banco de Dados
