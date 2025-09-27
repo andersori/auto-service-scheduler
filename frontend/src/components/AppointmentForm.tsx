@@ -7,7 +7,8 @@ import { VehicleCatalogService } from '../services/vehicleCatalogService';
 import { FormData, AvailableTimeSlot, ServiceType } from '../types/appointment';
 import { VehicleCatalog } from '../types/vehicle';
 import { Language } from '../types/i18n';
-import { getTranslations, detectLanguage } from '../i18n';
+import { getTranslations } from '../i18n';
+import { useLanguage } from '../hooks/useLanguage';
 import './AppointmentForm.css';
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -40,7 +41,7 @@ export const AppointmentForm: React.FC = () => {
   const navigate = useNavigate();
   const { workshop } = useParams<{ workshop: string }>();
   
-  const [language, setLanguage] = useState<Language>(detectLanguage());
+  const { language, changeLanguage } = useLanguage();
   const t = getTranslations(language);
   const [modelOptions, setModelOptions] = useState<string[]>([]);
 
@@ -65,7 +66,7 @@ export const AppointmentForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLanguageChange = (newLanguage: Language) => {
-    setLanguage(newLanguage);
+    changeLanguage(newLanguage);
   };
 
   const fetchServiceTypes = useCallback(async () => {
@@ -86,8 +87,8 @@ export const AppointmentForm: React.FC = () => {
     if (!workshop) return;
     setIsLoadingVehicleCatalog(true);
     try {
-      const catalog = await VehicleCatalogService.getVehicleCatalog(workshop, language);
-      setVehicleCatalog(catalog);
+      const catalogResponse = await VehicleCatalogService.getVehicleCatalog(workshop, language);
+      setVehicleCatalog(catalogResponse.vehicleCatalog);
     } catch (error) {
       console.error('Error fetching vehicle catalog:', error);
       // Fallback to hardcoded catalog if API fails
@@ -218,7 +219,7 @@ export const AppointmentForm: React.FC = () => {
   }
 
   return (
-    <div className="appointment-form-container">
+    <div className="app-container">
       <div className="language-selector">
         <button
           className={`lang-btn ${language === 'pt-BR' ? 'active' : ''}`}
@@ -236,9 +237,12 @@ export const AppointmentForm: React.FC = () => {
         </button>
       </div>
 
-      <h2>{t['form.title']}</h2>
+      <div className="page-header">
+        <h1>{t['form.title']}</h1>
+      </div>
 
-      <form onSubmit={handleSubmit} className="appointment-form">
+      <div className="form-container">
+        <form onSubmit={handleSubmit} className="form">
         <div className="form-section">
           <h3>{t['form.clientInfo']}</h3>
           <div className="form-group">
@@ -270,9 +274,9 @@ export const AppointmentForm: React.FC = () => {
         <div className="form-section">
           <h3>{t['form.vehicleInfo']}</h3>
           <div className="form-group">
-            <label htmlFor="vehicleBrand">{t['form.vehicleBrand']}</label>
+            <label htmlFor="react-select-vehicleBrand-input">{t['form.vehicleBrand']}</label>
             <Select
-              id="vehicleBrand"
+              inputId="react-select-vehicleBrand-input"
               name="vehicleBrand"
               options={Object.keys(vehicleCatalog).map(brand => ({ value: brand, label: brand }))}
               value={formData.vehicleBrand ? { value: formData.vehicleBrand, label: formData.vehicleBrand } : null}
@@ -287,9 +291,9 @@ export const AppointmentForm: React.FC = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="vehicleModel">{t['form.vehicleModel']}</label>
+              <label htmlFor="react-select-vehicleModel-input">{t['form.vehicleModel']}</label>
               <Select
-                id="vehicleModel"
+                inputId="react-select-vehicleModel-input"
                 name="vehicleModel"
                 options={modelOptions.map(model => ({ value: model, label: model }))}
                 value={formData.vehicleModel ? { value: formData.vehicleModel, label: formData.vehicleModel } : null}
@@ -305,9 +309,9 @@ export const AppointmentForm: React.FC = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="vehicleYear">{t['form.vehicleYear']}</label>
+              <label htmlFor="react-select-vehicleYear-input">{t['form.vehicleYear']}</label>
               <Select
-                id="vehicleYear"
+                inputId="react-select-vehicleYear-input"
                 name="vehicleYear"
                 options={YEARS.map(year => ({ value: year.toString(), label: year.toString() }))}
                 value={formData.vehicleYear ? { value: formData.vehicleYear, label: formData.vehicleYear } : null}
@@ -327,9 +331,9 @@ export const AppointmentForm: React.FC = () => {
         <div className="form-section">
           <h3>{t['form.serviceScheduling']}</h3>
           <div className="form-group">
-            <label htmlFor="serviceType">{t['form.serviceType']}</label>
+            <label htmlFor="react-select-serviceType-input">{t['form.serviceType']}</label>
             <Select
-              id="serviceType"
+              inputId="react-select-serviceType-input"
               name="serviceType"
               options={serviceTypes.map(service => ({ value: service.name, label: service.name }))}
               value={formData.serviceTypes.map(type => ({ value: type, label: type }))}
@@ -364,9 +368,9 @@ export const AppointmentForm: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="appointmentTime">{t['form.appointmentTime']}</label>
+            <label htmlFor="react-select-appointmentTime-input">{t['form.appointmentTime']}</label>
             <Select
-              id="appointmentTime"
+              inputId="react-select-appointmentTime-input"
               name="appointmentTime"
               className="select-appointment-time"
               options={availableSlots.map(time => ({ value: time, label: time }))}
@@ -391,7 +395,8 @@ export const AppointmentForm: React.FC = () => {
         >
           {isLoading ? t['form.processing'] : t['form.submit']}
         </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

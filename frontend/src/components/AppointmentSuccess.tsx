@@ -53,7 +53,7 @@ export const AppointmentSuccess: React.FC = () => {
   };
 
   return (
-    <div className="appointment-success-container">
+    <div className="app-container">
       <div className="language-info">
         {language === 'pt-BR' ? (
           <><BrazilFlag size={18} />&nbsp;BR</>
@@ -62,46 +62,50 @@ export const AppointmentSuccess: React.FC = () => {
         )}
       </div>
 
-      <div className="success-content">
-        <div className="success-icon">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="#4CAF50" strokeWidth="2"/>
-            <path d="m9 12 2 2 4-4" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-
-        <h1 className="success-title">{t['message.success']}</h1>
-        
-        {appointmentData && (
-          <div className="appointment-details">
-            <h3>{t['success.appointmentDetails']}</h3>
-            <div className="detail-row">
-              <span className="detail-label">{t['form.clientName']}:</span>
-              <span className="detail-value">{appointmentData.clientName}</span>
-            </div>
-            <div className="detail-row">
-              <span className="detail-label">{t['form.serviceType']}:</span>
-              <span className="detail-value">{appointmentData.serviceTypes.join(', ')}</span>
-            </div>
-            <div className="detail-row">
-              <span className="detail-label">{t['form.appointmentDate']}:</span>
-              <span className="detail-value">{formatDate(appointmentData.appointmentDate)}</span>
-            </div>
-            <div className="detail-row">
-              <span className="detail-label">{t['form.appointmentTime']}:</span>
-              <span className="detail-value">{appointmentData.appointmentTime}</span>
-            </div>
+      <div className="content-container">
+        <div className="appointment-success-container">
+          <div className="success-icon">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="#4CAF50" strokeWidth="2"/>
+              <path d="m9 12 2 2 4-4" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
-        )}
 
-        <p className="success-message">
-          {t['success.message']}
-        </p>
+          <div className="page-header">
+            <h1>{t['message.success']}</h1>
+          </div>
+          
+          {appointmentData && (
+            <div className="appointment-details">
+              <h3>{t['success.appointmentDetails']}</h3>
+              <div className="detail-row">
+                <span className="detail-label">{t['form.clientName']}:</span>
+                <span className="detail-value">{appointmentData.clientName}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">{t['form.serviceType']}:</span>
+                <span className="detail-value">{appointmentData.serviceTypes.join(', ')}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">{t['form.appointmentDate']}:</span>
+                <span className="detail-value">{formatDate(appointmentData.appointmentDate)}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">{t['form.appointmentTime']}:</span>
+                <span className="detail-value">{appointmentData.appointmentTime}</span>
+              </div>
+            </div>
+          )}
 
-        <div className="action-buttons">
-          <Link to="/" className="btn btn-primary">
-            {t['success.backToForm']}
-          </Link>
+          <p className="success-message">
+            {t['success.message']}
+          </p>
+
+          <div className="action-buttons">
+            <Link to="/" className="btn btn-primary">
+              {t['success.backToForm']}
+            </Link>
+          </div>
         </div>
       </div>
     </div>
