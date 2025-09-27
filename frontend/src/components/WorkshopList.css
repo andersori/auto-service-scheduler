@@ -1,5 +1,13 @@
 /* WorkshopList-specific styles - using global.css for common elements */
 
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #64748b;
+  grid-column: 1 / -1;
+}
+
 .workshops-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
