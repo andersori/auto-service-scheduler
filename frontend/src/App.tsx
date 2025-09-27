@@ -9,6 +9,9 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
+          <Route path="/:workshop" element={<AppointmentForm />} />
+          <Route path="/:workshop/success" element={<AppointmentSuccess />} />
+          {/* Fallback route for root path - redirects to a default workshop */}
           <Route path="/" element={<AppointmentForm />} />
           <Route path="/success" element={<AppointmentSuccess />} />
         </Routes>

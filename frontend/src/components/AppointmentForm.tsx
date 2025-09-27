@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { AppointmentService } from '../services/appointmentService';
 import { ServiceTypeService } from '../services/serviceTypeService';
+import { VehicleCatalogService } from '../services/vehicleCatalogService';
 import { FormData, AvailableTimeSlot, ServiceType } from '../types/appointment';
+import { VehicleCatalog } from '../types/vehicle';
 import { Language } from '../types/i18n';
 import { getTranslations, detectLanguage } from '../i18n';
 import './AppointmentForm.css';
@@ -36,35 +38,15 @@ const USFlag: React.FC<{ size?: number }> = ({ size = 20 }) => (
 
 export const AppointmentForm: React.FC = () => {
   const navigate = useNavigate();
+  const { workshop } = useParams<{ workshop: string }>();
+  const currentWorkshop = workshop || 'default'; // Fallback to 'default' if no workshop in URL
+  
   const [language, setLanguage] = useState<Language>(detectLanguage());
   const t = getTranslations(language);
   const [modelOptions, setModelOptions] = useState<string[]>([]);
 
-  const VEHICLE_CATALOG: { [brand: string]: string[] } = {
-    Toyota: ["Corolla", "Hilux", "Yaris", "Etios", "SW4", "RAV4", "Camry"],
-    Volkswagen: ["Gol", "Polo", "Virtus", "T-Cross", "Nivus", "Saveiro", "Jetta"],
-    Ford: ["Ka", "Fiesta", "Focus", "EcoSport", "Ranger", "Fusion", "Edge"],
-    Chevrolet: ["Onix", "Prisma", "S10", "Tracker", "Spin", "Cruze", "Cobalt"],
-    Honda: ["Civic", "Fit", "HR-V", "City", "WR-V", "CR-V"],
-    Hyundai: ["HB20", "Creta", "Tucson", "Santa Fe", "ix35"],
-    Nissan: ["Kicks", "Versa", "March", "Sentra", "Frontier"],
-    Fiat: ["Uno", "Argo", "Mobi", "Toro", "Strada", "Cronos", "Pulse"],
-    Renault: ["Sandero", "Logan", "Duster", "Kwid", "Captur"],
-    Jeep: ["Renegade", "Compass", "Commander", "Wrangler"],
-    Peugeot: ["208", "2008", "3008", "308"],
-    "Citroën": ["C3", "C4 Cactus", "Aircross", "C4 Lounge"],
-    Kia: ["Sportage", "Cerato", "Soul", "Picanto"],
-    BMW: ["320i", "X1", "X3", "X5", "118i"],
-    "Mercedes-Benz": ["Classe C", "Classe A", "GLA", "GLC", "Classe E"],
-    Audi: ["A3", "A4", "Q3", "Q5", "A1"],
-    Mitsubishi: ["L200", "ASX", "Outlander", "Pajero"],
-    Subaru: ["Impreza", "Forester", "XV", "Outback"],
-    Chery: ["Tiggo 2", "Tiggo 5X", "Arrizo 5", "QQ"],
-    "Land Rover": ["Evoque", "Discovery", "Defender", "Range Rover"],
-    Volvo: ["XC60", "XC40", "XC90", "S60"],
-    JAC: ["T40", "T50", "T60", "iEV40"],
-    Suzuki: ["Vitara", "Jimny", "S-Cross", "Swift"]
-  };
+  const [vehicleCatalog, setVehicleCatalog] = useState<VehicleCatalog>({});
+  const [isLoadingVehicleCatalog, setIsLoadingVehicleCatalog] = useState(false);
 
   const [serviceTypes, setServiceTypes] = useState<ServiceType[]>([]);
   const [isLoadingServiceTypes, setIsLoadingServiceTypes] = useState(false);
@@ -87,10 +69,10 @@ export const AppointmentForm: React.FC = () => {
     setLanguage(newLanguage);
   };
 
-  const fetchServiceTypes = async () => {
+  const fetchServiceTypes = useCallback(async () => {
     setIsLoadingServiceTypes(true);
     try {
-      const types = await ServiceTypeService.getActiveServiceTypes();
+      const types = await ServiceTypeService.getActiveServiceTypes(currentWorkshop);
       setServiceTypes(types);
     } catch (error) {
       console.error('Error fetching service types:', error);
@@ -98,11 +80,34 @@ export const AppointmentForm: React.FC = () => {
     } finally {
       setIsLoadingServiceTypes(false);
     }
-  };
+  }, [currentWorkshop]);
+
+  const fetchVehicleCatalog = useCallback(async () => {
+    setIsLoadingVehicleCatalog(true);
+    try {
+      const catalog = await VehicleCatalogService.getVehicleCatalog(currentWorkshop, language);
+      setVehicleCatalog(catalog);
+    } catch (error) {
+      console.error('Error fetching vehicle catalog:', error);
+      // Fallback to hardcoded catalog if API fails
+      setVehicleCatalog({
+        Toyota: ["Corolla", "Hilux", "Yaris", "Etios", "SW4", "RAV4", "Camry"],
+        Volkswagen: ["Gol", "Polo", "Virtus", "T-Cross", "Nivus", "Saveiro", "Jetta"],
+        Ford: ["Ka", "Fiesta", "Focus", "EcoSport", "Ranger", "Fusion", "Edge"],
+        Chevrolet: ["Onix", "Prisma", "S10", "Tracker", "Spin", "Cruze", "Cobalt"],
+        Honda: ["Civic", "Fit", "HR-V", "City", "WR-V", "CR-V"],
+        Hyundai: ["HB20", "Creta", "Tucson", "Santa Fe", "ix35"],
+        Nissan: ["Kicks", "Versa", "March", "Sentra", "Frontier"]
+      });
+    } finally {
+      setIsLoadingVehicleCatalog(false);
+    }
+  }, [currentWorkshop, language]);
 
   useEffect(() => {
     fetchServiceTypes();
-  }, []);
+    fetchVehicleCatalog();
+  }, [fetchServiceTypes, fetchVehicleCatalog]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -125,7 +130,7 @@ export const AppointmentForm: React.FC = () => {
       vehicleBrand: brand,
       vehicleModel: ''
     }));
-    setModelOptions(VEHICLE_CATALOG[brand] || []);
+    setModelOptions(vehicleCatalog[brand] || []);
   };
 
   const fetchAvailableTimeSlots = async (date: string) => {
@@ -133,7 +138,7 @@ export const AppointmentForm: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const slots: AvailableTimeSlot = await AppointmentService.getAvailableTimeSlots(date, language);
+      const slots: AvailableTimeSlot = await AppointmentService.getAvailableTimeSlots(date, currentWorkshop, language);
       setAvailableSlots(slots.timeSlots);
     } catch (error) {
       console.error('Error fetching time slots:', error);
@@ -158,10 +163,11 @@ export const AppointmentForm: React.FC = () => {
         appointmentDate: `${formData.appointmentDate}T${formData.appointmentTime}:00`
       };
 
-      await AppointmentService.createAppointment(appointmentRequest, language);
+      await AppointmentService.createAppointment(appointmentRequest, currentWorkshop, language);
 
       // Redirecionar para página de sucesso com dados do agendamento
-      navigate('/success', {
+      const successPath = workshop ? `/${workshop}/success` : '/success';
+      navigate(successPath, {
         state: {
           language,
           appointmentData: {
@@ -245,12 +251,13 @@ export const AppointmentForm: React.FC = () => {
             <Select
               id="vehicleBrand"
               name="vehicleBrand"
-              options={Object.keys(VEHICLE_CATALOG).map(brand => ({ value: brand, label: brand }))}
+              options={Object.keys(vehicleCatalog).map(brand => ({ value: brand, label: brand }))}
               value={formData.vehicleBrand ? { value: formData.vehicleBrand, label: formData.vehicleBrand } : null}
               onChange={handleBrandChange}
-              placeholder={t['form.vehicleBrand']}
+              placeholder={isLoadingVehicleCatalog ? t['message.loading'] : t['form.vehicleBrand']}
               isClearable
               isSearchable
+              isLoading={isLoadingVehicleCatalog}
               classNamePrefix="react-select"
             />
           </div>

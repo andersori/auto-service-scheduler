@@ -37,6 +37,10 @@ data class Appointment(
     @Column(name = "appointment_date")
     val appointmentDate: LocalDateTime,
     
+    @NotBlank
+    @Column(name = "workshop")
+    val workshop: String,
+    
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now()
 )

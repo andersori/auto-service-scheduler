@@ -4,8 +4,12 @@ import { Language } from '../types/i18n';
 const API_BASE_URL = 'http://localhost:8080/api';
 
 export class AppointmentService {
-  static async createAppointment(request: AppointmentRequest, language: Language = 'pt-BR'): Promise<AppointmentResponse> {
-    const response = await fetch(`${API_BASE_URL}/appointments`, {
+  static async createAppointment(
+    request: AppointmentRequest, 
+    workshop: string,
+    language: Language = 'pt-BR'
+  ): Promise<AppointmentResponse> {
+    const response = await fetch(`${API_BASE_URL}/appointments?workshop=${encodeURIComponent(workshop)}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,8 +25,12 @@ export class AppointmentService {
     return response.json();
   }
 
-  static async getAvailableTimeSlots(date: string, language: Language = 'pt-BR'): Promise<AvailableTimeSlot> {
-    const response = await fetch(`${API_BASE_URL}/appointments/available-slots?date=${date}`, {
+  static async getAvailableTimeSlots(
+    date: string, 
+    workshop: string,
+    language: Language = 'pt-BR'
+  ): Promise<AvailableTimeSlot> {
+    const response = await fetch(`${API_BASE_URL}/appointments/available-slots?date=${date}&workshop=${encodeURIComponent(workshop)}`, {
       headers: {
         'Accept-Language': language,
       },
@@ -35,8 +43,11 @@ export class AppointmentService {
     return response.json();
   }
 
-  static async getAllAppointments(language: Language = 'pt-BR'): Promise<AppointmentResponse[]> {
-    const response = await fetch(`${API_BASE_URL}/appointments`, {
+  static async getAllAppointments(
+    workshop: string,
+    language: Language = 'pt-BR'
+  ): Promise<AppointmentResponse[]> {
+    const response = await fetch(`${API_BASE_URL}/appointments?workshop=${encodeURIComponent(workshop)}`, {
       headers: {
         'Accept-Language': language,
       },
