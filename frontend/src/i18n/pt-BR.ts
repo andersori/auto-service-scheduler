@@ -60,4 +60,20 @@ export const ptBR: Translations = {
   'console.error.fetchServiceTypes': 'Erro ao buscar tipos de serviço:',
   'console.error.fetchVehicleCatalog': 'Erro ao buscar catálogo de veículos:',
   'console.error.fetchTimeSlots': 'Erro ao buscar horários disponíveis:',
+
+  // User registration
+  'user.registration.title': 'Cadastro de Usuário',
+  'user.registration.subtitle': 'Cadastre-se para gerenciar sua oficina',
+  'user.form.name': 'Nome *',
+  'user.form.email': 'Email *',
+  'user.form.phone': 'Telefone *',
+  'user.form.submit': 'Cadastrar',
+  'user.form.processing': 'Cadastrando...',
+  'user.message.success': 'Usuário cadastrado com sucesso!',
+  'user.message.error': 'Erro ao cadastrar usuário. Tente novamente.',
+  'user.message.emailExists': 'Este email já está em uso.',
+  'user.error.invalidEmail': 'Email inválido.',
+  'user.placeholder.name': 'Digite seu nome completo',
+  'user.placeholder.email': 'Digite seu email',
+  'user.placeholder.phone': '(11) 99999-9999',
 };

@@ -1,8 +1,11 @@
 package com.autoservice.scheduler.config
 
 import com.autoservice.scheduler.model.ServiceType
+import com.autoservice.scheduler.model.User
+import com.autoservice.scheduler.model.UserType
 import com.autoservice.scheduler.model.Workshop
 import com.autoservice.scheduler.repository.ServiceTypeRepository
+import com.autoservice.scheduler.repository.UserRepository
 import com.autoservice.scheduler.repository.WorkshopRepository
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
@@ -12,7 +15,8 @@ import java.math.BigDecimal
 @Component
 class DataLoader(
     private val serviceTypeRepository: ServiceTypeRepository,
-    private val workshopRepository: WorkshopRepository
+    private val workshopRepository: WorkshopRepository,
+    private val userRepository: UserRepository
 ) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
@@ -71,6 +75,38 @@ class DataLoader(
             )
             
             workshopRepository.saveAll(workshops)
+        }
+        
+        // Initialize users if the table is empty
+        if (userRepository.count() == 0L) {
+            val users = listOf(
+                User(
+                    name = "Admin Sistema",
+                    email = "admin@autoservice.com",
+                    phone = "(11) 9999-9999",
+                    userType = UserType.ADMIN
+                ),
+                User(
+                    name = "AutoService Centro",
+                    email = "contato@oficina-centro.com",
+                    phone = "(11) 3456-7890",
+                    userType = UserType.WORKSHOP
+                ),
+                User(
+                    name = "AutoService Zona Sul", 
+                    email = "contato@oficina-zona-sul.com",
+                    phone = "(11) 2345-6789",
+                    userType = UserType.WORKSHOP
+                ),
+                User(
+                    name = "AutoService Zona Norte",
+                    email = "contact@oficina-zona-norte.com", 
+                    phone = "(11) 1234-5678",
+                    userType = UserType.WORKSHOP
+                )
+            )
+            
+            userRepository.saveAll(users)
         }
     }
 }

@@ -57,6 +57,11 @@ export const WorkshopList: React.FC = () => {
       <div className="page-header">
         <h1>{t['workshop.list.title']}</h1>
         <p>{t['workshop.list.subtitle']}</p>
+        <div className="page-actions">
+          <Link to="/register" className="btn btn-secondary">
+            {language === 'pt-BR' ? 'Cadastrar Oficina' : 'Register Workshop'}
+          </Link>
+        </div>
       </div>
 
       <div className="workshops-grid">

@@ -60,4 +60,20 @@ export const enUS: Translations = {
   'console.error.fetchServiceTypes': 'Error fetching service types:',
   'console.error.fetchVehicleCatalog': 'Error fetching vehicle catalog:',
   'console.error.fetchTimeSlots': 'Error fetching time slots:',
+
+  // User registration
+  'user.registration.title': 'User Registration',
+  'user.registration.subtitle': 'Register to manage your workshop',
+  'user.form.name': 'Name *',
+  'user.form.email': 'Email *',
+  'user.form.phone': 'Phone *',
+  'user.form.submit': 'Register',
+  'user.form.processing': 'Registering...',
+  'user.message.success': 'User registered successfully!',
+  'user.message.error': 'Error registering user. Please try again.',
+  'user.message.emailExists': 'This email is already in use.',
+  'user.error.invalidEmail': 'Invalid email.',
+  'user.placeholder.name': 'Enter your full name',
+  'user.placeholder.email': 'Enter your email',
+  'user.placeholder.phone': '(555) 123-4567',
 };

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { WorkshopList } from './components/WorkshopList';
 import { AppointmentForm } from './components/AppointmentForm';
 import { AppointmentSuccess } from './components/AppointmentSuccess';
+import UserRegistrationForm from './components/UserRegistrationForm';
 import './App.css';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<WorkshopList />} />
+          <Route path="/register" element={<UserRegistrationForm />} />
           <Route path="/:workshop" element={<AppointmentForm />} />
           <Route path="/:workshop/success" element={<AppointmentSuccess />} />
         </Routes>
