@@ -53,4 +53,6 @@ export const enUS: Translations = {
 
   // Errors
   'error.generateReceipt': 'Error generating receipt. Please try again.',
+  'error.requiredFields': 'Please fill in all required fields.',
+  'error.invalidPhone': 'Invalid phone. Use the format (999) 999-9999.',
 };

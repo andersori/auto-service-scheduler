@@ -53,4 +53,6 @@ export interface Translations {
 
   // Error messages
   'error.generateReceipt': string;
+  'error.requiredFields': string;
+  'error.invalidPhone': string;
 }

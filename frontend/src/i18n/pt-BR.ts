@@ -53,4 +53,6 @@ export const ptBR: Translations = {
 
   // Errors
   'error.generateReceipt': 'Erro ao gerar comprovante. Tente novamente.',
+  'error.requiredFields': 'Por favor, preencha todos os campos obrigatórios.',
+  'error.invalidPhone': 'Telefone inválido. Use o formato (99) 99999-9999.',
 };
