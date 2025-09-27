@@ -15,23 +15,17 @@ class WorkshopService(
     
     fun getAllWorkshops(language: String = "pt-BR"): List<WorkshopResponseDto> {
         return workshopRepository.findAll()
-            .map { mapToResponseDto(it, language) }
+            .map { mapToResponseDto(it) }
     }
     
     fun getWorkshopById(workshopId: String, language: String = "pt-BR"): WorkshopResponseDto? {
         return workshopRepository.findByWorkshopId(workshopId)
-            ?.let { mapToResponseDto(it, language) }
+            ?.let { mapToResponseDto(it) }
     }
     
-    private fun mapToResponseDto(workshop: Workshop, language: String): WorkshopResponseDto {
-        val isPtBr = language.startsWith("pt")
-        
-        val description = if (isPtBr) workshop.descriptionPt else workshop.descriptionEn
-        val hours = if (isPtBr) workshop.hoursPt else workshop.hoursEn
-        val servicesJson = if (isPtBr) workshop.servicesPt else workshop.servicesEn
-        
+    private fun mapToResponseDto(workshop: Workshop): WorkshopResponseDto {
         val services = try {
-            objectMapper.readValue<List<String>>(servicesJson, object : TypeReference<List<String>>() {})
+            objectMapper.readValue<List<String>>(workshop.services, object : TypeReference<List<String>>() {})
         } catch (e: Exception) {
             emptyList<String>()
         }
@@ -41,10 +35,11 @@ class WorkshopService(
             name = workshop.name,
             address = workshop.address,
             phone = workshop.phone,
-            description = description,
-            hours = hours,
+            description = workshop.description,
+            hours = workshop.hours,
             services = services,
-            rating = workshop.rating
+            rating = workshop.rating,
+            registrationLanguage = workshop.registrationLanguage
         )
     }
 }

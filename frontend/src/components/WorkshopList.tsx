@@ -69,9 +69,21 @@ export const WorkshopList: React.FC = () => {
             <div key={workshop.id} className="workshop-card card">
               <div className="workshop-header">
                 <h2 className="workshop-name">{workshop.name}</h2>
-                <div className="workshop-rating">
-                  <span className="stars">★★★★★</span>
-                  <span className="rating-text">{workshop.rating}</span>
+                <div className="workshop-meta">
+                  <div className="workshop-registration-language">
+                    {workshop.registrationLanguage === 'pt-BR' ? (
+                      <BrazilFlag size={16} />
+                    ) : (
+                      <USFlag size={16} />
+                    )}
+                    <span className="registration-lang-text">
+                      {workshop.registrationLanguage === 'pt-BR' ? 'PT' : 'EN'}
+                    </span>
+                  </div>
+                  <div className="workshop-rating">
+                    <span className="stars">★★★★★</span>
+                    <span className="rating-text">{workshop.rating}</span>
+                  </div>
                 </div>
               </div>
 

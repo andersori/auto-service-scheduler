@@ -24,31 +24,24 @@ data class Workshop(
     val phone: String,
 
     @field:NotBlank
-    @Column(name = "description_pt", nullable = false)
-    val descriptionPt: String,
+    @Column(name = "description", nullable = false)
+    val description: String,
 
     @field:NotBlank
-    @Column(name = "description_en", nullable = false)
-    val descriptionEn: String,
+    @Column(name = "hours", nullable = false)
+    val hours: String,
 
-    @field:NotBlank
-    @Column(name = "hours_pt", nullable = false)
-    val hoursPt: String,
-
-    @field:NotBlank
-    @Column(name = "hours_en", nullable = false)
-    val hoursEn: String,
-
-    @Column(name = "services_pt", columnDefinition = "TEXT")
-    val servicesPt: String, // JSON array as string
-
-    @Column(name = "services_en", columnDefinition = "TEXT")
-    val servicesEn: String, // JSON array as string
+    @Column(name = "services", columnDefinition = "TEXT")
+    val services: String, // JSON array as string
 
     @Column(name = "rating", precision = 2, scale = 1)
     val rating: BigDecimal,
 
     @field:NotBlank
     @Column(name = "workshop_id", unique = true, nullable = false)
-    val workshopId: String
+    val workshopId: String,
+
+    @field:NotBlank
+    @Column(name = "registration_language", nullable = false)
+    val registrationLanguage: String // "pt-BR" or "en-US"
 )

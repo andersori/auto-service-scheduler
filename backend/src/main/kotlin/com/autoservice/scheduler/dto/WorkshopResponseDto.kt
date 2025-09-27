@@ -10,5 +10,6 @@ data class WorkshopResponseDto(
     val description: String,
     val hours: String,
     val services: List<String>,
-    val rating: BigDecimal
+    val rating: BigDecimal,
+    val registrationLanguage: String
 )

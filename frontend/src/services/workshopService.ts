@@ -11,6 +11,7 @@ export interface Workshop {
   hours: string;
   services: string[];
   rating: number;
+  registrationLanguage: string;
 }
 
 export class WorkshopService {
@@ -63,7 +64,8 @@ export class WorkshopService {
         services: language === 'pt-BR'
           ? ['Troca de óleo', 'Revisão completa', 'Freios', 'Suspensão', 'Alinhamento']
           : ['Oil change', 'Full service', 'Brakes', 'Suspension', 'Alignment'],
-        rating: 4.8
+        rating: 4.8,
+        registrationLanguage: 'pt-BR'
       },
       {
         id: 'oficina-zona-sul',
@@ -79,7 +81,8 @@ export class WorkshopService {
         services: language === 'pt-BR'
           ? ['Alinhamento', 'Balanceamento', 'Ar condicionado', 'Elétrica', 'Diagnóstico']
           : ['Alignment', 'Balancing', 'Air conditioning', 'Electrical', 'Diagnostics'],
-        rating: 4.6
+        rating: 4.6,
+        registrationLanguage: 'pt-BR'
       },
       {
         id: 'oficina-zona-norte',
@@ -95,7 +98,8 @@ export class WorkshopService {
         services: language === 'pt-BR'
           ? ['Troca de pneus', 'Diagnóstico', 'Mecânica geral', 'Funilaria', 'Pintura']
           : ['Tire replacement', 'Diagnostics', 'General mechanics', 'Body work', 'Painting'],
-        rating: 4.3
+        rating: 4.3,
+        registrationLanguage: 'en-US'
       }
     ];
   }

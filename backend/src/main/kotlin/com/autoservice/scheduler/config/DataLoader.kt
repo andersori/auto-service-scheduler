@@ -39,40 +39,34 @@ class DataLoader(
                     name = "AutoService Centro",
                     address = "Rua das Flores, 123 - Centro - São Paulo, SP",
                     phone = "(11) 3456-7890",
-                    descriptionPt = "Oficina especializada em serviços automotivos completos com mais de 20 anos de experiência.",
-                    descriptionEn = "Workshop specialized in complete automotive services with over 20 years of experience.",
-                    hoursPt = "Segunda à Sexta: 8h às 18h | Sábado: 8h às 12h",
-                    hoursEn = "Monday to Friday: 8am to 6pm | Saturday: 8am to 12pm",
-                    servicesPt = """["Troca de óleo", "Revisão completa", "Freios", "Suspensão", "Alinhamento"]""",
-                    servicesEn = """["Oil change", "Full service", "Brakes", "Suspension", "Alignment"]""",
+                    description = "Oficina especializada em serviços automotivos completos com mais de 20 anos de experiência.",
+                    hours = "Segunda à Sexta: 8h às 18h | Sábado: 8h às 12h",
+                    services = """["Troca de óleo", "Revisão completa", "Freios", "Suspensão", "Alinhamento"]""",
                     rating = BigDecimal("4.8"),
-                    workshopId = "oficina-centro"
+                    workshopId = "oficina-centro",
+                    registrationLanguage = "pt-BR"
                 ),
                 Workshop(
                     name = "AutoService Zona Sul",
                     address = "Av. Paulista, 456 - Zona Sul - São Paulo, SP",
                     phone = "(11) 2345-6789",
-                    descriptionPt = "Moderna oficina com equipamentos de última geração e atendimento personalizado.",
-                    descriptionEn = "Modern workshop with state-of-the-art equipment and personalized service.",
-                    hoursPt = "Segunda à Sexta: 7h30 às 18h30 | Sábado: 8h às 13h",
-                    hoursEn = "Monday to Friday: 7:30am to 6:30pm | Saturday: 8am to 1pm",
-                    servicesPt = """["Alinhamento", "Balanceamento", "Ar condicionado", "Elétrica", "Diagnóstico"]""",
-                    servicesEn = """["Alignment", "Balancing", "Air conditioning", "Electrical", "Diagnostics"]""",
+                    description = "Moderna oficina com equipamentos de última geração e atendimento personalizado.",
+                    hours = "Segunda à Sexta: 7h30 às 18h30 | Sábado: 8h às 13h",
+                    services = """["Alinhamento", "Balanceamento", "Ar condicionado", "Elétrica", "Diagnóstico"]""",
                     rating = BigDecimal("4.6"),
-                    workshopId = "oficina-zona-sul"
+                    workshopId = "oficina-zona-sul",
+                    registrationLanguage = "pt-BR"
                 ),
                 Workshop(
                     name = "AutoService Zona Norte",
                     address = "Rua dos Automóveis, 789 - Zona Norte - São Paulo, SP",
                     phone = "(11) 1234-5678",
-                    descriptionPt = "Especializada em veículos nacionais e importados com preços competitivos.",
-                    descriptionEn = "Specialized in national and imported vehicles with competitive prices.",
-                    hoursPt = "Segunda à Sexta: 8h às 17h | Sábado: 8h às 12h",
-                    hoursEn = "Monday to Friday: 8am to 5pm | Saturday: 8am to 12pm",
-                    servicesPt = """["Troca de pneus", "Diagnóstico", "Mecânica geral", "Funilaria", "Pintura"]""",
-                    servicesEn = """["Tire replacement", "Diagnostics", "General mechanics", "Body work", "Painting"]""",
+                    description = "Specialized in national and imported vehicles with competitive prices.",
+                    hours = "Monday to Friday: 8am to 5pm | Saturday: 8am to 12pm",
+                    services = """["Tire replacement", "Diagnostics", "General mechanics", "Body work", "Painting"]""",
                     rating = BigDecimal("4.3"),
-                    workshopId = "oficina-zona-norte"
+                    workshopId = "oficina-zona-norte",
+                    registrationLanguage = "en-US"
                 )
             )
             
