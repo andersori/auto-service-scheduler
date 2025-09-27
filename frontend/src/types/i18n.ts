@@ -37,4 +37,9 @@ export interface Translations {
   
   // Placeholders
   'placeholder.phone': string;
+  
+  // Success page
+  'success.appointmentDetails': string;
+  'success.message': string;
+  'success.backToForm': string;
 }
