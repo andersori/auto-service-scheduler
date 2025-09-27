@@ -36,5 +36,10 @@ export const enUS: Translations = {
   'service.others': 'Others',
   
   // Placeholders
-  'placeholder.phone': '(555) 123-4567'
+  'placeholder.phone': '(555) 123-4567',
+  
+  // Success page
+  'success.appointmentDetails': 'Appointment Details',
+  'success.message': 'Your appointment has been created. We will contact you for confirmation.',
+  'success.backToForm': 'New Appointment',
 };

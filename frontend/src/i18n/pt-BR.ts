@@ -37,4 +37,9 @@ export const ptBR: Translations = {
   
   // Placeholders
   'placeholder.phone': '(11) 99999-9999',
+  
+  // Success page
+  'success.appointmentDetails': 'Detalhes do Agendamento',
+  'success.message': 'Seu agendamento foi criado. Entraremos em contato para confirmação.',
+  'success.backToForm': 'Novo Agendamento',
 };

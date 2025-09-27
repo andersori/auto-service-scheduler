@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { AppointmentService } from '../services/appointmentService';
 import { ServiceTypeService } from '../services/serviceTypeService';
@@ -34,6 +35,7 @@ const USFlag: React.FC<{ size?: number }> = ({ size = 20 }) => (
 );
 
 export const AppointmentForm: React.FC = () => {
+  const navigate = useNavigate();
   const [language, setLanguage] = useState<Language>(detectLanguage());
   const t = getTranslations(language);
   const [modelOptions, setModelOptions] = useState<string[]>([]);
@@ -80,11 +82,9 @@ export const AppointmentForm: React.FC = () => {
 
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const handleLanguageChange = (newLanguage: Language) => {
     setLanguage(newLanguage);
-    setMessage(null);
   };
 
   const fetchServiceTypes = async () => {
@@ -146,7 +146,6 @@ export const AppointmentForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setMessage(null);
 
     try {
       const appointmentRequest = {
@@ -161,24 +160,23 @@ export const AppointmentForm: React.FC = () => {
 
       await AppointmentService.createAppointment(appointmentRequest, language);
 
-      setMessage({ type: 'success', text: t['message.success'] });
-
-      // Reset form
-      setFormData({
-        clientName: '',
-        clientPhone: '',
-        vehicleBrand: '',
-        vehicleModel: '',
-        vehicleYear: '',
-        serviceType: '',
-        appointmentDate: '',
-        appointmentTime: ''
+      // Redirecionar para página de sucesso com dados do agendamento
+      navigate('/success', {
+        state: {
+          language,
+          appointmentData: {
+            clientName: formData.clientName,
+            appointmentDate: formData.appointmentDate,
+            appointmentTime: formData.appointmentTime,
+            serviceType: formData.serviceType
+          }
+        }
       });
-      setAvailableSlots([]);
 
     } catch (error) {
       console.error('Error creating appointment:', error);
-      setMessage({ type: 'error', text: t['message.error'] });
+      // Manter a mensagem de erro no formulário
+      alert(t['message.error']);
     } finally {
       setIsLoading(false);
     }
@@ -210,12 +208,6 @@ export const AppointmentForm: React.FC = () => {
       </div>
 
       <h2>{t['form.title']}</h2>
-
-      {message && (
-        <div className={`message ${message.type}`}>
-          {message.text}
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="appointment-form">
         <div className="form-section">
