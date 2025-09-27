@@ -42,4 +42,10 @@ export const ptBR: Translations = {
   'success.appointmentDetails': 'Detalhes do Agendamento',
   'success.message': 'Seu agendamento foi criado. Entraremos em contato para confirmação.',
   'success.backToForm': 'Novo Agendamento',
+  
+  // Workshop list
+  'workshop.list.title': 'Escolha uma Oficina',
+  'workshop.list.subtitle': 'Selecione a oficina mais próxima de você para agendar seu serviço',
+  'workshop.services': 'Serviços disponíveis',
+  'workshop.schedule': 'Agendar Serviço',
 };

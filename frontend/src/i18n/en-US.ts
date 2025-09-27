@@ -42,4 +42,10 @@ export const enUS: Translations = {
   'success.appointmentDetails': 'Appointment Details',
   'success.message': 'Your appointment has been created. We will contact you for confirmation.',
   'success.backToForm': 'New Appointment',
+  
+  // Workshop list
+  'workshop.list.title': 'Choose a Workshop',
+  'workshop.list.subtitle': 'Select the workshop closest to you to schedule your service',
+  'workshop.services': 'Available services',
+  'workshop.schedule': 'Schedule Service',
 };

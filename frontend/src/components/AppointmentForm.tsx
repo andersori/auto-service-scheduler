@@ -39,7 +39,6 @@ const USFlag: React.FC<{ size?: number }> = ({ size = 20 }) => (
 export const AppointmentForm: React.FC = () => {
   const navigate = useNavigate();
   const { workshop } = useParams<{ workshop: string }>();
-  const currentWorkshop = workshop || 'default'; // Fallback to 'default' if no workshop in URL
   
   const [language, setLanguage] = useState<Language>(detectLanguage());
   const t = getTranslations(language);
@@ -70,9 +69,10 @@ export const AppointmentForm: React.FC = () => {
   };
 
   const fetchServiceTypes = useCallback(async () => {
+    if (!workshop) return;
     setIsLoadingServiceTypes(true);
     try {
-      const types = await ServiceTypeService.getActiveServiceTypes(currentWorkshop);
+      const types = await ServiceTypeService.getActiveServiceTypes(workshop);
       setServiceTypes(types);
     } catch (error) {
       console.error('Error fetching service types:', error);
@@ -80,12 +80,13 @@ export const AppointmentForm: React.FC = () => {
     } finally {
       setIsLoadingServiceTypes(false);
     }
-  }, [currentWorkshop]);
+  }, [workshop]);
 
   const fetchVehicleCatalog = useCallback(async () => {
+    if (!workshop) return;
     setIsLoadingVehicleCatalog(true);
     try {
-      const catalog = await VehicleCatalogService.getVehicleCatalog(currentWorkshop, language);
+      const catalog = await VehicleCatalogService.getVehicleCatalog(workshop, language);
       setVehicleCatalog(catalog);
     } catch (error) {
       console.error('Error fetching vehicle catalog:', error);
@@ -102,7 +103,7 @@ export const AppointmentForm: React.FC = () => {
     } finally {
       setIsLoadingVehicleCatalog(false);
     }
-  }, [currentWorkshop, language]);
+  }, [workshop, language]);
 
   useEffect(() => {
     fetchServiceTypes();
@@ -134,11 +135,11 @@ export const AppointmentForm: React.FC = () => {
   };
 
   const fetchAvailableTimeSlots = async (date: string) => {
-    if (!date) return;
+    if (!date || !workshop) return;
 
     setIsLoading(true);
     try {
-      const slots: AvailableTimeSlot = await AppointmentService.getAvailableTimeSlots(date, currentWorkshop, language);
+      const slots: AvailableTimeSlot = await AppointmentService.getAvailableTimeSlots(date, workshop, language);
       setAvailableSlots(slots.timeSlots);
     } catch (error) {
       console.error('Error fetching time slots:', error);
@@ -150,6 +151,8 @@ export const AppointmentForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!workshop) return;
+    
     setIsLoading(true);
 
     try {
@@ -163,10 +166,10 @@ export const AppointmentForm: React.FC = () => {
         appointmentDate: `${formData.appointmentDate}T${formData.appointmentTime}:00`
       };
 
-      await AppointmentService.createAppointment(appointmentRequest, currentWorkshop, language);
+      await AppointmentService.createAppointment(appointmentRequest, workshop, language);
 
       // Redirecionar para página de sucesso com dados do agendamento
-      const successPath = workshop ? `/${workshop}/success` : '/success';
+      const successPath = `/${workshop}/success`;
       navigate(successPath, {
         state: {
           language,
@@ -193,6 +196,18 @@ export const AppointmentForm: React.FC = () => {
     tomorrow.setDate(tomorrow.getDate() + 1);
     return tomorrow.toISOString().split('T')[0];
   };
+
+  // Redirecionar para home se não há workshop na URL
+  useEffect(() => {
+    if (!workshop) {
+      navigate('/');
+    }
+  }, [workshop, navigate]);
+
+  // Se não há workshop, não renderizar o componente
+  if (!workshop) {
+    return null;
+  }
 
   return (
     <div className="appointment-form-container">
