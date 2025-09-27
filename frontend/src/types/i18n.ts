@@ -11,7 +11,6 @@ export interface Translations {
   'form.vehicleBrand': string;
   'form.vehicleModel': string;
   'form.vehicleYear': string;
-  'form.vehiclePlate': string;
   'form.serviceType': string;
   'form.appointmentDate': string;
   'form.appointmentTime': string;
@@ -38,5 +37,4 @@ export interface Translations {
   
   // Placeholders
   'placeholder.phone': string;
-  'placeholder.licensePlate': string;
 }

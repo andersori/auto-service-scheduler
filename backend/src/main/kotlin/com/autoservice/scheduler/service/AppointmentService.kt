@@ -28,7 +28,6 @@ class AppointmentService(
             vehicleBrand = request.vehicleBrand,
             vehicleModel = request.vehicleModel,
             vehicleYear = request.vehicleYear,
-            vehiclePlate = request.vehiclePlate,
             serviceType = request.serviceType,
             appointmentDate = request.appointmentDate
         )
@@ -63,7 +62,6 @@ class AppointmentService(
             vehicleBrand = appointment.vehicleBrand,
             vehicleModel = appointment.vehicleModel,
             vehicleYear = appointment.vehicleYear,
-            vehiclePlate = appointment.vehiclePlate,
             serviceType = appointment.serviceType,
             appointmentDate = appointment.appointmentDate,
             createdAt = appointment.createdAt

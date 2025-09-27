@@ -6,12 +6,11 @@ export const enUS: Translations = {
   'form.clientInfo': 'Client Information',
   'form.vehicleInfo': 'Vehicle Information',
   'form.serviceScheduling': 'Service and Scheduling',
-  'form.clientName': 'Full name *',
+  'form.clientName': 'Name *',
   'form.clientPhone': 'Phone *',
   'form.vehicleBrand': 'Brand *',
   'form.vehicleModel': 'Model *',
   'form.vehicleYear': 'Year *',
-  'form.vehiclePlate': 'License plate *',
   'form.serviceType': 'Service type *',
   'form.appointmentDate': 'Date *',
   'form.appointmentTime': 'Time *',
@@ -37,6 +36,5 @@ export const enUS: Translations = {
   'service.others': 'Others',
   
   // Placeholders
-  'placeholder.phone': '(555) 123-4567',
-  'placeholder.licensePlate': 'ABC-1234'
+  'placeholder.phone': '(555) 123-4567'
 };
