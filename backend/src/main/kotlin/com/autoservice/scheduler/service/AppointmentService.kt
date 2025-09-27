@@ -5,6 +5,7 @@ import com.autoservice.scheduler.dto.AppointmentResponseDto
 import com.autoservice.scheduler.dto.AvailableTimeSlotDto
 import com.autoservice.scheduler.model.Appointment
 import com.autoservice.scheduler.repository.AppointmentRepository
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -16,7 +17,8 @@ import java.util.*
 @Service
 class AppointmentService(
     private val appointmentRepository: AppointmentRepository,
-    private val messageSource: MessageSource
+    private val messageSource: MessageSource,
+    private val objectMapper: ObjectMapper
 ) {
     
     private val workingHours = listOf("08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00")
@@ -28,7 +30,7 @@ class AppointmentService(
             vehicleBrand = request.vehicleBrand,
             vehicleModel = request.vehicleModel,
             vehicleYear = request.vehicleYear,
-            serviceType = request.serviceType,
+            serviceTypes = objectMapper.writeValueAsString(request.serviceTypes),
             appointmentDate = request.appointmentDate,
             workshop = workshop
         )
@@ -56,6 +58,13 @@ class AppointmentService(
     }
     
     private fun mapToResponseDto(appointment: Appointment): AppointmentResponseDto {
+        val serviceTypesList = try {
+            objectMapper.readValue(appointment.serviceTypes, Array<String>::class.java).toList()
+        } catch (e: Exception) {
+            // Fallback for backwards compatibility
+            listOf(appointment.serviceTypes)
+        }
+        
         return AppointmentResponseDto(
             id = appointment.id,
             clientName = appointment.clientName,
@@ -63,7 +72,7 @@ class AppointmentService(
             vehicleBrand = appointment.vehicleBrand,
             vehicleModel = appointment.vehicleModel,
             vehicleYear = appointment.vehicleYear,
-            serviceType = appointment.serviceType,
+            serviceTypes = serviceTypesList,
             appointmentDate = appointment.appointmentDate,
             workshop = appointment.workshop,
             createdAt = appointment.createdAt

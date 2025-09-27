@@ -33,7 +33,7 @@ interface LocationState {
     clientName: string;
     appointmentDate: string;
     appointmentTime: string;
-    serviceType: string;
+    serviceTypes: string[];
   };
 }
 
@@ -81,7 +81,7 @@ export const AppointmentSuccess: React.FC = () => {
             </div>
             <div className="detail-row">
               <span className="detail-label">{t['form.serviceType']}:</span>
-              <span className="detail-value">{appointmentData.serviceType}</span>
+              <span className="detail-value">{appointmentData.serviceTypes.join(', ')}</span>
             </div>
             <div className="detail-row">
               <span className="detail-label">{t['form.appointmentDate']}:</span>

@@ -21,8 +21,8 @@ data class AppointmentRequestDto(
     val vehicleYear: Int,
     
     
-    @field:NotBlank(message = "{validation.serviceType.notBlank}")
-    val serviceType: String,
+    @field:NotNull(message = "{validation.serviceTypes.notNull}")
+    val serviceTypes: List<String>,
     
     @field:NotNull(message = "{validation.appointmentDate.notNull}")
     val appointmentDate: LocalDateTime
@@ -35,7 +35,7 @@ data class AppointmentResponseDto(
     val vehicleBrand: String,
     val vehicleModel: String,
     val vehicleYear: Int,
-    val serviceType: String,
+    val serviceTypes: List<String>,
     val appointmentDate: LocalDateTime,
     val workshop: String,
     val createdAt: LocalDateTime
