@@ -45,6 +45,11 @@ data class AvailableTimeSlotDto(
     val timeSlots: List<String>
 )
 
+data class ServiceTypeResponseDto(
+    val id: Long,
+    val name: String
+)
+
 data class ErrorResponseDto(
     val message: String,
     val timestamp: LocalDateTime = LocalDateTime.now(),

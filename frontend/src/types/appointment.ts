@@ -25,6 +25,11 @@ export interface AvailableTimeSlot {
   timeSlots: string[];
 }
 
+export interface ServiceType {
+  id: number;
+  name: string;
+}
+
 export interface FormData {
   clientName: string;
   clientPhone: string;

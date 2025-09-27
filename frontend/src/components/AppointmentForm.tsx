@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppointmentService } from '../services/appointmentService';
-import { FormData, AvailableTimeSlot } from '../types/appointment';
+import { ServiceTypeService } from '../services/serviceTypeService';
+import { FormData, AvailableTimeSlot, ServiceType } from '../types/appointment';
 import { Language } from '../types/i18n';
 import { getTranslations, detectLanguage } from '../i18n';
 import './AppointmentForm.css';
@@ -62,16 +63,8 @@ export const AppointmentForm: React.FC = () => {
     Suzuki: ["Vitara", "Jimny", "S-Cross", "Swift"]
   };
 
-  const SERVICE_TYPES = [
-    { value: t['service.oilChange'], label: t['service.oilChange'] },
-    { value: t['service.fullRevision'], label: t['service.fullRevision'] },
-    { value: t['service.alignment'], label: t['service.alignment'] },
-    { value: t['service.tireChange'], label: t['service.tireChange'] },
-    { value: t['service.brakes'], label: t['service.brakes'] },
-    { value: t['service.suspension'], label: t['service.suspension'] },
-    { value: t['service.airConditioning'], label: t['service.airConditioning'] },
-    { value: t['service.others'], label: t['service.others'] }
-  ];
+  const [serviceTypes, setServiceTypes] = useState<ServiceType[]>([]);
+  const [isLoadingServiceTypes, setIsLoadingServiceTypes] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     clientName: '',
@@ -92,6 +85,23 @@ export const AppointmentForm: React.FC = () => {
     setLanguage(newLanguage);
     setMessage(null);
   };
+
+  const fetchServiceTypes = async () => {
+    setIsLoadingServiceTypes(true);
+    try {
+      const types = await ServiceTypeService.getActiveServiceTypes();
+      setServiceTypes(types);
+    } catch (error) {
+      console.error('Error fetching service types:', error);
+      setServiceTypes([]);
+    } finally {
+      setIsLoadingServiceTypes(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchServiceTypes();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -302,10 +312,13 @@ export const AppointmentForm: React.FC = () => {
               value={formData.serviceType}
               onChange={handleInputChange}
               required
+              disabled={isLoadingServiceTypes}
             >
-              <option value="">{t['message.selectService']}</option>
-              {SERVICE_TYPES.map(service => (
-                <option key={service.value} value={service.value}>{service.label}</option>
+              <option value="">
+                {isLoadingServiceTypes ? t['message.loading'] : t['message.selectService']}
+              </option>
+              {serviceTypes.map(service => (
+                <option key={service.id} value={service.name}>{service.name}</option>
               ))}
             </select>
           </div>
