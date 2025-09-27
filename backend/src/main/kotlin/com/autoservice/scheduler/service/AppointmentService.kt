@@ -21,7 +21,7 @@ class AppointmentService(
     
     private val workingHours = listOf("08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00")
     
-    fun createAppointment(request: AppointmentRequestDto, locale: Locale): AppointmentResponseDto {
+    fun createAppointment(request: AppointmentRequestDto, workshop: String, locale: Locale): AppointmentResponseDto {
         val appointment = Appointment(
             clientName = request.clientName,
             clientPhone = request.clientPhone,
@@ -29,20 +29,21 @@ class AppointmentService(
             vehicleModel = request.vehicleModel,
             vehicleYear = request.vehicleYear,
             serviceType = request.serviceType,
-            appointmentDate = request.appointmentDate
+            appointmentDate = request.appointmentDate,
+            workshop = workshop
         )
         
         val savedAppointment = appointmentRepository.save(appointment)
         return mapToResponseDto(savedAppointment)
     }
     
-    fun getAvailableTimeSlots(date: String, locale: Locale): AvailableTimeSlotDto {
+    fun getAvailableTimeSlots(date: String, workshop: String, locale: Locale): AvailableTimeSlotDto {
         val localDate = LocalDate.parse(date)
         val startOfDay = localDate.atStartOfDay()
         val endOfDay = localDate.atTime(LocalTime.MAX)
         
         val existingAppointments = appointmentRepository
-            .findAppointmentsByDateRange(startOfDay, endOfDay)
+            .findAppointmentsByDateRangeAndWorkshop(startOfDay, endOfDay, workshop)
             .map { it.appointmentDate.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) }
         
         val availableSlots = workingHours.filter { it !in existingAppointments }
@@ -50,8 +51,8 @@ class AppointmentService(
         return AvailableTimeSlotDto(date, availableSlots)
     }
     
-    fun getAllAppointments(): List<AppointmentResponseDto> {
-        return appointmentRepository.findAll().map { mapToResponseDto(it) }
+    fun getAllAppointments(workshop: String): List<AppointmentResponseDto> {
+        return appointmentRepository.findByWorkshop(workshop).map { mapToResponseDto(it) }
     }
     
     private fun mapToResponseDto(appointment: Appointment): AppointmentResponseDto {
@@ -64,6 +65,7 @@ class AppointmentService(
             vehicleYear = appointment.vehicleYear,
             serviceType = appointment.serviceType,
             appointmentDate = appointment.appointmentDate,
+            workshop = appointment.workshop,
             createdAt = appointment.createdAt
         )
     }

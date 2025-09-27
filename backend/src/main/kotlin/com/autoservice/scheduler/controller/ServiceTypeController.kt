@@ -13,8 +13,10 @@ class ServiceTypeController(
 ) {
     
     @GetMapping("/active")
-    fun getActiveServiceTypes(): ResponseEntity<List<ServiceTypeResponseDto>> {
-        val activeServiceTypes = serviceTypeService.getActiveServiceTypes()
+    fun getActiveServiceTypes(
+        @RequestParam workshop: String
+    ): ResponseEntity<List<ServiceTypeResponseDto>> {
+        val activeServiceTypes = serviceTypeService.getActiveServiceTypes(workshop)
         return ResponseEntity.ok(activeServiceTypes)
     }
 }

@@ -37,6 +37,7 @@ data class AppointmentResponseDto(
     val vehicleYear: Int,
     val serviceType: String,
     val appointmentDate: LocalDateTime,
+    val workshop: String,
     val createdAt: LocalDateTime
 )
 
@@ -54,4 +55,8 @@ data class ErrorResponseDto(
     val message: String,
     val timestamp: LocalDateTime = LocalDateTime.now(),
     val status: Int
+)
+
+data class VehicleCatalogResponseDto(
+    val vehicleCatalog: Map<String, List<String>>
 )

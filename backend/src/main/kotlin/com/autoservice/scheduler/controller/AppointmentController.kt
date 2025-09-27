@@ -22,26 +22,30 @@ class AppointmentController(
     @PostMapping
     fun createAppointment(
         @Valid @RequestBody request: AppointmentRequestDto,
+        @RequestParam workshop: String,
         @RequestHeader("Accept-Language", defaultValue = "pt-BR") language: String
     ): ResponseEntity<AppointmentResponseDto> {
         val locale = parseLocale(language)
-        val appointment = appointmentService.createAppointment(request, locale)
+        val appointment = appointmentService.createAppointment(request, workshop, locale)
         return ResponseEntity.status(HttpStatus.CREATED).body(appointment)
     }
     
     @GetMapping
-    fun getAllAppointments(): ResponseEntity<List<AppointmentResponseDto>> {
-        val appointments = appointmentService.getAllAppointments()
+    fun getAllAppointments(
+        @RequestParam workshop: String
+    ): ResponseEntity<List<AppointmentResponseDto>> {
+        val appointments = appointmentService.getAllAppointments(workshop)
         return ResponseEntity.ok(appointments)
     }
     
     @GetMapping("/available-slots")
     fun getAvailableTimeSlots(
         @RequestParam date: String,
+        @RequestParam workshop: String,
         @RequestHeader("Accept-Language", defaultValue = "pt-BR") language: String
     ): ResponseEntity<AvailableTimeSlotDto> {
         val locale = parseLocale(language)
-        val timeSlots = appointmentService.getAvailableTimeSlots(date, locale)
+        val timeSlots = appointmentService.getAvailableTimeSlots(date, workshop, locale)
         return ResponseEntity.ok(timeSlots)
     }
     
