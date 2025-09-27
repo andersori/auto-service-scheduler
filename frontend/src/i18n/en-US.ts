@@ -40,8 +40,10 @@ export const enUS: Translations = {
   
   // Success page
   'success.appointmentDetails': 'Appointment Details',
-  'success.message': 'Your appointment has been created. We will contact you for confirmation.',
+  'success.message': 'We will contact you for confirmation.',
   'success.backToForm': 'New Appointment',
+  'success.generateReceipt': 'Generate Receipt',
+  'success.generateReceiptDateMessage': 'Generated on',
   
   // Workshop list
   'workshop.list.title': 'Choose a Workshop',

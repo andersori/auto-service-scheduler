@@ -7,6 +7,25 @@
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Estilos para impressão/captura do comprovante */
+.appointment-success-container::after {
+  content: '';
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.8rem;
+  color: #999;
+  content: attr(data-generated);
+}
+
+.generated-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #999;
+  text-align: right;
 }
 
 .language-info {

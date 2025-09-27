@@ -42,6 +42,8 @@ export interface Translations {
   'success.appointmentDetails': string;
   'success.message': string;
   'success.backToForm': string;
+  'success.generateReceipt': string;
+  'success.generateReceiptDateMessage': string;
   
   // Workshop list
   'workshop.list.title': string;
