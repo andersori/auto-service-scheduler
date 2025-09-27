@@ -45,6 +45,14 @@ export const AppointmentForm: React.FC = () => {
 
   const handleLanguageChange = (newLanguage: Language) => {
     changeLanguage(newLanguage);
+    // Validar e ajustar telefone ao trocar idioma
+    setFormData(prev => {
+      const valid = isValidPhone(prev.clientPhone, newLanguage);
+      return {
+        ...prev,
+        clientPhone: valid ? formatPhone(prev.clientPhone, newLanguage) : ''
+      };
+    });
   };
 
   const fetchServiceTypes = useCallback(async () => {
