@@ -42,10 +42,21 @@ export interface Translations {
   'success.appointmentDetails': string;
   'success.message': string;
   'success.backToForm': string;
+  'success.generateReceipt': string;
+  'success.generateReceiptDateMessage': string;
   
   // Workshop list
   'workshop.list.title': string;
   'workshop.list.subtitle': string;
   'workshop.services': string;
   'workshop.schedule': string;
+
+  // Error messages
+  'error.generateReceipt': string;
+  'error.requiredFields': string;
+  'error.invalidPhone': string;
+  // Console error messages
+  'console.error.fetchServiceTypes': string;
+  'console.error.fetchVehicleCatalog': string;
+  'console.error.fetchTimeSlots': string;
 }

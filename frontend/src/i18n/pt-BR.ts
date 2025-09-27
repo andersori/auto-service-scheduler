@@ -40,12 +40,24 @@ export const ptBR: Translations = {
   
   // Success page
   'success.appointmentDetails': 'Detalhes do Agendamento',
-  'success.message': 'Seu agendamento foi criado. Entraremos em contato para confirmação.',
+  'success.message': 'Entraremos em contato para confirmação.',
   'success.backToForm': 'Novo Agendamento',
+  'success.generateReceipt': 'Gerar Comprovante',
+  'success.generateReceiptDateMessage': 'Gerado em',
   
   // Workshop list
   'workshop.list.title': 'Escolha uma Oficina',
   'workshop.list.subtitle': 'Selecione a oficina mais próxima de você para agendar seu serviço',
   'workshop.services': 'Serviços disponíveis',
   'workshop.schedule': 'Agendar Serviço',
+
+  // Errors
+  'error.generateReceipt': 'Erro ao gerar comprovante. Tente novamente.',
+  'error.requiredFields': 'Por favor, preencha todos os campos obrigatórios.',
+  'error.invalidPhone': 'Telefone inválido. Use o formato (99) 99999-9999.',
+
+  // Console error messages
+  'console.error.fetchServiceTypes': 'Erro ao buscar tipos de serviço:',
+  'console.error.fetchVehicleCatalog': 'Erro ao buscar catálogo de veículos:',
+  'console.error.fetchTimeSlots': 'Erro ao buscar horários disponíveis:',
 };

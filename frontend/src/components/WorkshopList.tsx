@@ -1,31 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Language } from '../types/i18n';
-import { getTranslations, detectLanguage } from '../i18n';
+import { getTranslations } from '../i18n';
+import { useLanguage } from '../hooks/useLanguage';
 import './WorkshopList.css';
-
-const BrazilFlag: React.FC<{ size?: number }> = ({ size = 20 }) => (
-  <svg width={size} height={size * 0.7} viewBox="0 0 60 42" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
-    <rect width="60" height="42" fill="#009639" />
-    <polygon points="30,6 54,21 30,36 6,21" fill="#FEDF00" />
-    <circle cx="30" cy="21" r="7" fill="#002776" />
-    <path d="M25,18 Q30,15 35,18 Q30,24 25,18" fill="#FEDF00" />
-  </svg>
-);
-
-const USFlag: React.FC<{ size?: number }> = ({ size = 20 }) => (
-  <svg width={size} height={size * 0.7} viewBox="0 0 60 42" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
-    <rect width="60" height="42" fill="#B22234" />
-    <rect y="0" width="60" height="3.23" fill="#FFFFFF" />
-    <rect y="6.46" width="60" height="3.23" fill="#FFFFFF" />
-    <rect y="12.92" width="60" height="3.23" fill="#FFFFFF" />
-    <rect y="19.38" width="60" height="3.23" fill="#FFFFFF" />
-    <rect y="25.84" width="60" height="3.23" fill="#FFFFFF" />
-    <rect y="32.3" width="60" height="3.23" fill="#FFFFFF" />
-    <rect y="38.76" width="60" height="3.23" fill="#FFFFFF" />
-    <rect width="24" height="21" fill="#3C3B6E" />
-  </svg>
-);
+import { BrazilFlag, USFlag } from './Flag';
 
 interface Workshop {
   id: string;
@@ -38,11 +17,11 @@ interface Workshop {
 }
 
 export const WorkshopList: React.FC = () => {
-  const [language, setLanguage] = useState<Language>(detectLanguage());
+  const { language, changeLanguage } = useLanguage();
   const t = getTranslations(language);
 
   const handleLanguageChange = (newLanguage: Language) => {
-    setLanguage(newLanguage);
+    changeLanguage(newLanguage);
   };
 
   // Mock data - será substituído por dados do backend posteriormente
@@ -95,7 +74,7 @@ export const WorkshopList: React.FC = () => {
   ];
 
   return (
-    <div className="workshop-list-container">
+    <div className="app-container">
       <div className="language-selector">
         <button
           className={`lang-btn ${language === 'pt-BR' ? 'active' : ''}`}
@@ -113,14 +92,14 @@ export const WorkshopList: React.FC = () => {
         </button>
       </div>
 
-      <div className="header">
+      <div className="page-header">
         <h1>{t['workshop.list.title']}</h1>
         <p>{t['workshop.list.subtitle']}</p>
       </div>
 
       <div className="workshops-grid">
         {workshops.map((workshop) => (
-          <div key={workshop.id} className="workshop-card">
+          <div key={workshop.id} className="workshop-card card">
             <div className="workshop-header">
               <h2 className="workshop-name">{workshop.name}</h2>
               <div className="workshop-rating">

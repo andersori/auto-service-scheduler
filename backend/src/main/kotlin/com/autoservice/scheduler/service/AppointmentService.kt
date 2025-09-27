@@ -6,10 +6,8 @@ import com.autoservice.scheduler.dto.AvailableTimeSlotDto
 import com.autoservice.scheduler.model.Appointment
 import com.autoservice.scheduler.repository.AppointmentRepository
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -17,7 +15,6 @@ import java.util.*
 @Service
 class AppointmentService(
     private val appointmentRepository: AppointmentRepository,
-    private val messageSource: MessageSource,
     private val objectMapper: ObjectMapper
 ) {
     
@@ -60,7 +57,7 @@ class AppointmentService(
     private fun mapToResponseDto(appointment: Appointment): AppointmentResponseDto {
         val serviceTypesList = try {
             objectMapper.readValue(appointment.serviceTypes, Array<String>::class.java).toList()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // Fallback for backwards compatibility
             listOf(appointment.serviceTypes)
         }
