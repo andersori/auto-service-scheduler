@@ -149,14 +149,14 @@ export const AppointmentSuccess: React.FC = () => {
           </p>
 
           <div className="action-buttons">
-            <Link to="/" className="btn btn-primary">
-              {t['success.backToForm']}
-            </Link>
             {appointmentData && (
-              <button onClick={generateReceipt} className="btn btn-secondary">
+              <button onClick={generateReceipt} className="btn btn-primary">
                 📄 {t['success.generateReceipt']}
               </button>
             )}
+            <Link to="/" className="btn btn-secondary">
+              {t['success.backToForm']}
+            </Link>
           </div>
 
           <div className="generated-message">
