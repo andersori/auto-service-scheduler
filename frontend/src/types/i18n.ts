@@ -42,4 +42,10 @@ export interface Translations {
   'success.appointmentDetails': string;
   'success.message': string;
   'success.backToForm': string;
+  
+  // Workshop list
+  'workshop.list.title': string;
+  'workshop.list.subtitle': string;
+  'workshop.services': string;
+  'workshop.schedule': string;
 }
