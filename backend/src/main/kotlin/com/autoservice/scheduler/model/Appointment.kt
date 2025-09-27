@@ -30,9 +30,8 @@ data class Appointment(
     @Column(name = "vehicle_year")
     val vehicleYear: Int,
     
-    @NotBlank
-    @Column(name = "service_type")
-    val serviceType: String,
+    @Column(name = "service_types")
+    val serviceTypes: String, // JSON array as string
     
     @Column(name = "appointment_date")
     val appointmentDate: LocalDateTime,

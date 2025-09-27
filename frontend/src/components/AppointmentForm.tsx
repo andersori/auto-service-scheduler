@@ -56,7 +56,7 @@ export const AppointmentForm: React.FC = () => {
     vehicleBrand: '',
     vehicleModel: '',
     vehicleYear: '',
-    serviceType: '',
+    serviceTypes: [],
     appointmentDate: '',
     appointmentTime: ''
   });
@@ -153,6 +153,14 @@ export const AppointmentForm: React.FC = () => {
     e.preventDefault();
     if (!workshop) return;
     
+    // Validation
+    if (!formData.clientName || !formData.clientPhone || !formData.vehicleBrand || 
+        !formData.vehicleModel || !formData.vehicleYear || formData.serviceTypes.length === 0 ||
+        !formData.appointmentDate || !formData.appointmentTime) {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
@@ -162,7 +170,7 @@ export const AppointmentForm: React.FC = () => {
         vehicleBrand: formData.vehicleBrand,
         vehicleModel: formData.vehicleModel,
         vehicleYear: parseInt(formData.vehicleYear),
-        serviceType: formData.serviceType,
+        serviceTypes: formData.serviceTypes,
         appointmentDate: `${formData.appointmentDate}T${formData.appointmentTime}:00`
       };
 
@@ -177,7 +185,7 @@ export const AppointmentForm: React.FC = () => {
             clientName: formData.clientName,
             appointmentDate: formData.appointmentDate,
             appointmentTime: formData.appointmentTime,
-            serviceType: formData.serviceType
+            serviceTypes: formData.serviceTypes
           }
         }
       });
@@ -324,14 +332,15 @@ export const AppointmentForm: React.FC = () => {
               id="serviceType"
               name="serviceType"
               options={serviceTypes.map(service => ({ value: service.name, label: service.name }))}
-              value={formData.serviceType ? { value: formData.serviceType, label: formData.serviceType } : null}
+              value={formData.serviceTypes.map(type => ({ value: type, label: type }))}
               onChange={(selected) => {
-                const type = selected ? selected.value : '';
-                setFormData(prev => ({ ...prev, serviceType: type }));
+                const types = selected ? (selected as any[]).map((item: any) => item.value) : [];
+                setFormData(prev => ({ ...prev, serviceTypes: types }));
               }}
               placeholder={isLoadingServiceTypes ? t['message.loading'] : t['message.selectService']}
               isClearable
               isSearchable
+              isMulti
               isDisabled={isLoadingServiceTypes}
               classNamePrefix="react-select"
             />
