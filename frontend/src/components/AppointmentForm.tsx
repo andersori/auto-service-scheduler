@@ -323,6 +323,10 @@ export const AppointmentForm: React.FC = () => {
               name="appointmentDate"
               value={formData.appointmentDate}
               onChange={handleInputChange}
+              onClick={(e) => {
+                const target = e.target as HTMLInputElement;
+                target.showPicker();
+              }}
               min={getTomorrowDate()}
               required
             />
