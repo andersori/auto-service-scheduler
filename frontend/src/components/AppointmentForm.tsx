@@ -36,7 +36,7 @@ export const AppointmentForm: React.FC = () => {
   const t = getTranslations(language);
   const [modelOptions, setModelOptions] = useState<string[]>([]);
 
-  const CAR_DATA: { [brand: string]: string[] } = {
+  const VEHICLE_CATALOG: { [brand: string]: string[] } = {
     Toyota: ["Corolla", "Hilux", "Yaris", "Etios", "SW4", "RAV4", "Camry"],
     Volkswagen: ["Gol", "Polo", "Virtus", "T-Cross", "Nivus", "Saveiro", "Jetta"],
     Ford: ["Ka", "Fiesta", "Focus", "EcoSport", "Ranger", "Fusion", "Edge"],
@@ -102,7 +102,7 @@ export const AppointmentForm: React.FC = () => {
 
     // Atualiza modelos ao trocar a marca
     if (name === 'vehicleBrand') {
-      setModelOptions(CAR_DATA[value] || []);
+      setModelOptions(VEHICLE_CATALOG[value] || []);
       setFormData(prev => ({ ...prev, vehicleModel: '' }));
     }
 
@@ -244,10 +244,10 @@ export const AppointmentForm: React.FC = () => {
               required
               list="car-brands-list"
               autoComplete="off"
-              placeholder={Object.keys(CAR_DATA)[0]}
+              placeholder={Object.keys(VEHICLE_CATALOG)[0]}
             />
             <datalist id="car-brands-list">
-              {Object.keys(CAR_DATA).map(brand => (
+              {Object.keys(VEHICLE_CATALOG).map(brand => (
                 <option key={brand} value={brand} />
               ))}
             </datalist>
