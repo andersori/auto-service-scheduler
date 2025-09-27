@@ -184,6 +184,7 @@ export const AppointmentForm: React.FC = () => {
           language,
           appointmentData: {
             clientName: formData.clientName,
+            clientPhone: formData.clientPhone,
             appointmentDate: formData.appointmentDate,
             appointmentTime: formData.appointmentTime,
             serviceTypes: formData.serviceTypes

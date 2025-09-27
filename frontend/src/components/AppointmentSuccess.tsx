@@ -32,6 +32,7 @@ interface LocationState {
   language: Language;
   appointmentData: {
     clientName: string;
+    clientPhone: string;
     appointmentDate: string;
     appointmentTime: string;
     serviceTypes: string[];
@@ -125,6 +126,10 @@ export const AppointmentSuccess: React.FC = () => {
                 <span className="detail-value">{appointmentData.clientName}</span>
               </div>
               <div className="detail-row">
+                <span className="detail-label">{t['form.clientPhone']}:</span>
+                <span className="detail-value">{appointmentData.clientPhone}</span>
+              </div>
+              <div className="detail-row">
                 <span className="detail-label">{t['form.serviceType']}:</span>
                 <span className="detail-value">{appointmentData.serviceTypes.join(', ')}</span>
               </div>
@@ -155,7 +160,7 @@ export const AppointmentSuccess: React.FC = () => {
           </div>
 
           <div className="generated-message">
-            {`${t['success.generateReceipt']}: ${new Date().toLocaleString(language)}`}
+            {`${t['success.generateReceiptDateMessage']}: ${new Date().toLocaleString(language)}`}
           </div>
         </div>
       </div>
