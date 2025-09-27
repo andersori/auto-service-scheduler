@@ -50,4 +50,7 @@ export const ptBR: Translations = {
   'workshop.list.subtitle': 'Selecione a oficina mais próxima de você para agendar seu serviço',
   'workshop.services': 'Serviços disponíveis',
   'workshop.schedule': 'Agendar Serviço',
+
+  // Errors
+  'error.generateReceipt': 'Erro ao gerar comprovante. Tente novamente.',
 };

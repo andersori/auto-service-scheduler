@@ -16,7 +16,7 @@ export const enUS: Translations = {
   'form.appointmentTime': 'Time *',
   'form.submit': 'Schedule Service',
   'form.processing': 'Processing...',
-  
+
   // Messages
   'message.success': 'Appointment scheduled successfully!',
   'message.error': 'Error creating appointment. Please try again.',
@@ -24,7 +24,7 @@ export const enUS: Translations = {
   'message.selectTime': 'Select time',
   'message.selectYear': 'Select year',
   'message.selectService': 'Select service',
-  
+
   // Service types
   'service.oilChange': 'Oil change',
   'service.fullRevision': 'Full revision',
@@ -34,20 +34,23 @@ export const enUS: Translations = {
   'service.suspension': 'Suspension',
   'service.airConditioning': 'Air conditioning',
   'service.others': 'Others',
-  
+
   // Placeholders
   'placeholder.phone': '(555) 123-4567',
-  
+
   // Success page
   'success.appointmentDetails': 'Appointment Details',
   'success.message': 'We will contact you for confirmation.',
   'success.backToForm': 'New Appointment',
   'success.generateReceipt': 'Generate Receipt',
   'success.generateReceiptDateMessage': 'Generated on',
-  
+
   // Workshop list
   'workshop.list.title': 'Choose a Workshop',
   'workshop.list.subtitle': 'Select the workshop closest to you to schedule your service',
   'workshop.services': 'Available services',
   'workshop.schedule': 'Schedule Service',
+
+  // Errors
+  'error.generateReceipt': 'Error generating receipt. Please try again.',
 };

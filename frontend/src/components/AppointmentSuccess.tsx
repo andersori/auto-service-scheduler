@@ -62,15 +62,15 @@ export const AppointmentSuccess: React.FC = () => {
     }
 
     try {
-      // Configurações para html2canvas
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 2, // Alta qualidade
+        scale: 2,
         backgroundColor: '#ffffff',
         logging: false,
         useCORS: true,
         allowTaint: false,
         width: receiptRef.current.scrollWidth,
         height: receiptRef.current.scrollHeight,
+        ignoreElements: (element) => element.classList?.contains('no-print'),
       });
 
       // Criar link para download
@@ -83,12 +83,8 @@ export const AppointmentSuccess: React.FC = () => {
       link.click();
       document.body.removeChild(link);
 
-      console.log('Comprovante gerado com sucesso!');
     } catch (error) {
-      console.error('Erro ao gerar comprovante:', error);
-      alert(language === 'pt-BR'
-        ? 'Erro ao gerar comprovante. Tente novamente.'
-        : 'Error generating receipt. Please try again.');
+      alert(t['error.generateReceipt']);
     }
   };
 
@@ -148,7 +144,7 @@ export const AppointmentSuccess: React.FC = () => {
             {t['success.message']}
           </p>
 
-          <div className="action-buttons">
+          <div className="action-buttons no-print">
             {appointmentData && (
               <button onClick={generateReceipt} className="btn btn-primary">
                 📄 {t['success.generateReceipt']}

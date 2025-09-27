@@ -50,4 +50,7 @@ export interface Translations {
   'workshop.list.subtitle': string;
   'workshop.services': string;
   'workshop.schedule': string;
+
+  // Error messages
+  'error.generateReceipt': string;
 }
