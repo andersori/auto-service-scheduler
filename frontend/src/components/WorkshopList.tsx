@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Language } from '../types/i18n';
-import { getTranslations, detectLanguage } from '../i18n';
+import { getTranslations } from '../i18n';
+import { useLanguage } from '../hooks/useLanguage';
 import './WorkshopList.css';
 
 const BrazilFlag: React.FC<{ size?: number }> = ({ size = 20 }) => (
@@ -38,11 +39,11 @@ interface Workshop {
 }
 
 export const WorkshopList: React.FC = () => {
-  const [language, setLanguage] = useState<Language>(detectLanguage());
+  const { language, changeLanguage } = useLanguage();
   const t = getTranslations(language);
 
   const handleLanguageChange = (newLanguage: Language) => {
-    setLanguage(newLanguage);
+    changeLanguage(newLanguage);
   };
 
   // Mock data - será substituído por dados do backend posteriormente
@@ -95,7 +96,7 @@ export const WorkshopList: React.FC = () => {
   ];
 
   return (
-    <div className="workshop-list-container">
+    <div className="app-container">
       <div className="language-selector">
         <button
           className={`lang-btn ${language === 'pt-BR' ? 'active' : ''}`}
@@ -113,14 +114,14 @@ export const WorkshopList: React.FC = () => {
         </button>
       </div>
 
-      <div className="header">
+      <div className="page-header">
         <h1>{t['workshop.list.title']}</h1>
         <p>{t['workshop.list.subtitle']}</p>
       </div>
 
       <div className="workshops-grid">
         {workshops.map((workshop) => (
-          <div key={workshop.id} className="workshop-card">
+          <div key={workshop.id} className="workshop-card card">
             <div className="workshop-header">
               <h2 className="workshop-name">{workshop.name}</h2>
               <div className="workshop-rating">

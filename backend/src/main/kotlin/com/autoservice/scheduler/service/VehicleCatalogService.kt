@@ -1,17 +1,16 @@
 package com.autoservice.scheduler.service
 
+import com.autoservice.scheduler.dto.VehicleCatalogResponseDto
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class VehicleCatalogService {
 
-    fun getVehicleCatalogByWorkshop(workshop: String, locale: Locale): Map<String, List<String>> {
-        // For now, return the same catalog for all workshops
-        // In a real implementation, this could be stored in database per workshop
-        return getDefaultVehicleCatalog()
+    fun getVehicleCatalogByWorkshop(workshop: String, locale: Locale): VehicleCatalogResponseDto {
+        return VehicleCatalogResponseDto(vehicleCatalog = getDefaultVehicleCatalog())
     }
-    
+
     private fun getDefaultVehicleCatalog(): Map<String, List<String>> {
         return mapOf(
             "Toyota" to listOf("Corolla", "Hilux", "Yaris", "Etios", "SW4", "RAV4", "Camry"),

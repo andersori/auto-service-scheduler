@@ -1,71 +1,11 @@
-.workshop-list-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 2rem 1rem;
-}
-
-.language-selector {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-}
-
-.lang-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.5rem 0.75rem;
-  border: 2px solid #e2e8f0;
-  background: white;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #64748b;
-  transition: all 0.3s ease;
-}
-
-.lang-btn:hover {
-  border-color: #007bff;
-  color: #007bff;
-  transform: translateY(-1px);
-}
-
-.lang-btn.active {
-  border-color: #007bff;
-  background: #007bff;
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.header h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #1a365d;
-  margin-bottom: 1rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.header p {
-  font-size: 1.25rem;
-  color: #64748b;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
+/* WorkshopList-specific styles - using global.css for common elements */
 
 .workshops-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 3rem auto 0;
 }
 
 .workshop-card {
@@ -198,51 +138,8 @@
   justify-content: center;
 }
 
-.btn {
-  display: inline-block;
-  padding: 0.875rem 2rem;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  text-align: center;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border: none;
-  font-size: 1rem;
-  min-width: 180px;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
-  color: white;
-  text-decoration: none;
-}
-
-.btn-primary:active {
-  transform: translateY(0);
-}
-
 /* Responsivo */
 @media (max-width: 768px) {
-  .workshop-list-container {
-    padding: 1rem;
-  }
-  
-  .header h1 {
-    font-size: 2.5rem;
-  }
-  
-  .header p {
-    font-size: 1.1rem;
-  }
-  
   .workshops-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -274,16 +171,7 @@
 }
 
 @media (max-width: 480px) {
-  .header h1 {
-    font-size: 2rem;
-  }
-  
   .workshop-card {
     padding: 1rem;
-  }
-  
-  .btn {
-    padding: 0.75rem 1.5rem;
-    min-width: 150px;
   }
 }

@@ -11,8 +11,6 @@ class ServiceTypeService(
 ) {
     
     fun getActiveServiceTypes(workshop: String): List<ServiceTypeResponseDto> {
-        // For now, return same service types for all workshops
-        // In a real implementation, this could be filtered per workshop
         return serviceTypeRepository.findActiveServiceTypes()
             .map { mapToResponseDto(it) }
     }

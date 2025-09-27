@@ -7,3 +7,7 @@ export interface VehicleBrand {
 export interface VehicleCatalog {
   [brand: string]: string[];
 }
+
+export interface VehicleCatalogResponse {
+  vehicleCatalog: VehicleCatalog;
+}

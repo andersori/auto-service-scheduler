@@ -1,3 +1,5 @@
+/* AppointmentSuccess-specific styles - using global.css for common elements */
+
 .appointment-success-container {
   max-width: 600px;
   margin: 2rem auto;
@@ -5,6 +7,25 @@
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Estilos para impressão/captura do comprovante */
+.appointment-success-container::after {
+  content: '';
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.8rem;
+  color: #999;
+  content: attr(data-generated);
+}
+
+.generated-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #999;
+  text-align: right;
 }
 
 .language-info {
@@ -16,22 +37,12 @@
   color: #666;
 }
 
-.success-content {
-  text-align: center;
-}
-
 .success-icon {
   margin-bottom: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.success-title {
   color: #4CAF50;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  font-weight: 600;
 }
 
 .appointment-details {
@@ -68,6 +79,7 @@
 }
 
 .detail-value {
+  text-align: right;
   font-weight: 600;
   color: #333;
 }
@@ -77,48 +89,19 @@
   color: #666;
   line-height: 1.6;
   margin: 2rem 0;
+  text-align: center;
 }
 
 .action-buttons {
   margin-top: 2rem;
-}
-
-.btn {
-  display: inline-block;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  text-align: center;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border: none;
-  font-size: 1rem;
-}
-
-.btn-primary {
-  background: #007bff;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #0056b3;
-  color: white;
-  text-decoration: none;
-  transform: translateY(-1px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 /* Responsivo */
 @media (max-width: 768px) {
-  .appointment-success-container {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-  
-  .success-title {
-    font-size: 1.5rem;
-  }
-  
   .detail-row {
     flex-direction: column;
     align-items: flex-start;

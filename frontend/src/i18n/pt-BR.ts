@@ -40,12 +40,17 @@ export const ptBR: Translations = {
   
   // Success page
   'success.appointmentDetails': 'Detalhes do Agendamento',
-  'success.message': 'Seu agendamento foi criado. Entraremos em contato para confirmação.',
+  'success.message': 'Entraremos em contato para confirmação.',
   'success.backToForm': 'Novo Agendamento',
+  'success.generateReceipt': 'Gerar Comprovante',
+  'success.generateReceiptDateMessage': 'Gerado em',
   
   // Workshop list
   'workshop.list.title': 'Escolha uma Oficina',
   'workshop.list.subtitle': 'Selecione a oficina mais próxima de você para agendar seu serviço',
   'workshop.services': 'Serviços disponíveis',
   'workshop.schedule': 'Agendar Serviço',
+
+  // Errors
+  'error.generateReceipt': 'Erro ao gerar comprovante. Tente novamente.',
 };

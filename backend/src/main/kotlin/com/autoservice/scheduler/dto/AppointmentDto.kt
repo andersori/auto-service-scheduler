@@ -19,8 +19,7 @@ data class AppointmentRequestDto(
     
     @field:NotNull(message = "{validation.vehicleYear.notNull}")
     val vehicleYear: Int,
-    
-    
+
     @field:NotNull(message = "{validation.serviceTypes.notNull}")
     val serviceTypes: List<String>,
     
