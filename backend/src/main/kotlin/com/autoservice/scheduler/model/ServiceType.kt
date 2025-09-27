@@ -11,7 +11,7 @@ data class ServiceType(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
     
-    @NotBlank
+    @field:NotBlank
     @Column(name = "name", unique = true)
     val name: String,
     

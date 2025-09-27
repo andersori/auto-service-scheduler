@@ -10,36 +10,36 @@ data class Appointment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    
-    @NotBlank
+
+    @field:NotBlank
     @Column(name = "client_name")
     val clientName: String,
-    
-    @NotBlank
+
+    @field:NotBlank
     @Column(name = "client_phone")
     val clientPhone: String,
-    
-    @NotBlank
+
+    @field:NotBlank
     @Column(name = "vehicle_brand")
     val vehicleBrand: String,
-    
-    @NotBlank
+
+    @field:NotBlank
     @Column(name = "vehicle_model")
     val vehicleModel: String,
-    
+
     @Column(name = "vehicle_year")
     val vehicleYear: Int,
-    
+
     @Column(name = "service_types")
     val serviceTypes: String, // JSON array as string
-    
+
     @Column(name = "appointment_date")
     val appointmentDate: LocalDateTime,
-    
-    @NotBlank
+
+    @field:NotBlank
     @Column(name = "workshop")
     val workshop: String,
-    
+
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now()
 )
