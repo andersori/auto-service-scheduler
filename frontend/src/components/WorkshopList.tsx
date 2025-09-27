@@ -1,77 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Language } from '../types/i18n';
 import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import './WorkshopList.css';
 import { BrazilFlag, USFlag } from './Flag';
-
-interface Workshop {
-  id: string;
-  name: string;
-  address: string;
-  phone: string;
-  description: string;
-  hours: string;
-  services: string[];
-}
+import { WorkshopService, Workshop } from '../services/workshopService';
 
 export const WorkshopList: React.FC = () => {
   const { language, changeLanguage } = useLanguage();
   const t = getTranslations(language);
+  const [workshops, setWorkshops] = useState<Workshop[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLanguageChange = (newLanguage: Language) => {
     changeLanguage(newLanguage);
   };
 
-  // Mock data - será substituído por dados do backend posteriormente
-  const workshops: Workshop[] = [
-    {
-      id: 'oficina-centro',
-      name: 'AutoService Centro',
-      address: 'Rua das Flores, 123 - Centro - São Paulo, SP',
-      phone: '(11) 3456-7890',
-      description: language === 'pt-BR' 
-        ? 'Oficina especializada em serviços automotivos completos com mais de 20 anos de experiência.' 
-        : 'Workshop specialized in complete automotive services with over 20 years of experience.',
-      hours: language === 'pt-BR' 
-        ? 'Segunda à Sexta: 8h às 18h | Sábado: 8h às 12h'
-        : 'Monday to Friday: 8am to 6pm | Saturday: 8am to 12pm',
-      services: language === 'pt-BR'
-        ? ['Troca de óleo', 'Revisão completa', 'Freios', 'Suspensão']
-        : ['Oil change', 'Full service', 'Brakes', 'Suspension']
-    },
-    {
-      id: 'oficina-zona-sul',
-      name: 'AutoService Zona Sul',
-      address: 'Av. Paulista, 456 - Zona Sul - São Paulo, SP',
-      phone: '(11) 2345-6789',
-      description: language === 'pt-BR'
-        ? 'Moderna oficina com equipamentos de última geração e atendimento personalizado.'
-        : 'Modern workshop with state-of-the-art equipment and personalized service.',
-      hours: language === 'pt-BR'
-        ? 'Segunda à Sexta: 7h30 às 18h30 | Sábado: 8h às 13h'
-        : 'Monday to Friday: 7:30am to 6:30pm | Saturday: 8am to 1pm',
-      services: language === 'pt-BR'
-        ? ['Alinhamento', 'Balanceamento', 'Ar condicionado', 'Elétrica']
-        : ['Alignment', 'Balancing', 'Air conditioning', 'Electrical']
-    },
-    {
-      id: 'oficina-zona-norte',
-      name: 'AutoService Zona Norte',
-      address: 'Rua dos Automóveis, 789 - Zona Norte - São Paulo, SP',
-      phone: '(11) 1234-5678',
-      description: language === 'pt-BR'
-        ? 'Especializada em veículos nacionais e importados com preços competitivos.'
-        : 'Specialized in national and imported vehicles with competitive prices.',
-      hours: language === 'pt-BR'
-        ? 'Segunda à Sexta: 8h às 17h | Sábado: 8h às 12h'
-        : 'Monday to Friday: 8am to 5pm | Saturday: 8am to 12pm',
-      services: language === 'pt-BR'
-        ? ['Troca de pneus', 'Diagnóstico', 'Mecânica geral', 'Funilaria']
-        : ['Tire replacement', 'Diagnostics', 'General mechanics', 'Body work']
+  const fetchWorkshops = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const workshopsData = await WorkshopService.getAllWorkshops(language);
+      setWorkshops(workshopsData);
+    } catch (error) {
+      console.error('Failed to fetch workshops:', error);
+      // Fall back to default workshops if backend is not available
+      setWorkshops(WorkshopService.getDefaultWorkshops(language));
+    } finally {
+      setIsLoading(false);
     }
-  ];
+  }, [language]);
+
+  useEffect(() => {
+    fetchWorkshops();
+  }, [fetchWorkshops]);
 
   return (
     <div className="app-container">
@@ -98,15 +60,32 @@ export const WorkshopList: React.FC = () => {
       </div>
 
       <div className="workshops-grid">
-        {workshops.map((workshop) => (
-          <div key={workshop.id} className="workshop-card card">
-            <div className="workshop-header">
-              <h2 className="workshop-name">{workshop.name}</h2>
-              <div className="workshop-rating">
-                <span className="stars">★★★★★</span>
-                <span className="rating-text">4.8</span>
+        {isLoading ? (
+          <div className="loading-message">
+            {language === 'pt-BR' ? 'Carregando oficinas...' : 'Loading workshops...'}
+          </div>
+        ) : (
+          workshops.map((workshop) => (
+            <div key={workshop.id} className="workshop-card card">
+              <div className="workshop-header">
+                <h2 className="workshop-name">{workshop.name}</h2>
+                <div className="workshop-meta">
+                  <div className="workshop-registration-language">
+                    {workshop.registrationLanguage === 'pt-BR' ? (
+                      <BrazilFlag size={16} />
+                    ) : (
+                      <USFlag size={16} />
+                    )}
+                    <span className="registration-lang-text">
+                      {workshop.registrationLanguage === 'pt-BR' ? 'PT' : 'EN'}
+                    </span>
+                  </div>
+                  <div className="workshop-rating">
+                    <span className="stars">★★★★★</span>
+                    <span className="rating-text">{workshop.rating}</span>
+                  </div>
+                </div>
               </div>
-            </div>
 
             <div className="workshop-info">
               <div className="info-item">
@@ -149,7 +128,7 @@ export const WorkshopList: React.FC = () => {
               </Link>
             </div>
           </div>
-        ))}
+        )))}
       </div>
     </div>
   );

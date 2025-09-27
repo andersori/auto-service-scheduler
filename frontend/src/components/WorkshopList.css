@@ -1,5 +1,13 @@
 /* WorkshopList-specific styles - using global.css for common elements */
 
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #64748b;
+  grid-column: 1 / -1;
+}
+
 .workshops-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -48,6 +56,28 @@
   color: #1a365d;
   margin: 0;
   flex: 1;
+}
+
+.workshop-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.workshop-registration-language {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #e5e7eb;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+}
+
+.registration-lang-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
 }
 
 .workshop-rating {
