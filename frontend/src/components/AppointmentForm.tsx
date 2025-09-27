@@ -54,12 +54,12 @@ export const AppointmentForm: React.FC = () => {
       const types = await ServiceTypeService.getActiveServiceTypes(workshop);
       setServiceTypes(types);
     } catch (error) {
-      console.error('Error fetching service types:', error);
-      setServiceTypes([]);
+      console.error(t['console.error.fetchServiceTypes'], error);
+      setServiceTypes(ServiceTypeService.getDefaultServiceTypes());
     } finally {
       setIsLoadingServiceTypes(false);
     }
-  }, [workshop]);
+  }, [workshop, t]);
 
   const fetchVehicleCatalog = useCallback(async () => {
     if (!workshop) return;
@@ -68,21 +68,27 @@ export const AppointmentForm: React.FC = () => {
       const catalogResponse = await VehicleCatalogService.getVehicleCatalog(workshop, language);
       setVehicleCatalog(catalogResponse.vehicleCatalog);
     } catch (error) {
-      console.error('Error fetching vehicle catalog:', error);
-      // Fallback to hardcoded catalog if API fails
-      setVehicleCatalog({
-        Toyota: ["Corolla", "Hilux", "Yaris", "Etios", "SW4", "RAV4", "Camry"],
-        Volkswagen: ["Gol", "Polo", "Virtus", "T-Cross", "Nivus", "Saveiro", "Jetta"],
-        Ford: ["Ka", "Fiesta", "Focus", "EcoSport", "Ranger", "Fusion", "Edge"],
-        Chevrolet: ["Onix", "Prisma", "S10", "Tracker", "Spin", "Cruze", "Cobalt"],
-        Honda: ["Civic", "Fit", "HR-V", "City", "WR-V", "CR-V"],
-        Hyundai: ["HB20", "Creta", "Tucson", "Santa Fe", "ix35"],
-        Nissan: ["Kicks", "Versa", "March", "Sentra", "Frontier"]
-      });
+      console.error(t['console.error.fetchVehicleCatalog'], error);
+      setVehicleCatalog(VehicleCatalogService.getDefaultVehicleCatalog().vehicleCatalog);
     } finally {
       setIsLoadingVehicleCatalog(false);
     }
-  }, [workshop, language]);
+  }, [workshop, language, t]);
+
+  const fetchAvailableTimeSlots = async (date: string) => {
+    if (!date || !workshop) return;
+
+    setIsLoading(true);
+    try {
+      const slots: AvailableTimeSlot = await AppointmentService.getAvailableTimeSlots(date, workshop, language);
+      setAvailableSlots(slots.timeSlots);
+    } catch (error) {
+      console.error(t['console.error.fetchTimeSlots'], error);
+      setAvailableSlots(AppointmentService.getDefaultAvailableTimeSlots(date).timeSlots);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchServiceTypes();
@@ -111,21 +117,6 @@ export const AppointmentForm: React.FC = () => {
       vehicleModel: ''
     }));
     setModelOptions(vehicleCatalog[brand] || []);
-  };
-
-  const fetchAvailableTimeSlots = async (date: string) => {
-    if (!date || !workshop) return;
-
-    setIsLoading(true);
-    try {
-      const slots: AvailableTimeSlot = await AppointmentService.getAvailableTimeSlots(date, workshop, language);
-      setAvailableSlots(slots.timeSlots);
-    } catch (error) {
-      console.error('Error fetching time slots:', error);
-      setAvailableSlots([]);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

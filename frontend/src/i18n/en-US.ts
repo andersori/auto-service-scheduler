@@ -55,4 +55,9 @@ export const enUS: Translations = {
   'error.generateReceipt': 'Error generating receipt. Please try again.',
   'error.requiredFields': 'Please fill in all required fields.',
   'error.invalidPhone': 'Invalid phone. Use the format (999) 999-9999.',
+
+  // Console error messages
+  'console.error.fetchServiceTypes': 'Error fetching service types:',
+  'console.error.fetchVehicleCatalog': 'Error fetching vehicle catalog:',
+  'console.error.fetchTimeSlots': 'Error fetching time slots:',
 };

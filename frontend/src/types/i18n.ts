@@ -55,4 +55,8 @@ export interface Translations {
   'error.generateReceipt': string;
   'error.requiredFields': string;
   'error.invalidPhone': string;
+  // Console error messages
+  'console.error.fetchServiceTypes': string;
+  'console.error.fetchVehicleCatalog': string;
+  'console.error.fetchTimeSlots': string;
 }

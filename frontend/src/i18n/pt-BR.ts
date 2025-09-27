@@ -55,4 +55,9 @@ export const ptBR: Translations = {
   'error.generateReceipt': 'Erro ao gerar comprovante. Tente novamente.',
   'error.requiredFields': 'Por favor, preencha todos os campos obrigatórios.',
   'error.invalidPhone': 'Telefone inválido. Use o formato (99) 99999-9999.',
+
+  // Console error messages
+  'console.error.fetchServiceTypes': 'Erro ao buscar tipos de serviço:',
+  'console.error.fetchVehicleCatalog': 'Erro ao buscar catálogo de veículos:',
+  'console.error.fetchTimeSlots': 'Erro ao buscar horários disponíveis:',
 };
