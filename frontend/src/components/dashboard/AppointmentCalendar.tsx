@@ -204,64 +204,63 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
         </div>
       </div>
 
-      {loading && <div className="calendar-loading">{t['calendar.loading']}</div>}
       {error && <div className="calendar-error">{error}</div>}
 
-      {!loading && !error && (
-        <div className="calendar-grid">
-          <div className="calendar-week-header">
-            {weekDays.map((day, index) => (
-              <div key={index} className="calendar-day-header">
-                <div className="day-name">{weekDayNames[index]}</div>
-                <div className="day-date">{day.getDate()}</div>
-                <div className="day-month">{day.toLocaleDateString(language, { month: 'short' })}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="calendar-week-body">
-            {weekDays.map((day, index) => {
-              const dayAppointments = getAppointmentsForDate(day);
-              return (
-                <div key={index} className="calendar-day">
-                  {dayAppointments.length === 0 ? (
-                    <div className="no-appointments">
-                      {t['calendar.noAppointments']}
-                    </div>
-                  ) : (
-                    <div className="appointments-list">
-                      {dayAppointments.map((appointment) => {
-                        const { time } = parseAppointmentDateTime(appointment.appointmentDate);
-                        return (
-                          <div
-                            key={appointment.id}
-                            className="appointment-card"
-                            onClick={() => showAppointmentPreview(appointment)}
-                            role="button"
-                            tabIndex={0}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                showAppointmentPreview(appointment);
-                              }
-                            }}
-                          >
-                            <div className="appointment-time">{time}</div>
-                            <div className="appointment-client">{appointment.clientName}</div>
-                            <div className="appointment-service">
-                              {appointment.serviceTypes[0]}
-                              {appointment.serviceTypes.length > 1 && ` +${appointment.serviceTypes.length - 1}`}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+      <div className="calendar-grid">
+        <div className="calendar-week-header">
+          {weekDays.map((day, index) => (
+            <div key={index} className="calendar-day-header">
+              <div className="day-name">{weekDayNames[index]}</div>
+              <div className="day-date">{day.getDate()}</div>
+              <div className="day-month">{day.toLocaleDateString(language, { month: 'short' })}</div>
+            </div>
+          ))}
         </div>
-      )}
+
+        <div className="calendar-week-body">
+          {weekDays.map((day, index) => {
+            const dayAppointments = getAppointmentsForDate(day);
+            return (
+              <div key={index} className="calendar-day">
+                {loading ? (
+                  <div className="calendar-loading">{t['calendar.loading']}</div>
+                ) : dayAppointments.length === 0 ? (
+                  <div className="no-appointments">
+                    {t['calendar.noAppointments']}
+                  </div>
+                ) : (
+                  <div className="appointments-list">
+                    {dayAppointments.map((appointment) => {
+                      const { time } = parseAppointmentDateTime(appointment.appointmentDate);
+                      return (
+                        <div
+                          key={appointment.id}
+                          className="appointment-card"
+                          onClick={() => showAppointmentPreview(appointment)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              showAppointmentPreview(appointment);
+                            }
+                          }}
+                        >
+                          <div className="appointment-time">{time}</div>
+                          <div className="appointment-client">{appointment.clientName}</div>
+                          <div className="appointment-service">
+                            {appointment.serviceTypes[0]}
+                            {appointment.serviceTypes.length > 1 && ` +${appointment.serviceTypes.length - 1}`}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Appointment Preview Modal */}
       {preview.visible && (
