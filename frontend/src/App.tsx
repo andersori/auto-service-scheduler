@@ -4,6 +4,8 @@ import { WorkshopList } from './components/WorkshopList';
 import { AppointmentForm } from './components/AppointmentForm';
 import { AppointmentSuccess } from './components/AppointmentSuccess';
 import UserRegistrationForm from './components/UserRegistrationForm';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
         <Routes>
           <Route path="/" element={<WorkshopList />} />
           <Route path="/register" element={<UserRegistrationForm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/:workshop" element={<AppointmentForm />} />
           <Route path="/:workshop/success" element={<AppointmentSuccess />} />
         </Routes>

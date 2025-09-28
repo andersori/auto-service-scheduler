@@ -13,6 +13,8 @@ interface FormData {
   name: string;
   email: string;
   phone: string;
+  password: string;
+  confirmPassword: string;
 }
 
 const UserRegistrationForm: React.FC = () => {
@@ -23,7 +25,9 @@ const UserRegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    password: '',
+    confirmPassword: ''
   });
   
   const [isLoading, setIsLoading] = useState(false);
@@ -69,6 +73,18 @@ const UserRegistrationForm: React.FC = () => {
       newErrors.phone = t['error.invalidPhone'];
     }
 
+    if (!formData.password.trim()) {
+      newErrors.password = t['error.requiredFields'];
+    } else if (formData.password.length < 6) {
+      newErrors.password = t['user.error.passwordTooShort'];
+    }
+
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = t['error.requiredFields'];
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = t['user.error.passwordMismatch'];
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -86,7 +102,8 @@ const UserRegistrationForm: React.FC = () => {
       const userRegistration: UserRegistration = {
         name: formData.name.trim(),
         email: formData.email.trim(),
-        phone: formData.phone
+        phone: formData.phone,
+        password: formData.password
       };
 
       await UserService.registerUser(userRegistration, language);
@@ -185,6 +202,36 @@ const UserRegistrationForm: React.FC = () => {
               className={errors.phone ? 'error' : ''}
             />
             {errors.phone && <span className="error-message">{errors.phone}</span>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">{t['user.form.password']}</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder={t['user.placeholder.password']}
+              required
+              className={errors.password ? 'error' : ''}
+            />
+            {errors.password && <span className="error-message">{errors.password}</span>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="confirmPassword">{t['user.form.confirmPassword']}</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+              placeholder={t['user.placeholder.confirmPassword']}
+              required
+              className={errors.confirmPassword ? 'error' : ''}
+            />
+            {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
           </div>
 
           <button 

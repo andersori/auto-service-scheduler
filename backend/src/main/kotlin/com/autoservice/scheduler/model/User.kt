@@ -25,6 +25,10 @@ data class User(
     @Column(name = "phone", nullable = false)
     val phone: String,
 
+    @field:NotBlank
+    @Column(name = "password", nullable = false)
+    val password: String,
+
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
     val userType: UserType,
