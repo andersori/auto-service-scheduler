@@ -21,7 +21,7 @@ const UserRegistrationForm: React.FC = () => {
   const navigate = useNavigate();
   const { language, changeLanguage } = useLanguage();
   const t = getTranslations(language);
-  
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -29,14 +29,14 @@ const UserRegistrationForm: React.FC = () => {
     password: '',
     confirmPassword: ''
   });
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
@@ -47,7 +47,7 @@ const UserRegistrationForm: React.FC = () => {
     const raw = e.target.value;
     const masked = formatPhone(raw, language);
     setFormData(prev => ({ ...prev, phone: masked }));
-    
+
     // Clear phone error when user starts typing
     if (errors.phone) {
       setErrors(prev => ({ ...prev, phone: '' }));
@@ -91,7 +91,7 @@ const UserRegistrationForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -107,13 +107,11 @@ const UserRegistrationForm: React.FC = () => {
       };
 
       await UserService.registerUser(userRegistration, language);
-      
       // Show success message and redirect
       alert(t['user.message.success']);
       navigate('/');
     } catch (error: any) {
-      console.error('Registration error:', error);
-      
+      console.error(t['console.error.registration'], error);
       if (error.message === 'EMAIL_EXISTS') {
         setErrors({ email: t['user.message.emailExists'] });
       } else {
@@ -234,9 +232,9 @@ const UserRegistrationForm: React.FC = () => {
             {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
           </div>
 
-          <button 
-            type="submit" 
-            className="submit-btn" 
+          <button
+            type="submit"
+            className="submit-btn"
             disabled={isLoading}
           >
             {isLoading ? t['user.form.processing'] : t['user.form.submit']}

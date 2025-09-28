@@ -63,6 +63,8 @@ export interface Translations {
   'console.error.fetchTimeSlots': string;
   'console.error.fetchWorkshops': string;
   'console.error.parseUser': string;
+  'console.error.registration': string;
+  'console.error.workshopRegistration': string;
 
   // User registration and login
   'user.registration.title': string;
