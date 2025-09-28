@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
                   <p>{t['dashboard.appointments.description']}</p>
                   <button
                     className="action-btn secondary"
-                    onClick={() => navigate('/')}
+                    onClick={() => navigate('/appointments')}
                   >
                     {t['dashboard.appointments.view']}
                   </button>
