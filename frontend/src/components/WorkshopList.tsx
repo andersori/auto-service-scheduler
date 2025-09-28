@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import './WorkshopList.css';
-import { BrazilFlag, USFlag } from './header/Flag';
+import { BrazilFlag, USFlag } from './icon/Flag';
 import { WorkshopService, Workshop } from '../services/workshopService';
 import MainTitle from './header/MainTitle';
 import Header from './header/Header';

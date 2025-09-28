@@ -1,6 +1,10 @@
 import { Translations } from '../types/i18n';
 
 export const ptBR: Translations = {
+  'error.generateReceipt': 'Falha ao gerar comprovante. Tente novamente.',
+  'error.receiptContainerNotFound': 'Container do comprovante não encontrado.',
+  'error.close': 'Fechar aviso de erro',
+
   // Header
   'header.title': 'Agendamento Automotivo',
 
@@ -62,7 +66,7 @@ export const ptBR: Translations = {
   'workshop.list.registeredSubtitle': 'Veja as oficinas já disponíveis para receber agendamentos online.',
 
   // Errors
-  'error.generateReceipt': 'Erro ao gerar comprovante. Tente novamente.',
+  // (removed duplicate)
   'error.loadWorkshops': 'Erro ao carregar oficinas.',
 
   // Messages

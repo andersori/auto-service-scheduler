@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 import { Language } from '../types/i18n';
 import { getTranslations, detectLanguage } from '../i18n';
 import './AppointmentSuccess.css';
-import { BrazilFlag, USFlag } from './header/Flag';
+import { BrazilFlag, USFlag } from './icon/Flag';
 
 interface LocationState {
   language: Language;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Language } from '../../types/i18n';
-import { BrazilFlag, USFlag } from './Flag';
+import { BrazilFlag, USFlag } from '../icon/Flag';
 import './LanguageSelector.css';
 
 interface LanguageSelectorProps {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AppointmentResponse } from '../types/appointment';
-import { AppointmentService } from '../services/appointmentService';
-import { getTranslations } from '../i18n';
-import { Language } from '../types/i18n';
+import { AppointmentResponse } from '../../types/appointment';
+import { AppointmentService } from '../../services/appointmentService';
+import { getTranslations } from '../../i18n';
+import { Language } from '../../types/i18n';
 import './AppointmentCalendar.css';
 
 interface AppointmentCalendarProps {

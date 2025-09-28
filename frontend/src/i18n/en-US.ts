@@ -1,6 +1,10 @@
 import { Translations } from '../types/i18n';
 
 export const enUS: Translations = {
+  'error.generateReceipt': 'Failed to generate receipt. Please try again.',
+  'error.receiptContainerNotFound': 'Receipt container not found.',
+  'error.close': 'Close error message',
+
   // Header
   'header.title': 'Auto Service Scheduler',
 
@@ -62,7 +66,7 @@ export const enUS: Translations = {
   'workshop.list.registeredSubtitle': 'See workshops already available to receive online bookings.',
 
   // Errors
-  'error.generateReceipt': 'Error generating receipt. Please try again.',
+  // (removed duplicate)
   'error.loadWorkshops': 'Error loading workshops.',
 
   // Messages

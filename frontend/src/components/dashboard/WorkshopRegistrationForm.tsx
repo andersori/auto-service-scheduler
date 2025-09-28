@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { getTranslations } from '../i18n';
-import { useLanguage } from '../hooks/useLanguage';
-import { formatPhone, isValidPhone } from '../utils/validation';
+import { getTranslations } from '../../i18n';
+import { useLanguage } from '../../hooks/useLanguage';
+import { formatPhone, isValidPhone } from '../../utils/validation';
 import './WorkshopRegistrationForm.css';
-import { Language } from '../types/i18n';
+import { Language } from '../../types/i18n';
 
 interface TimeRange {
   start: string;
@@ -262,7 +262,6 @@ const WorkshopRegistrationForm: React.FC<WorkshopRegistrationFormProps> = ({ lan
         registrationLanguage: language
       };
 
-      console.log('Workshop registration data:', workshopData);
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       alert(t['workshop.form.success']);

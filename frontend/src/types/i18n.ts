@@ -1,6 +1,8 @@
 export type Language = 'pt-BR' | 'en-US';
 
 export interface Translations {
+  'error.close': string;
+
   // Header
   'header.title': string;
 
@@ -63,6 +65,7 @@ export interface Translations {
 
   // Error messages
   'error.generateReceipt': string;
+  'error.receiptContainerNotFound': string;
   'error.requiredFields': string;
   'error.invalidPhone': string;
   'error.loadWorkshops': string;
