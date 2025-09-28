@@ -72,9 +72,7 @@ const Login: React.FC = () => {
 
       // Store user info in localStorage
       localStorage.setItem('user', JSON.stringify(loginResponse.user));
-
-      // Show success message and redirect to dashboard
-      alert(loginResponse.message);
+      
       navigate('/dashboard');
     } catch (error: any) {
       console.error('Login error:', error);
