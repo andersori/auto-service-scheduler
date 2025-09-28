@@ -4,18 +4,25 @@ import com.autoservice.scheduler.dto.UserRegistrationDto
 import com.autoservice.scheduler.dto.UserResponseDto
 import com.autoservice.scheduler.model.User
 import com.autoservice.scheduler.repository.UserRepository
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Service
 class UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val messageSource: MessageSource
 ) {
 
     fun registerUser(userRegistrationDto: UserRegistrationDto): UserResponseDto {
+        val locale = LocaleContextHolder.getLocale()
+        
         // Check if email already exists
         if (userRepository.existsByEmail(userRegistrationDto.email)) {
-            throw IllegalArgumentException("Email já está em uso")
+            val errorMessage = messageSource.getMessage("user.email.exists", null, locale)
+            throw IllegalArgumentException(errorMessage)
         }
 
         val user = User(
@@ -50,7 +57,8 @@ class UserService(
             email = user.email,
             phone = user.phone,
             userType = user.userType,
-            createdAt = user.createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            createdAt = user.createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+            updatedAt = user.updatedAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         )
     }
 }

@@ -5,14 +5,14 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 
 data class UserRegistrationDto(
-    @field:NotBlank(message = "Nome é obrigatório")
+    @field:NotBlank(message = "user.name.notBlank")
     val name: String,
 
-    @field:Email(message = "Email inválido")
-    @field:NotBlank(message = "Email é obrigatório")
+    @field:Email(message = "user.email.invalid")
+    @field:NotBlank(message = "user.email.notBlank")
     val email: String,
 
-    @field:NotBlank(message = "Telefone é obrigatório")
+    @field:NotBlank(message = "user.phone.notBlank")
     val phone: String,
 
     val userType: UserType = UserType.WORKSHOP // Default type for new registrations
@@ -24,5 +24,6 @@ data class UserResponseDto(
     val email: String,
     val phone: String,
     val userType: UserType,
-    val createdAt: String
+    val createdAt: String,
+    val updatedAt: String
 )

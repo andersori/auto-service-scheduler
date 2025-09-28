@@ -76,4 +76,7 @@ export const enUS: Translations = {
   'user.placeholder.name': 'Enter your full name',
   'user.placeholder.email': 'Enter your email',
   'user.placeholder.phone': '(555) 123-4567',
+
+  // Loading messages
+  'loading.workshops': 'Loading workshops...',
 };

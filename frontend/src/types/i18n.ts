@@ -75,4 +75,7 @@ export interface Translations {
   'user.placeholder.name': string;
   'user.placeholder.email': string;
   'user.placeholder.phone': string;
+
+  // Loading messages
+  'loading.workshops': string;
 }

@@ -4,6 +4,8 @@ import com.autoservice.scheduler.dto.UserRegistrationDto
 import com.autoservice.scheduler.dto.UserResponseDto
 import com.autoservice.scheduler.service.UserService
 import jakarta.validation.Valid
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,7 +14,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/users")
 @CrossOrigin(origins = ["http://localhost:3000"])
 class UserController(
-    private val userService: UserService
+    private val userService: UserService,
+    private val messageSource: MessageSource
 ) {
 
     @PostMapping("/register")
@@ -23,8 +26,10 @@ class UserController(
         } catch (e: IllegalArgumentException) {
             ResponseEntity.badRequest().body(mapOf("error" to e.message))
         } catch (e: Exception) {
+            val locale = LocaleContextHolder.getLocale()
+            val errorMessage = messageSource.getMessage("error.internal", null, locale)
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(mapOf("error" to "Erro interno do servidor"))
+                .body(mapOf("error" to errorMessage))
         }
     }
 

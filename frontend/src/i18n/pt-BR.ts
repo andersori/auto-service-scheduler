@@ -76,4 +76,7 @@ export const ptBR: Translations = {
   'user.placeholder.name': 'Digite seu nome completo',
   'user.placeholder.email': 'Digite seu email',
   'user.placeholder.phone': '(11) 99999-9999',
+
+  // Loading messages
+  'loading.workshops': 'Carregando oficinas...',
 };

@@ -67,7 +67,7 @@ export const WorkshopList: React.FC = () => {
       <div className="workshops-grid">
         {isLoading ? (
           <div className="loading-message">
-            {language === 'pt-BR' ? 'Carregando oficinas...' : 'Loading workshops...'}
+            {t['loading.workshops']}
           </div>
         ) : (
           workshops.map((workshop) => (
