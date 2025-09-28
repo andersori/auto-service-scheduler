@@ -57,22 +57,21 @@ const Dashboard: React.FC = () => {
         ]}
       />
 
-      <div className="dashboard-container" style={{ position: 'relative' }}>
-        {(showWorkshopForm || showBranchManagement || showAppointments) && (
-          <button
-            className="icon-back-btn"
-            onClick={() => {
-              setShowWorkshopForm(false);
-              setShowBranchManagement(false);
-              setShowAppointments(false);
-            }}
-            aria-label={t['dashboard.back']}
-          >
-            <BackIcon />
-          </button>
-        )}
+      <div className="dashboard-container">
         <div className="dashboard-content">
-
+          {(showWorkshopForm || showBranchManagement || showAppointments) && (
+            <button
+              className="icon-back-btn"
+              onClick={() => {
+                setShowWorkshopForm(false);
+                setShowBranchManagement(false);
+                setShowAppointments(false);
+              }}
+              aria-label={t['dashboard.back']}
+            >
+              <BackIcon />
+            </button>
+          )}
           <div className="welcome-section">
             <h1>{t['dashboard.welcome']} {user.name}!</h1>
             <p className="user-info">{user.email} • {user.userType}</p>

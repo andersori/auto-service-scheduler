@@ -13,7 +13,6 @@
   cursor: pointer;
   transition: background 0.2s;
   box-shadow: none;
-  position: absolute;
   left: 24px;
   top: 24px;
   z-index: 2;

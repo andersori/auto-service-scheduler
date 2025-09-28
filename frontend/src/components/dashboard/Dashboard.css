@@ -1,5 +1,6 @@
 .dashboard-container {
   min-height: 100vh;
+  position: relative;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
 }
@@ -78,6 +79,12 @@
   padding: 30px;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-card p {
+  min-height: 48px; /* ajuste conforme necessário */
+  display: flex;
+  align-items: flex-start;
 }
 
 .action-card:hover {
