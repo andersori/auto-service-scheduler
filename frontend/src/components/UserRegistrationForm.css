@@ -7,46 +7,6 @@
   padding: 2rem;
 }
 
-.language-selector {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  display: flex;
-  gap: 0.5rem;
-  z-index: 10;
-}
-
-.lang-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.lang-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(102, 126, 234, 0.5);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.lang-btn.active {
-  background: rgba(102, 126, 234, 0.9);
-  border-color: rgba(102, 126, 234, 1);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
 .user-registration-form {
   background: white;
   border-radius: 20px;
@@ -150,11 +110,6 @@
 @media (max-width: 768px) {
   .user-registration-container {
     padding: 1rem;
-  }
-
-  .language-selector {
-    top: 1rem;
-    right: 1rem;
   }
 
   .user-registration-form {

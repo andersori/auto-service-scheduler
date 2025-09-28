@@ -5,9 +5,9 @@ import { UserRegistration } from '../types/user';
 import { Language } from '../types/i18n';
 import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
-import { BrazilFlag, USFlag } from './Flag';
 import { formatPhone, isValidPhone, isValidEmail } from '../utils/validation';
 import './UserRegistrationForm.css';
+import SimpleHeader from './header/SimpleHeader';
 
 interface FormData {
   name: string;
@@ -123,7 +123,6 @@ const UserRegistrationForm: React.FC = () => {
   };
 
   const handleLanguageChange = (newLanguage: Language) => {
-    changeLanguage(newLanguage);
     // Reformat phone when language changes
     setFormData(prev => ({
       ...prev,
@@ -132,114 +131,105 @@ const UserRegistrationForm: React.FC = () => {
   };
 
   return (
-    <div className="user-registration-container">
-      <div className="language-selector">
-        <button
-          className={`lang-btn ${language === 'pt-BR' ? 'active' : ''}`}
-          onClick={() => handleLanguageChange('pt-BR')}
-          title="Português (Brasil)"
-        >
-          <BrazilFlag size={18} />&nbsp;BR
-        </button>
-        <button
-          className={`lang-btn ${language === 'en-US' ? 'active' : ''}`}
-          onClick={() => handleLanguageChange('en-US')}
-          title="English (United States)"
-        >
-          <USFlag size={18} />&nbsp;US
-        </button>
-      </div>
+    <div className="app">
+      <SimpleHeader
+        language={language}
+        changeLanguage={changeLanguage}
+        handleLanguageChange={handleLanguageChange}
+      />
+      <div className="user-registration-container">
 
-      <div className="user-registration-form">
-        <div className="form-header">
-          <h1>{t['user.registration.title']}</h1>
-          <p>{t['user.registration.subtitle']}</p>
+        <div className="user-registration-form">
+          <div className="form-header">
+            <h1>{t['user.registration.title']}</h1>
+            <p>{t['user.registration.subtitle']}</p>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="name">{t['user.form.name']}</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder={t['user.placeholder.name']}
+                required
+                className={errors.name ? 'error' : ''}
+              />
+              {errors.name && <span className="error-message">{errors.name}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">{t['user.form.email']}</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder={t['user.placeholder.email']}
+                required
+                className={errors.email ? 'error' : ''}
+              />
+              {errors.email && <span className="error-message">{errors.email}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phone">{t['user.form.phone']}</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handlePhoneChange}
+                placeholder={t['user.placeholder.phone']}
+                required
+                className={errors.phone ? 'error' : ''}
+              />
+              {errors.phone && <span className="error-message">{errors.phone}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">{t['user.form.password']}</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder={t['user.placeholder.password']}
+                required
+                className={errors.password ? 'error' : ''}
+              />
+              {errors.password && <span className="error-message">{errors.password}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirmPassword">{t['user.form.confirmPassword']}</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                placeholder={t['user.placeholder.confirmPassword']}
+                required
+                className={errors.confirmPassword ? 'error' : ''}
+              />
+              {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+            </div>
+
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? t['user.form.processing'] : t['user.form.submit']}
+            </button>
+          </form>
         </div>
-
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">{t['user.form.name']}</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder={t['user.placeholder.name']}
-              required
-              className={errors.name ? 'error' : ''}
-            />
-            {errors.name && <span className="error-message">{errors.name}</span>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="email">{t['user.form.email']}</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder={t['user.placeholder.email']}
-              required
-              className={errors.email ? 'error' : ''}
-            />
-            {errors.email && <span className="error-message">{errors.email}</span>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="phone">{t['user.form.phone']}</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handlePhoneChange}
-              placeholder={t['user.placeholder.phone']}
-              required
-              className={errors.phone ? 'error' : ''}
-            />
-            {errors.phone && <span className="error-message">{errors.phone}</span>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">{t['user.form.password']}</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              placeholder={t['user.placeholder.password']}
-              required
-              className={errors.password ? 'error' : ''}
-            />
-            {errors.password && <span className="error-message">{errors.password}</span>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="confirmPassword">{t['user.form.confirmPassword']}</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
-              placeholder={t['user.placeholder.confirmPassword']}
-              required
-              className={errors.confirmPassword ? 'error' : ''}
-            />
-            {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
-          </div>
-
-          <button
-            type="submit"
-            className="submit-btn"
-            disabled={isLoading}
-          >
-            {isLoading ? t['user.form.processing'] : t['user.form.submit']}
-          </button>
-        </form>
       </div>
     </div>
   );

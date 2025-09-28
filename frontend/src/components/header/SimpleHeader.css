@@ -1,0 +1,72 @@
+.header-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+.header-btn, .header-btn:visited {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #495057;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.header-btn:hover {
+  background: #e9ecef;
+  border-color: #ced4da;
+  color: #007bff;
+}
+.simple-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Make every direct child fill the header height and be vertically centered */
+.simple-header > * {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.simple-header-container {
+  width: 100%;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+
+/* Force SVGs and other inline elements to center properly */
+.simple-header svg,
+.simple-header img {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .simple-header {
+    height: 50px;
+  }
+  
+  .simple-header-container {
+    padding: 0 0.75rem;
+  }
+}

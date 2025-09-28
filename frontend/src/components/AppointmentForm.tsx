@@ -11,7 +11,7 @@ import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import { formatPhone, isValidPhone } from '../utils/validation';
 import './AppointmentForm.css';
-import { BrazilFlag, USFlag } from './Flag';
+import SimpleHeader from './header/SimpleHeader';
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => CURRENT_YEAR - i);
@@ -45,7 +45,6 @@ export const AppointmentForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLanguageChange = (newLanguage: Language) => {
-    changeLanguage(newLanguage);
     // Validar e ajustar telefone ao trocar idioma
     setFormData(prev => {
       const valid = isValidPhone(prev.clientPhone, newLanguage);
@@ -209,179 +208,169 @@ export const AppointmentForm: React.FC = () => {
   };
 
   return (
-    <div className="app-container">
-      <div className="language-selector">
-        <button
-          className={`lang-btn ${language === 'pt-BR' ? 'active' : ''}`}
-          onClick={() => handleLanguageChange('pt-BR')}
-          title="Português (Brasil)"
-        >
-          <BrazilFlag size={18} />&nbsp;BR
-        </button>
-        <button
-          className={`lang-btn ${language === 'en-US' ? 'active' : ''}`}
-          onClick={() => handleLanguageChange('en-US')}
-          title="English (United States)"
-        >
-          <USFlag size={18} />&nbsp;US
-        </button>
-      </div>
+    <div className="app">
+      <SimpleHeader
+        language={language}
+        changeLanguage={changeLanguage}
+      />
 
-      <div className="page-header">
-        <h1>{t['form.title']}</h1>
-      </div>
+      <div className="app-container">
+        <div className="page-header">
+          <h1>{t['form.title']}</h1>
+        </div>
 
-      <div className="form-container">
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-section">
-            <h3>{t['form.clientInfo']}</h3>
-            <div className="form-group">
-              <label htmlFor="clientName">{t['form.clientName']}</label>
-              <input
-                type="text"
-                id="clientName"
-                name="clientName"
-                value={formData.clientName}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="clientPhone">{t['form.clientPhone']}</label>
-              <input
-                type="tel"
-                id="clientPhone"
-                name="clientPhone"
-                value={formData.clientPhone}
-                onChange={handlePhoneChange}
-                placeholder={t['placeholder.phone']}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="form-section">
-            <h3>{t['form.vehicleInfo']}</h3>
-            <div className="form-group">
-              <label htmlFor="react-select-vehicleBrand-input">{t['form.vehicleBrand']}</label>
-              <Select
-                inputId="react-select-vehicleBrand-input"
-                name="vehicleBrand"
-                options={Object.keys(vehicleCatalog).map(brand => ({ value: brand, label: brand }))}
-                value={formData.vehicleBrand ? { value: formData.vehicleBrand, label: formData.vehicleBrand } : null}
-                onChange={handleBrandChange}
-                placeholder={isLoadingVehicleCatalog ? t['message.loading'] : t['form.vehicleBrand']}
-                isClearable
-                isSearchable
-                isLoading={isLoadingVehicleCatalog}
-                classNamePrefix="react-select"
-              />
-            </div>
-
-            <div className="form-row">
+        <div className="form-container">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="form-section">
+              <h3>{t['form.clientInfo']}</h3>
               <div className="form-group">
-                <label htmlFor="react-select-vehicleModel-input">{t['form.vehicleModel']}</label>
-                <Select
-                  inputId="react-select-vehicleModel-input"
-                  name="vehicleModel"
-                  options={modelOptions.map(model => ({ value: model, label: model }))}
-                  value={formData.vehicleModel ? { value: formData.vehicleModel, label: formData.vehicleModel } : null}
-                  onChange={(selected) => {
-                    const model = selected ? selected.value : '';
-                    setFormData(prev => ({ ...prev, vehicleModel: model }));
-                  }}
-                  placeholder={t['form.vehicleModel']}
-                  isClearable
-                  isSearchable
-                  isDisabled={!formData.vehicleBrand}
-                  classNamePrefix="react-select"
+                <label htmlFor="clientName">{t['form.clientName']}</label>
+                <input
+                  type="text"
+                  id="clientName"
+                  name="clientName"
+                  value={formData.clientName}
+                  onChange={handleInputChange}
+                  required
                 />
               </div>
+
               <div className="form-group">
-                <label htmlFor="react-select-vehicleYear-input">{t['form.vehicleYear']}</label>
-                <Select
-                  inputId="react-select-vehicleYear-input"
-                  name="vehicleYear"
-                  options={YEARS.map(year => ({ value: year.toString(), label: year.toString() }))}
-                  value={formData.vehicleYear ? { value: formData.vehicleYear, label: formData.vehicleYear } : null}
-                  onChange={(selected) => {
-                    const year = selected ? selected.value : '';
-                    setFormData(prev => ({ ...prev, vehicleYear: year }));
-                  }}
-                  placeholder={t['message.selectYear']}
-                  isClearable
-                  isSearchable
-                  classNamePrefix="react-select"
+                <label htmlFor="clientPhone">{t['form.clientPhone']}</label>
+                <input
+                  type="tel"
+                  id="clientPhone"
+                  name="clientPhone"
+                  value={formData.clientPhone}
+                  onChange={handlePhoneChange}
+                  placeholder={t['placeholder.phone']}
+                  required
                 />
               </div>
             </div>
-          </div>
 
-          <div className="form-section">
-            <h3>{t['form.serviceScheduling']}</h3>
-            <div className="form-group">
-              <label htmlFor="react-select-serviceType-input">{t['form.serviceType']}</label>
-              <Select
-                inputId="react-select-serviceType-input"
-                name="serviceType"
-                options={serviceTypes.map(service => ({ value: service.name, label: service.name }))}
-                value={formData.serviceTypes.map(type => ({ value: type, label: type }))}
-                onChange={(selected) => {
-                  const types = selected ? (selected as any[]).map((item: any) => item.value) : [];
-                  setFormData(prev => ({ ...prev, serviceTypes: types }));
-                }}
-                placeholder={isLoadingServiceTypes ? t['message.loading'] : t['message.selectService']}
-                isClearable
-                isSearchable
-                isMulti
-                isDisabled={isLoadingServiceTypes}
-                classNamePrefix="react-select"
-              />
+            <div className="form-section">
+              <h3>{t['form.vehicleInfo']}</h3>
+              <div className="form-group">
+                <label htmlFor="react-select-vehicleBrand-input">{t['form.vehicleBrand']}</label>
+                <Select
+                  inputId="react-select-vehicleBrand-input"
+                  name="vehicleBrand"
+                  options={Object.keys(vehicleCatalog).map(brand => ({ value: brand, label: brand }))}
+                  value={formData.vehicleBrand ? { value: formData.vehicleBrand, label: formData.vehicleBrand } : null}
+                  onChange={handleBrandChange}
+                  placeholder={isLoadingVehicleCatalog ? t['message.loading'] : t['form.vehicleBrand']}
+                  isClearable
+                  isSearchable
+                  isLoading={isLoadingVehicleCatalog}
+                  classNamePrefix="react-select"
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="react-select-vehicleModel-input">{t['form.vehicleModel']}</label>
+                  <Select
+                    inputId="react-select-vehicleModel-input"
+                    name="vehicleModel"
+                    options={modelOptions.map(model => ({ value: model, label: model }))}
+                    value={formData.vehicleModel ? { value: formData.vehicleModel, label: formData.vehicleModel } : null}
+                    onChange={(selected) => {
+                      const model = selected ? selected.value : '';
+                      setFormData(prev => ({ ...prev, vehicleModel: model }));
+                    }}
+                    placeholder={t['form.vehicleModel']}
+                    isClearable
+                    isSearchable
+                    isDisabled={!formData.vehicleBrand}
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="react-select-vehicleYear-input">{t['form.vehicleYear']}</label>
+                  <Select
+                    inputId="react-select-vehicleYear-input"
+                    name="vehicleYear"
+                    options={YEARS.map(year => ({ value: year.toString(), label: year.toString() }))}
+                    value={formData.vehicleYear ? { value: formData.vehicleYear, label: formData.vehicleYear } : null}
+                    onChange={(selected) => {
+                      const year = selected ? selected.value : '';
+                      setFormData(prev => ({ ...prev, vehicleYear: year }));
+                    }}
+                    placeholder={t['message.selectYear']}
+                    isClearable
+                    isSearchable
+                    classNamePrefix="react-select"
+                  />
+                </div>
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="appointmentDate">{t['form.appointmentDate']}</label>
-              <input
-                type="date"
-                id="appointmentDate"
-                name="appointmentDate"
-                value={formData.appointmentDate}
-                onChange={handleInputChange}
-                min={getTomorrowDate()}
-                required
-              />
+            <div className="form-section">
+              <h3>{t['form.serviceScheduling']}</h3>
+              <div className="form-group">
+                <label htmlFor="react-select-serviceType-input">{t['form.serviceType']}</label>
+                <Select
+                  inputId="react-select-serviceType-input"
+                  name="serviceType"
+                  options={serviceTypes.map(service => ({ value: service.name, label: service.name }))}
+                  value={formData.serviceTypes.map(type => ({ value: type, label: type }))}
+                  onChange={(selected) => {
+                    const types = selected ? (selected as any[]).map((item: any) => item.value) : [];
+                    setFormData(prev => ({ ...prev, serviceTypes: types }));
+                  }}
+                  placeholder={isLoadingServiceTypes ? t['message.loading'] : t['message.selectService']}
+                  isClearable
+                  isSearchable
+                  isMulti
+                  isDisabled={isLoadingServiceTypes}
+                  classNamePrefix="react-select"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="appointmentDate">{t['form.appointmentDate']}</label>
+                <input
+                  type="date"
+                  id="appointmentDate"
+                  name="appointmentDate"
+                  value={formData.appointmentDate}
+                  onChange={handleInputChange}
+                  min={getTomorrowDate()}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="react-select-appointmentTime-input">{t['form.appointmentTime']}</label>
+                <Select
+                  inputId="react-select-appointmentTime-input"
+                  name="appointmentTime"
+                  className="select-appointment-time"
+                  options={availableSlots.map(time => ({ value: time, label: time }))}
+                  value={formData.appointmentTime ? { value: formData.appointmentTime, label: formData.appointmentTime } : null}
+                  onChange={(selected) => {
+                    const time = selected ? selected.value : '';
+                    setFormData(prev => ({ ...prev, appointmentTime: time }));
+                  }}
+                  placeholder={isLoading ? t['message.loading'] : t['message.selectTime']}
+                  isClearable
+                  isSearchable
+                  isDisabled={!formData.appointmentDate || isLoading}
+                  classNamePrefix="react-select"
+                />
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="react-select-appointmentTime-input">{t['form.appointmentTime']}</label>
-              <Select
-                inputId="react-select-appointmentTime-input"
-                name="appointmentTime"
-                className="select-appointment-time"
-                options={availableSlots.map(time => ({ value: time, label: time }))}
-                value={formData.appointmentTime ? { value: formData.appointmentTime, label: formData.appointmentTime } : null}
-                onChange={(selected) => {
-                  const time = selected ? selected.value : '';
-                  setFormData(prev => ({ ...prev, appointmentTime: time }));
-                }}
-                placeholder={isLoading ? t['message.loading'] : t['message.selectTime']}
-                isClearable
-                isSearchable
-                isDisabled={!formData.appointmentDate || isLoading}
-                classNamePrefix="react-select"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="submit-button"
-            disabled={isLoading}
-          >
-            {isLoading ? t['form.processing'] : t['form.submit']}
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="submit-button"
+              disabled={isLoading}
+            >
+              {isLoading ? t['form.processing'] : t['form.submit']}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

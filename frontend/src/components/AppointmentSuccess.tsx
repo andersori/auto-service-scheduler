@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 import { Language } from '../types/i18n';
 import { getTranslations, detectLanguage } from '../i18n';
 import './AppointmentSuccess.css';
-import { BrazilFlag, USFlag } from './Flag';
+import { BrazilFlag, USFlag } from './header/Flag';
 
 interface LocationState {
   language: Language;
@@ -67,74 +67,73 @@ export const AppointmentSuccess: React.FC = () => {
   };
 
   return (
-    <div className="app-container">
-      <div className="language-info">
-        {language === 'pt-BR' ? (
-          <><BrazilFlag size={18} />&nbsp;BR</>
-        ) : (
-          <><USFlag size={18} />&nbsp;US</>
-        )}
-      </div>
-
-      <div className="content-container">
-        <div
-          className="appointment-success-container"
-          ref={receiptRef}
-        >
-          <div className="success-icon">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" stroke="#4CAF50" strokeWidth="2" />
-              <path d="m9 12 2 2 4-4" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-
-          <div className="page-header">
-            <h1>{t['message.success']}</h1>
-          </div>
-
-          {appointmentData && (
-            <div className="appointment-details">
-              <h3>{t['success.appointmentDetails']}</h3>
-              <div className="detail-row">
-                <span className="detail-label">{t['form.clientName']}:</span>
-                <span className="detail-value">{appointmentData.clientName}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">{t['form.clientPhone']}:</span>
-                <span className="detail-value">{appointmentData.clientPhone}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">{t['form.serviceType']}:</span>
-                <span className="detail-value">{appointmentData.serviceTypes.join(', ')}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">{t['form.appointmentDate']}:</span>
-                <span className="detail-value">{formatDate(appointmentData.appointmentDate)}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">{t['form.appointmentTime']}:</span>
-                <span className="detail-value">{appointmentData.appointmentTime}</span>
-              </div>
-            </div>
+    <div className="app">
+      <div className="app-container">
+        <div className="language-info">
+          {language === 'pt-BR' ? (
+            <><BrazilFlag size={18} />&nbsp;BR</>
+          ) : (
+            <><USFlag size={18} />&nbsp;US</>
           )}
+        </div>
 
-          <p className="success-message">
-            {t['success.message']}
-          </p>
+        <div className="content-container">
+          <div className="appointment-success-container" ref={receiptRef}>
+            <div className="success-icon">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="#4CAF50" strokeWidth="2" />
+                <path d="m9 12 2 2 4-4" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
 
-          <div className="action-buttons no-print">
+            <div className="page-header">
+              <h1>{t['message.success']}</h1>
+            </div>
+
             {appointmentData && (
-              <button onClick={generateReceipt} className="btn btn-primary">
-                📄 {t['success.generateReceipt']}
-              </button>
+              <div className="appointment-details">
+                <h3>{t['success.appointmentDetails']}</h3>
+                <div className="detail-row">
+                  <span className="detail-label">{t['form.clientName']}:</span>
+                  <span className="detail-value">{appointmentData.clientName}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">{t['form.clientPhone']}:</span>
+                  <span className="detail-value">{appointmentData.clientPhone}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">{t['form.serviceType']}:</span>
+                  <span className="detail-value">{appointmentData.serviceTypes.join(', ')}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">{t['form.appointmentDate']}:</span>
+                  <span className="detail-value">{formatDate(appointmentData.appointmentDate)}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">{t['form.appointmentTime']}:</span>
+                  <span className="detail-value">{appointmentData.appointmentTime}</span>
+                </div>
+              </div>
             )}
-            <Link to="/" className="btn btn-secondary">
-              {t['success.backToForm']}
-            </Link>
-          </div>
 
-          <div className="generated-message">
-            {`${t['success.generateReceiptDateMessage']}: ${new Date().toLocaleString(language)}`}
+            <p className="success-message">
+              {t['success.message']}
+            </p>
+
+            <div className="action-buttons no-print">
+              {appointmentData && (
+                <button onClick={generateReceipt} className="btn btn-primary">
+                  📄 {t['success.generateReceipt']}
+                </button>
+              )}
+              <Link to="/" className="btn btn-secondary">
+                {t['success.backToForm']}
+              </Link>
+            </div>
+
+            <div className="generated-message">
+              {`${t['success.generateReceiptDateMessage']}: ${new Date().toLocaleString(language)}`}
+            </div>
           </div>
         </div>
       </div>
