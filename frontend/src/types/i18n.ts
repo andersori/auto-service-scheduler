@@ -166,6 +166,8 @@ export interface Translations {
   'branch.form.success': string;
   'branch.form.error': string;
   'branch.form.placeholder.address': string;
+  'branch.form.placeholder.customService': string;
+  'branch.form.addCustomService': string;
 
   // Branch management
   'branch.management.title': string;

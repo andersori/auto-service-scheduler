@@ -44,6 +44,7 @@ export const ptBR: Translations = {
   'service.airConditioning': 'Ar condicionado',
   'service.others': 'Outros',
   
+
   // Placeholders
   'placeholder.phone': '(11) 99999-9999',
   
@@ -166,6 +167,8 @@ export const ptBR: Translations = {
   'branch.form.success': 'Filial cadastrada com sucesso!',
   'branch.form.error': 'Erro ao cadastrar filial. Tente novamente.',
   'branch.form.placeholder.address': 'Ex: Rua das Flores, 123 - Centro - São Paulo, SP',
+  'branch.form.placeholder.customService': 'Adicione seu próprio serviço',
+  'branch.form.addCustomService': '+',
 
   // Branch management
   'branch.management.title': 'Gerenciar Filiais',

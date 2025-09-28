@@ -308,7 +308,7 @@
   color: white;
   border: none;
   border-radius: 6px;
-  width: 28px;
+  width: 58px;
   height: 28px;
   display: flex;
   align-items: center;
@@ -321,6 +321,12 @@
 
 .remove-time-btn:hover {
   background: #c82333;
+}
+
+.custom-service-input{
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .add-time-btn {

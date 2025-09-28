@@ -44,6 +44,7 @@ export const enUS: Translations = {
   'service.airConditioning': 'Air conditioning',
   'service.others': 'Others',
 
+
   // Placeholders
   'placeholder.phone': '(555) 123-4567',
 
@@ -166,6 +167,8 @@ export const enUS: Translations = {
   'branch.form.success': 'Branch registered successfully!',
   'branch.form.error': 'Error registering branch. Please try again.',
   'branch.form.placeholder.address': 'e.g., 123 Main Street, Downtown - New York, NY',
+  'branch.form.placeholder.customService': 'Add your own service',
+  'branch.form.addCustomService': '+',
 
   // Branch management
   'branch.management.title': 'Manage Branches',
