@@ -180,38 +180,6 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Language selector - same as other components */
-.language-selector {
-  display: flex;
-  gap: 10px;
-}
-
-.language-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.language-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.language-btn.active {
-  background: white;
-  color: #667eea;
-  border-color: white;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .dashboard-container {

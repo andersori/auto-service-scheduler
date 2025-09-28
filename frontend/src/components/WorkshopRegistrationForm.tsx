@@ -3,6 +3,7 @@ import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import { formatPhone, isValidPhone } from '../utils/validation';
 import './WorkshopRegistrationForm.css';
+import { Language } from '../types/i18n';
 
 interface TimeRange {
   start: string;
@@ -55,10 +56,16 @@ const availableServicesEN = [
   'Others'
 ];
 
-const WorkshopRegistrationForm: React.FC = () => {
-  const { language } = useLanguage();
-  const t = getTranslations(language);
-  
+
+interface WorkshopRegistrationFormProps {
+  language?: Language;
+}
+
+const WorkshopRegistrationForm: React.FC<WorkshopRegistrationFormProps> = ({ language }) => {
+  const context = useLanguage();
+  const lang = language || context.language;
+  const t = getTranslations(lang);
+
   const initialOperatingHours: OperatingHours = {
     monday: { enabled: false, timeRanges: [] },
     tuesday: { enabled: false, timeRanges: [] },
@@ -68,7 +75,7 @@ const WorkshopRegistrationForm: React.FC = () => {
     saturday: { enabled: false, timeRanges: [] },
     sunday: { enabled: false, timeRanges: [] }
   };
-  
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     address: '',
@@ -77,14 +84,14 @@ const WorkshopRegistrationForm: React.FC = () => {
     operatingHours: initialOperatingHours,
     services: []
   });
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
@@ -93,9 +100,9 @@ const WorkshopRegistrationForm: React.FC = () => {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
-    const masked = formatPhone(raw, language);
+    const masked = formatPhone(raw, lang);
     setFormData(prev => ({ ...prev, phone: masked }));
-    
+
     // Clear phone error when user starts typing
     if (errors.phone) {
       setErrors(prev => ({ ...prev, phone: '' }));
@@ -107,7 +114,7 @@ const WorkshopRegistrationForm: React.FC = () => {
       const services = prev.services.includes(service)
         ? prev.services.filter(s => s !== service)
         : [...prev.services, service];
-      
+
       return { ...prev, services };
     });
 
@@ -124,8 +131,8 @@ const WorkshopRegistrationForm: React.FC = () => {
         ...prev.operatingHours,
         [day]: {
           enabled: !prev.operatingHours[day].enabled,
-          timeRanges: !prev.operatingHours[day].enabled 
-            ? [{ start: '09:00', end: '18:00' }] 
+          timeRanges: !prev.operatingHours[day].enabled
+            ? [{ start: '09:00', end: '18:00' }]
             : []
         }
       }
@@ -191,7 +198,7 @@ const WorkshopRegistrationForm: React.FC = () => {
 
     if (!formData.phone.trim()) {
       newErrors.phone = t['error.requiredFields'];
-    } else if (!isValidPhone(formData.phone, language)) {
+    } else if (!isValidPhone(formData.phone, lang)) {
       newErrors.phone = t['error.invalidPhone'];
     }
 
@@ -211,20 +218,20 @@ const WorkshopRegistrationForm: React.FC = () => {
             newErrors.operatingHours = t['workshop.form.error.noTimeRanges'];
             break;
           }
-          
+
           // Validate each time range
           for (const range of daySchedule.timeRanges) {
             if (!range.start || !range.end) {
               newErrors.operatingHours = t['workshop.form.error.invalidTimeRange'];
               break;
             }
-            
+
             if (range.start >= range.end) {
               newErrors.operatingHours = t['workshop.form.error.invalidTimeOrder'];
               break;
             }
           }
-          
+
           if (newErrors.operatingHours) break;
         }
       }
@@ -240,7 +247,7 @@ const WorkshopRegistrationForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -359,7 +366,7 @@ const WorkshopRegistrationForm: React.FC = () => {
                     {t[`workshop.form.days.${dayName}` as keyof typeof t]}
                   </label>
                 </div>
-                
+
                 {daySchedule.enabled && (
                   <div className="time-ranges">
                     {daySchedule.timeRanges.map((range: TimeRange, index: number) => (
@@ -422,9 +429,9 @@ const WorkshopRegistrationForm: React.FC = () => {
           {errors.services && <span className="error-message">{errors.services}</span>}
         </div>
 
-        <button 
-          type="submit" 
-          className="submit-btn" 
+        <button
+          type="submit"
+          className="submit-btn"
           disabled={isLoading}
         >
           {isLoading ? t['workshop.form.processing'] : t['workshop.form.submit']}

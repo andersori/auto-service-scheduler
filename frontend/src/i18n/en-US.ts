@@ -1,6 +1,9 @@
 import { Translations } from '../types/i18n';
 
 export const enUS: Translations = {
+  // Header
+  'header.title': 'Auto Service Scheduler',
+
   // Form labels
   'form.title': 'Service Scheduling',
   'form.clientInfo': 'Client Information',
@@ -46,11 +49,17 @@ export const enUS: Translations = {
   'success.generateReceiptDateMessage': 'Generated on',
 
   // Workshop list
-  'workshop.register': 'Register Workshop',
-  'workshop.list.title': 'Choose a Workshop',
-  'workshop.list.subtitle': 'Select the workshop closest to you to schedule your service',
   'workshop.services': 'Available services',
   'workshop.schedule': 'Schedule Service',
+  
+  // Workshop invite (landing)
+  'workshop.invite.register': 'Register Workshop',
+  'workshop.invite.title': 'Connect Your Workshop to New Clients',
+  'workshop.invite.subtitle': 'Make it easy for clients to reach you and organize your services digitally.',
+
+  // Registered workshops list
+  'workshop.list.registeredTitle': 'Registered Workshops',
+  'workshop.list.registeredSubtitle': 'See workshops already available to receive online bookings.',
 
   // Errors
   'error.generateReceipt': 'Error generating receipt. Please try again.',
@@ -87,6 +96,8 @@ export const enUS: Translations = {
   'user.placeholder.phone': '(555) 123-4567',
   'user.placeholder.password': 'Enter your password',
   'user.placeholder.confirmPassword': 'Confirm your password',
+  'user.registration.alreadyWithAccount': 'Already have an account?',
+  'user.registration.LoginLink': 'Log in here',
 
   // Login form
   'user.login.title': 'Login',

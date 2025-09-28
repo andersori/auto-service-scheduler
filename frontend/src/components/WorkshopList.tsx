@@ -1,21 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Language } from '../types/i18n';
 import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import './WorkshopList.css';
-import { BrazilFlag, USFlag } from './Flag';
+import { BrazilFlag, USFlag } from './header/Flag';
 import { WorkshopService, Workshop } from '../services/workshopService';
+import MainTitle from './header/MainTitle';
+import Header from './header/Header';
 
 export const WorkshopList: React.FC = () => {
   const { language, changeLanguage } = useLanguage();
   const t = getTranslations(language);
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleLanguageChange = (newLanguage: Language) => {
-    changeLanguage(newLanguage);
-  };
 
   const fetchWorkshops = useCallback(async () => {
     setIsLoading(true);
@@ -36,104 +33,94 @@ export const WorkshopList: React.FC = () => {
   }, [fetchWorkshops]);
 
   return (
-    <div className="app-container">
-      <div className="language-selector">
-        <button
-          className={`lang-btn ${language === 'pt-BR' ? 'active' : ''}`}
-          onClick={() => handleLanguageChange('pt-BR')}
-          title="Português (Brasil)"
-        >
-          <BrazilFlag size={18} />&nbsp;BR
-        </button>
-        <button
-          className={`lang-btn ${language === 'en-US' ? 'active' : ''}`}
-          onClick={() => handleLanguageChange('en-US')}
-          title="English (United States)"
-        >
-          <USFlag size={18} />&nbsp;US
-        </button>
-      </div>
+    <div className="app">
+      <Header language={language} changeLanguage={changeLanguage} />
 
-      <div className="page-header">
-        <h1>{t['workshop.list.title']}</h1>
-        <p>{t['workshop.list.subtitle']}</p>
-        <div className="page-actions">
-          <Link to="/login" className="btn btn-secondary">
-            {t['workshop.register']}
-          </Link>
+      <div className="app-container">
+        <MainTitle
+          title={t['workshop.invite.title']}
+          subtitle={t['workshop.invite.subtitle']}
+          showActions={true}
+          actionText={t['workshop.invite.register']}
+          actionLink='/dashboard'
+        />
+
+        <div className="page-header">
+          <h1>{t['workshop.list.registeredTitle']}</h1>
+          <p>{t['workshop.list.registeredSubtitle']}</p>
         </div>
-      </div>
 
-      <div className="workshops-grid">
-        {isLoading ? (
-          <div className="loading-message">
-            {t['loading.workshops']}
-          </div>
-        ) : (
-          workshops.map((workshop) => (
-            <div key={workshop.id} className="workshop-card card">
-              <div className="workshop-header">
-                <h2 className="workshop-name">{workshop.name}</h2>
-                <div className="workshop-meta">
-                  <div className="workshop-registration-language">
-                    {workshop.registrationLanguage === 'pt-BR' ? (
-                      <BrazilFlag size={16} />
-                    ) : (
-                      <USFlag size={16} />
-                    )}
-                    <span className="registration-lang-text">
-                      {workshop.registrationLanguage === 'pt-BR' ? 'PT' : 'EN'}
-                    </span>
-                  </div>
-                  <div className="workshop-rating">
-                    <span className="stars">★★★★★</span>
-                    <span className="rating-text">{workshop.rating}</span>
+        <div className="workshops-grid">
+          {isLoading ? (
+            <div className="loading-message">
+              {t['loading.workshops']}
+            </div>
+          ) : (
+            workshops.map((workshop) => (
+              <div key={workshop.id} className="workshop-card card">
+                <div className="workshop-header">
+                  <h2 className="workshop-name">{workshop.name}</h2>
+                  <div className="workshop-meta">
+                    <div className="workshop-registration-language">
+                      {workshop.registrationLanguage === 'pt-BR' ? (
+                        <BrazilFlag size={16} />
+                      ) : (
+                        <USFlag size={16} />
+                      )}
+                      <span className="registration-lang-text">
+                        {workshop.registrationLanguage === 'pt-BR' ? 'PT' : 'EN'}
+                      </span>
+                    </div>
+                    <div className="workshop-rating">
+                      <span className="stars">★★★★★</span>
+                      <span className="rating-text">{workshop.rating}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-            <div className="workshop-info">
-              <div className="info-item">
-                <span className="info-icon">📍</span>
-                <span className="info-text">{workshop.address}</span>
-              </div>
-              
-              <div className="info-item">
-                <span className="info-icon">📞</span>
-                <span className="info-text">{workshop.phone}</span>
-              </div>
-              
-              <div className="info-item">
-                <span className="info-icon">🕒</span>
-                <span className="info-text">{workshop.hours}</span>
-              </div>
-            </div>
+                <div className="workshop-info">
+                  <div className="info-item">
+                    <span className="info-icon">📍</span>
+                    <span className="info-text">{workshop.address}</span>
+                  </div>
 
-            <div className="workshop-description">
-              <p>{workshop.description}</p>
-            </div>
+                  <div className="info-item">
+                    <span className="info-icon">📞</span>
+                    <span className="info-text">{workshop.phone}</span>
+                  </div>
 
-            <div className="workshop-services">
-              <h4>{t['workshop.services']}</h4>
-              <div className="services-tags">
-                {workshop.services.map((service, index) => (
-                  <span key={index} className="service-tag">
-                    {service}
-                  </span>
-                ))}
+                  <div className="info-item">
+                    <span className="info-icon">🕒</span>
+                    <span className="info-text">{workshop.hours}</span>
+                  </div>
+                </div>
+
+                <div className="workshop-description">
+                  <p>{workshop.description}</p>
+                </div>
+
+                <div className="workshop-services">
+                  <h4>{t['workshop.services']}</h4>
+                  <div className="services-tags">
+                    {workshop.services.map((service, index) => (
+                      <span key={index} className="service-tag">
+                        {service}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="workshop-actions">
+                  <Link
+                    to={`/${workshop.id}`}
+                    className="btn btn-primary"
+                  >
+                    {t['workshop.schedule']}
+                  </Link>
+                </div>
               </div>
-            </div>
-
-            <div className="workshop-actions">
-              <Link 
-                to={`/${workshop.id}`} 
-                className="btn btn-primary"
-              >
-                {t['workshop.schedule']}
-              </Link>
-            </div>
-          </div>
-        )))}
+            )))}
+        </div>
       </div>
     </div>
   );

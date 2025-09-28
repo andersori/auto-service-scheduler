@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { UserResponse } from '../types/user';
 import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
-import { BrazilFlag, USFlag } from './Flag';
 import WorkshopRegistrationForm from './WorkshopRegistrationForm';
 import './Dashboard.css';
+import Header from './header/Header';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -43,76 +43,64 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="dashboard-container">
-      {/* Language selector and logout */}
-      <div className="dashboard-header">
-        <div className="language-selector">
-          <button
-            className={`language-btn ${language === 'pt-BR' ? 'active' : ''}`}
-            onClick={() => changeLanguage('pt-BR')}
-          >
-            <BrazilFlag size={18} />&nbsp;PT
-          </button>
-          <button
-            className={`language-btn ${language === 'en-US' ? 'active' : ''}`}
-            onClick={() => changeLanguage('en-US')}
-          >
-            <USFlag size={18} />&nbsp;US
-          </button>
-        </div>
+    <div className="app">
+      <Header
+        language={language}
+        changeLanguage={changeLanguage}
+        buttons={[
+          { label: t['dashboard.logout'], onClick: handleLogout },
+        ]}
+      />
 
-        <button className="logout-btn" onClick={handleLogout}>
-          {t['dashboard.logout']}
-        </button>
-      </div>
+      <div className="dashboard-container">
+        <div className="dashboard-content">
+          <div className="welcome-section">
+            <h1>{t['dashboard.welcome']} {user.name}!</h1>
+            <p className="user-info">{user.email} • {user.userType}</p>
+          </div>
 
-      <div className="dashboard-content">
-        <div className="welcome-section">
-          <h1>{t['dashboard.welcome']} {user.name}!</h1>
-          <p className="user-info">{user.email} • {user.userType}</p>
-        </div>
+          {!showWorkshopForm ? (
+            <div className="actions-section">
+              <h2>{t['dashboard.actions.title']}</h2>
+              <div className="action-cards">
+                <div className="action-card">
+                  <h3>{t['dashboard.workshops.title']}</h3>
+                  <p>{t['dashboard.workshops.description']}</p>
+                  <button
+                    className="action-btn primary"
+                    onClick={() => setShowWorkshopForm(true)}
+                  >
+                    {t['dashboard.workshops.register']}
+                  </button>
+                </div>
 
-        {!showWorkshopForm ? (
-          <div className="actions-section">
-            <h2>{t['dashboard.actions.title']}</h2>
-            <div className="action-cards">
-              <div className="action-card">
-                <h3>{t['dashboard.workshops.title']}</h3>
-                <p>{t['dashboard.workshops.description']}</p>
-                <button
-                  className="action-btn primary"
-                  onClick={() => setShowWorkshopForm(true)}
-                >
-                  {t['dashboard.workshops.register']}
-                </button>
-              </div>
-
-              <div className="action-card">
-                <h3>{t['dashboard.appointments.title']}</h3>
-                <p>{t['dashboard.appointments.description']}</p>
-                <button
-                  className="action-btn secondary"
-                  onClick={() => navigate('/')}
-                >
-                  {t['dashboard.appointments.view']}
-                </button>
+                <div className="action-card">
+                  <h3>{t['dashboard.appointments.title']}</h3>
+                  <p>{t['dashboard.appointments.description']}</p>
+                  <button
+                    className="action-btn secondary"
+                    onClick={() => navigate('/')}
+                  >
+                    {t['dashboard.appointments.view']}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="workshop-form-section">
-            <div className="section-header">
-              <h2>{t['dashboard.workshops.form.title']}</h2>
-              <button
-                className="back-btn"
-                onClick={() => setShowWorkshopForm(false)}
-              >
-                {t['dashboard.back']}
-              </button>
+          ) : (
+            <div className="workshop-form-section">
+              <div className="section-header">
+                <h2>{t['dashboard.workshops.form.title']}</h2>
+                <button
+                  className="back-btn"
+                  onClick={() => setShowWorkshopForm(false)}
+                >
+                  {t['dashboard.back']}
+                </button>
+              </div>
+              <WorkshopRegistrationForm language={language} />
             </div>
-            <WorkshopRegistrationForm />
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
