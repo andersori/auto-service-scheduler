@@ -110,17 +110,32 @@ export interface Translations {
   'workshop.form.phone': string;
   'workshop.form.address': string;
   'workshop.form.description': string;
-  'workshop.form.hours': string;
+  'workshop.form.operatingHours': string;
   'workshop.form.services': string;
   'workshop.form.submit': string;
   'workshop.form.processing': string;
   'workshop.form.success': string;
   'workshop.form.error': string;
   'workshop.form.error.noServices': string;
+  'workshop.form.error.noDays': string;
+  'workshop.form.error.noTimeRanges': string;
+  'workshop.form.error.invalidTimeRange': string;
+  'workshop.form.error.invalidTimeOrder': string;
   'workshop.form.placeholder.name': string;
   'workshop.form.placeholder.address': string;
   'workshop.form.placeholder.description': string;
-  'workshop.form.placeholder.hours': string;
+  'workshop.form.timeTo': string;
+  'workshop.form.addTimeRange': string;
+  'workshop.form.removeTimeRange': string;
+  
+  // Days of the week
+  'workshop.form.days.monday': string;
+  'workshop.form.days.tuesday': string;
+  'workshop.form.days.wednesday': string;
+  'workshop.form.days.thursday': string;
+  'workshop.form.days.friday': string;
+  'workshop.form.days.saturday': string;
+  'workshop.form.days.sunday': string;
 
   // Loading messages
   'loading.workshops': string;

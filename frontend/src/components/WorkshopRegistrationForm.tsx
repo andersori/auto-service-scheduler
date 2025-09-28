@@ -4,12 +4,32 @@ import { useLanguage } from '../hooks/useLanguage';
 import { formatPhone, isValidPhone } from '../utils/validation';
 import './WorkshopRegistrationForm.css';
 
+interface TimeRange {
+  start: string;
+  end: string;
+}
+
+interface DaySchedule {
+  enabled: boolean;
+  timeRanges: TimeRange[];
+}
+
+interface OperatingHours {
+  monday: DaySchedule;
+  tuesday: DaySchedule;
+  wednesday: DaySchedule;
+  thursday: DaySchedule;
+  friday: DaySchedule;
+  saturday: DaySchedule;
+  sunday: DaySchedule;
+}
+
 interface FormData {
   name: string;
   address: string;
   phone: string;
   description: string;
-  hours: string;
+  operatingHours: OperatingHours;
   services: string[];
 }
 
@@ -39,12 +59,22 @@ const WorkshopRegistrationForm: React.FC = () => {
   const { language } = useLanguage();
   const t = getTranslations(language);
   
+  const initialOperatingHours: OperatingHours = {
+    monday: { enabled: false, timeRanges: [] },
+    tuesday: { enabled: false, timeRanges: [] },
+    wednesday: { enabled: false, timeRanges: [] },
+    thursday: { enabled: false, timeRanges: [] },
+    friday: { enabled: false, timeRanges: [] },
+    saturday: { enabled: false, timeRanges: [] },
+    sunday: { enabled: false, timeRanges: [] }
+  };
+  
   const [formData, setFormData] = useState<FormData>({
     name: '',
     address: '',
     phone: '',
     description: '',
-    hours: '',
+    operatingHours: initialOperatingHours,
     services: []
   });
   
@@ -87,6 +117,67 @@ const WorkshopRegistrationForm: React.FC = () => {
     }
   };
 
+  const handleDayToggle = (day: keyof OperatingHours) => {
+    setFormData(prev => ({
+      ...prev,
+      operatingHours: {
+        ...prev.operatingHours,
+        [day]: {
+          enabled: !prev.operatingHours[day].enabled,
+          timeRanges: !prev.operatingHours[day].enabled 
+            ? [{ start: '09:00', end: '18:00' }] 
+            : []
+        }
+      }
+    }));
+
+    // Clear operating hours error when user selects a day
+    if (errors.operatingHours) {
+      setErrors(prev => ({ ...prev, operatingHours: '' }));
+    }
+  };
+
+  const handleTimeRangeChange = (day: keyof OperatingHours, index: number, field: 'start' | 'end', value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      operatingHours: {
+        ...prev.operatingHours,
+        [day]: {
+          ...prev.operatingHours[day],
+          timeRanges: prev.operatingHours[day].timeRanges.map((range, i) =>
+            i === index ? { ...range, [field]: value } : range
+          )
+        }
+      }
+    }));
+  };
+
+  const addTimeRange = (day: keyof OperatingHours) => {
+    setFormData(prev => ({
+      ...prev,
+      operatingHours: {
+        ...prev.operatingHours,
+        [day]: {
+          ...prev.operatingHours[day],
+          timeRanges: [...prev.operatingHours[day].timeRanges, { start: '09:00', end: '18:00' }]
+        }
+      }
+    }));
+  };
+
+  const removeTimeRange = (day: keyof OperatingHours, index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      operatingHours: {
+        ...prev.operatingHours,
+        [day]: {
+          ...prev.operatingHours[day],
+          timeRanges: prev.operatingHours[day].timeRanges.filter((_, i) => i !== index)
+        }
+      }
+    }));
+  };
+
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
 
@@ -108,8 +199,35 @@ const WorkshopRegistrationForm: React.FC = () => {
       newErrors.description = t['error.requiredFields'];
     }
 
-    if (!formData.hours.trim()) {
-      newErrors.hours = t['error.requiredFields'];
+    // Validate operating hours
+    const enabledDays = Object.values(formData.operatingHours).filter(day => day.enabled);
+    if (enabledDays.length === 0) {
+      newErrors.operatingHours = t['workshop.form.error.noDays'];
+    } else {
+      // Check if enabled days have valid time ranges
+      for (const [, daySchedule] of Object.entries(formData.operatingHours)) {
+        if (daySchedule.enabled) {
+          if (daySchedule.timeRanges.length === 0) {
+            newErrors.operatingHours = t['workshop.form.error.noTimeRanges'];
+            break;
+          }
+          
+          // Validate each time range
+          for (const range of daySchedule.timeRanges) {
+            if (!range.start || !range.end) {
+              newErrors.operatingHours = t['workshop.form.error.invalidTimeRange'];
+              break;
+            }
+            
+            if (range.start >= range.end) {
+              newErrors.operatingHours = t['workshop.form.error.invalidTimeOrder'];
+              break;
+            }
+          }
+          
+          if (newErrors.operatingHours) break;
+        }
+      }
     }
 
     if (formData.services.length === 0) {
@@ -150,7 +268,7 @@ const WorkshopRegistrationForm: React.FC = () => {
         address: '',
         phone: '',
         description: '',
-        hours: '',
+        operatingHours: initialOperatingHours,
         services: []
       });
     } catch (error: any) {
@@ -229,18 +347,64 @@ const WorkshopRegistrationForm: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="hours">{t['workshop.form.hours']}</label>
-          <input
-            type="text"
-            id="hours"
-            name="hours"
-            value={formData.hours}
-            onChange={handleInputChange}
-            placeholder={t['workshop.form.placeholder.hours']}
-            required
-            className={errors.hours ? 'error' : ''}
-          />
-          {errors.hours && <span className="error-message">{errors.hours}</span>}
+          <label>{t['workshop.form.operatingHours']}</label>
+          <div className="operating-hours-container">
+            {Object.entries(formData.operatingHours).map(([dayName, daySchedule]) => (
+              <div key={dayName} className="day-schedule">
+                <div className="day-header">
+                  <label className="day-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={daySchedule.enabled}
+                      onChange={() => handleDayToggle(dayName as keyof OperatingHours)}
+                    />
+                    <span className="checkmark"></span>
+                    {t[`workshop.form.days.${dayName}` as keyof typeof t]}
+                  </label>
+                </div>
+                
+                {daySchedule.enabled && (
+                  <div className="time-ranges">
+                    {daySchedule.timeRanges.map((range: TimeRange, index: number) => (
+                      <div key={index} className="time-range">
+                        <input
+                          type="time"
+                          value={range.start}
+                          onChange={(e) => handleTimeRangeChange(dayName as keyof OperatingHours, index, 'start', e.target.value)}
+                          className="time-input"
+                        />
+                        <span className="time-separator">{t['workshop.form.timeTo']}</span>
+                        <input
+                          type="time"
+                          value={range.end}
+                          onChange={(e) => handleTimeRangeChange(dayName as keyof OperatingHours, index, 'end', e.target.value)}
+                          className="time-input"
+                        />
+                        {daySchedule.timeRanges.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeTimeRange(dayName as keyof OperatingHours, index)}
+                            className="remove-time-btn"
+                            title={t['workshop.form.removeTimeRange']}
+                          >
+                            ×
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => addTimeRange(dayName as keyof OperatingHours)}
+                      className="add-time-btn"
+                    >
+                      {t['workshop.form.addTimeRange']}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          {errors.operatingHours && <span className="error-message">{errors.operatingHours}</span>}
         </div>
 
         <div className="form-group">
