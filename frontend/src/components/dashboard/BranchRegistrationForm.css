@@ -262,17 +262,10 @@
   content: "";
   position: absolute;
   display: none;
-  left: 6px;
-  top: 2px;
-  width: 6px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
 }
 
 .day-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
-  display: block;
+  display: none;
 }
 
 .time-ranges {
