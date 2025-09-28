@@ -153,6 +153,19 @@ export const enUS: Translations = {
   'workshop.form.timeTo': 'to',
   'workshop.form.addTimeRange': '+ Add Time Slot',
   'workshop.form.removeTimeRange': 'Remove time slot',
+
+  // Branch form
+  'branch.form.address': 'Branch Address *',
+  'branch.form.operatingHours': 'Operating Hours *',
+  'branch.form.services': 'Services Offered *',
+  'branch.form.submit': 'Register Branch',
+  'branch.form.processing': 'Registering...',
+  'branch.form.success': 'Branch registered successfully!',
+  'branch.form.error': 'Error registering branch. Please try again.',
+  'branch.form.placeholder.address': 'e.g., 123 Main Street, Downtown - New York, NY',
+  
+  // Console errors
+  'console.error.branchRegistration': 'Error registering branch:',
   
   // Days of the week
   'workshop.form.days.monday': 'Monday',

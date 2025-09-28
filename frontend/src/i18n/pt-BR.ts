@@ -153,6 +153,19 @@ export const ptBR: Translations = {
   'workshop.form.timeTo': 'às',
   'workshop.form.addTimeRange': '+ Adicionar Horário',
   'workshop.form.removeTimeRange': 'Remover horário',
+
+  // Branch form
+  'branch.form.address': 'Endereço da Filial *',
+  'branch.form.operatingHours': 'Horário de Funcionamento *',
+  'branch.form.services': 'Serviços Oferecidos *',
+  'branch.form.submit': 'Cadastrar Filial',
+  'branch.form.processing': 'Cadastrando...',
+  'branch.form.success': 'Filial cadastrada com sucesso!',
+  'branch.form.error': 'Erro ao cadastrar filial. Tente novamente.',
+  'branch.form.placeholder.address': 'Ex: Rua das Flores, 123 - Centro - São Paulo, SP',
+  
+  // Console errors
+  'console.error.branchRegistration': 'Erro no registro da filial:',
   
   // Days of the week
   'workshop.form.days.monday': 'Segunda-feira',

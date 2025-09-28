@@ -82,6 +82,7 @@ export interface Translations {
   'console.error.parseUser': string;
   'console.error.registration': string;
   'console.error.workshopRegistration': string;
+  'console.error.branchRegistration': string;
 
   // User registration and login
   'user.registration.title': string;
@@ -152,6 +153,16 @@ export interface Translations {
   'workshop.form.timeTo': string;
   'workshop.form.addTimeRange': string;
   'workshop.form.removeTimeRange': string;
+
+  // Branch form
+  'branch.form.address': string;
+  'branch.form.operatingHours': string;
+  'branch.form.services': string;
+  'branch.form.submit': string;
+  'branch.form.processing': string;
+  'branch.form.success': string;
+  'branch.form.error': string;
+  'branch.form.placeholder.address': string;
   
   // Days of the week
   'workshop.form.days.monday': string;
