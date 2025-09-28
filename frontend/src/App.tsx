@@ -5,8 +5,8 @@ import { AppointmentForm } from './components/AppointmentForm';
 import { AppointmentSuccess } from './components/AppointmentSuccess';
 import UserRegistrationForm from './components/UserRegistrationForm';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import AppointmentCalendarPage from './components/AppointmentCalendarPage';
+import Dashboard from './components/dashboard/Dashboard';
+import AppointmentCalendarPage from './components/dashboard/AppointmentCalendarPage';
 import './App.css';
 
 function App() {

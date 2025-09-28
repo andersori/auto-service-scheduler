@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserResponse } from '../types/user';
-import { getTranslations } from '../i18n';
-import { useLanguage } from '../hooks/useLanguage';
+import { UserResponse } from '../../types/user';
+import { getTranslations } from '../../i18n';
+import { useLanguage } from '../../hooks/useLanguage';
 import WorkshopRegistrationForm from './WorkshopRegistrationForm';
+import AppointmentCalendarPage from './AppointmentCalendarPage';
 import './Dashboard.css';
-import Header from './header/Header';
+import Header from '../header/Header';
+import { BackIcon } from '../icon/Back';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ const Dashboard: React.FC = () => {
 
   const [user, setUser] = useState<UserResponse | null>(null);
   const [showWorkshopForm, setShowWorkshopForm] = useState(false);
+  const [showAppointments, setShowAppointments] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in
@@ -52,14 +55,27 @@ const Dashboard: React.FC = () => {
         ]}
       />
 
-      <div className="dashboard-container">
+      <div className="dashboard-container" style={{ position: 'relative' }}>
+        {(showWorkshopForm || showAppointments) && (
+          <button
+            className="icon-back-btn"
+            onClick={() => {
+              setShowWorkshopForm(false);
+              setShowAppointments(false);
+            }}
+            aria-label={t['dashboard.back']}
+          >
+            <BackIcon />
+          </button>
+        )}
         <div className="dashboard-content">
+
           <div className="welcome-section">
             <h1>{t['dashboard.welcome']} {user.name}!</h1>
             <p className="user-info">{user.email} • {user.userType}</p>
           </div>
 
-          {!showWorkshopForm ? (
+          {!showWorkshopForm && !showAppointments ? (
             <div className="actions-section">
               <h2>{t['dashboard.actions.title']}</h2>
               <div className="action-cards">
@@ -79,25 +95,24 @@ const Dashboard: React.FC = () => {
                   <p>{t['dashboard.appointments.description']}</p>
                   <button
                     className="action-btn secondary"
-                    onClick={() => navigate('/appointments')}
+                    onClick={() => setShowAppointments(true)}
                   >
                     {t['dashboard.appointments.view']}
                   </button>
                 </div>
               </div>
             </div>
-          ) : (
+          ) : null}
+
+          {showWorkshopForm && (
             <div className="workshop-form-section">
-              <div className="section-header">
-                <h2>{t['dashboard.workshops.form.title']}</h2>
-                <button
-                  className="back-btn"
-                  onClick={() => setShowWorkshopForm(false)}
-                >
-                  {t['dashboard.back']}
-                </button>
-              </div>
               <WorkshopRegistrationForm language={language} />
+            </div>
+          )}
+
+          {showAppointments && (
+            <div className="appointments-section">
+              <AppointmentCalendarPage language={language} />
             </div>
           )}
         </div>

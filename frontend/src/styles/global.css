@@ -1,3 +1,27 @@
+/* Simple Icon Back Button */
+.icon-back-btn {
+  background: none;
+  border: none;
+  color: #1a365d;
+  font-size: 1.7rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: none;
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  z-index: 2;
+}
+
+.icon-back-btn:hover {
+  background: #e2e8f0;
+}
 /* Global Container Styles */
 .app {
   min-height: 100vh;
@@ -45,8 +69,34 @@
   line-height: 1.6;
 }
 
-/* Form */
+/* Error */
+.error-banner {
+  background: #fdf2f2;
+  color: #e74c3c;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+}
 
+.close-error-btn {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  line-height: 1;
+  padding: 0 4px;
+}
+
+/* Form */
 .form-footer {
   text-align: center;
   margin-top: 20px;

@@ -12,16 +12,6 @@
   color: #7f8c8d;
 }
 
-.error-banner {
-  background: #fdf2f2;
-  color: #e74c3c;
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: 1px solid #fecaca;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
 .workshop-selector-section {
   background: white;
   padding: 20px;
