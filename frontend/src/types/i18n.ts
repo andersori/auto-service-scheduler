@@ -59,4 +59,23 @@ export interface Translations {
   'console.error.fetchServiceTypes': string;
   'console.error.fetchVehicleCatalog': string;
   'console.error.fetchTimeSlots': string;
+
+  // User registration
+  'user.registration.title': string;
+  'user.registration.subtitle': string;
+  'user.form.name': string;
+  'user.form.email': string;
+  'user.form.phone': string;
+  'user.form.submit': string;
+  'user.form.processing': string;
+  'user.message.success': string;
+  'user.message.error': string;
+  'user.message.emailExists': string;
+  'user.error.invalidEmail': string;
+  'user.placeholder.name': string;
+  'user.placeholder.email': string;
+  'user.placeholder.phone': string;
+
+  // Loading messages
+  'loading.workshops': string;
 }

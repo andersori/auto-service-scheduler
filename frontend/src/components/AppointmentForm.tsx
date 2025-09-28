@@ -9,6 +9,7 @@ import { VehicleCatalog } from '../types/vehicle';
 import { Language } from '../types/i18n';
 import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
+import { formatPhone, isValidPhone } from '../utils/validation';
 import './AppointmentForm.css';
 import { BrazilFlag, USFlag } from './Flag';
 
@@ -199,41 +200,6 @@ export const AppointmentForm: React.FC = () => {
   // Se não há workshop, não renderizar o componente
   if (!workshop) {
     return null;
-  }
-
-  // Função para aplicar máscara de telefone
-  function formatPhone(value: string, lang: Language): string {
-    if (lang === 'pt-BR') {
-      // Remove tudo que não for número
-      value = value.replace(/\D/g, '');
-      // (99) 99999-9999
-      if (value.length > 11) value = value.slice(0, 11);
-      if (value.length > 7) return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
-      if (value.length > 6) return `(${value.slice(0, 2)}) ${value.slice(2, 7)}${value.slice(7)}`;
-      if (value.length > 2) return `(${value.slice(0, 2)}) ${value.slice(2)}`;
-      if (value.length > 0) return `(${value}`;
-      return value;
-    } else {
-      // US: (999) 999-9999
-      value = value.replace(/\D/g, '');
-      if (value.length > 10) value = value.slice(0, 10);
-      if (value.length > 7) return `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6)}`;
-      if (value.length > 6) return `(${value.slice(0, 3)}) ${value.slice(3, 6)}${value.slice(6)}`;
-      if (value.length > 3) return `(${value.slice(0, 3)}) ${value.slice(3)}`;
-      if (value.length > 0) return `(${value}`;
-      return value;
-    }
-  }
-
-  // Função para validar telefone
-  function isValidPhone(value: string, lang: Language): boolean {
-    if (lang === 'pt-BR') {
-      // (99) 99999-9999
-      return /^\(\d{2}\) \d{5}-\d{4}$/.test(value);
-    } else {
-      // (999) 999-9999
-      return /^\(\d{3}\) \d{3}-\d{4}$/.test(value);
-    }
   }
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
