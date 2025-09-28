@@ -19,6 +19,7 @@ export const enUS: Translations = {
   'form.vehicleModel': 'Model *',
   'form.vehicleYear': 'Year *',
   'form.serviceType': 'Service type *',
+  'form.selectBranch': 'Select Branch *',
   'form.appointmentDate': 'Date *',
   'form.appointmentTime': 'Time *',
   'form.submit': 'Schedule Service',
@@ -31,6 +32,7 @@ export const enUS: Translations = {
   'message.selectTime': 'Select time',
   'message.selectYear': 'Select year',
   'message.selectService': 'Select service',
+  'message.selectBranch': 'Select branch',
 
   // Service types
   'service.oilChange': 'Oil change',
@@ -126,6 +128,7 @@ export const enUS: Translations = {
   'dashboard.workshops.description': 'Register a new workshop to offer services to customers',
   'dashboard.workshops.register': 'Register Workshop',
   'dashboard.workshops.form.title': 'New Workshop',
+  'dashboard.branches.manage': 'Manage Branches',
   'dashboard.appointments.title': 'View Appointments',
   'dashboard.appointments.description': 'View existing appointments and manage services',
   'dashboard.appointments.view': 'View Appointments',
@@ -163,6 +166,19 @@ export const enUS: Translations = {
   'branch.form.success': 'Branch registered successfully!',
   'branch.form.error': 'Error registering branch. Please try again.',
   'branch.form.placeholder.address': 'e.g., 123 Main Street, Downtown - New York, NY',
+
+  // Branch management
+  'branch.management.title': 'Manage Branches',
+  'branch.management.subtitle': 'Create and manage branches for your workshops',
+  'branch.management.selectWorkshop': 'Select Workshop *',
+  'branch.management.branches': 'Branches',
+  'branch.management.addBranch': 'Add Branch',
+  'branch.management.newBranch': 'New Branch',
+  'branch.management.noBranches': 'No branches registered yet.',
+  'branch.management.noWorkshops': 'No workshops found',
+  'branch.management.createWorkshopFirst': 'You need to create a workshop first before adding branches.',
+  'branch.management.edit': 'Edit',
+  'branch.management.delete': 'Delete',
   
   // Console errors
   'console.error.branchRegistration': 'Error registering branch:',

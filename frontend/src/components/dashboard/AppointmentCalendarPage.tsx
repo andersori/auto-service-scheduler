@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AppointmentCalendar from './AppointmentCalendar';
 import { WorkshopService, Workshop } from '../../services/workshopService';
 import { getTranslations } from '../../i18n';
@@ -20,16 +20,12 @@ const AppointmentCalendarPage: React.FC<AppointmentCalendarPageProps> = ({ langu
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadWorkshops();
-  }, [language]);
-
-  const loadWorkshops = async () => {
+  const loadWorkshops = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const workshopList = await WorkshopService.getAllWorkshops(language);
+      const workshopList = await WorkshopService.getAllWorkshops(lang);
       setWorkshops(workshopList);
 
       // Auto-select first workshop if only one exists
@@ -37,7 +33,7 @@ const AppointmentCalendarPage: React.FC<AppointmentCalendarPageProps> = ({ langu
         setSelectedWorkshop(workshopList[0].id);
       }
     } catch (err) {
-      const defaultWorkshops = WorkshopService.getDefaultWorkshops(language);
+      const defaultWorkshops = WorkshopService.getDefaultWorkshops(lang);
       setWorkshops(defaultWorkshops);
 
       if (defaultWorkshops.length === 1) {
@@ -48,7 +44,11 @@ const AppointmentCalendarPage: React.FC<AppointmentCalendarPageProps> = ({ langu
     } finally {
       setLoading(false);
     }
-  };
+  }, [lang, t]);
+
+  useEffect(() => {
+    loadWorkshops();
+  }, [loadWorkshops]);
 
   const handleWorkshopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedWorkshop(event.target.value);
