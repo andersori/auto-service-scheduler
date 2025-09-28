@@ -11,7 +11,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { language, changeLanguage } = useLanguage();
   const t = getTranslations(language);
-  
+
   const [user, setUser] = useState<UserResponse | null>(null);
   const [showWorkshopForm, setShowWorkshopForm] = useState(false);
 
@@ -27,11 +27,11 @@ const Dashboard: React.FC = () => {
       const parsedUser = JSON.parse(userData);
       setUser(parsedUser);
     } catch (error) {
-      console.error('Error parsing user data:', error);
+      console.error(t['console.error.parseUser'], error);
       localStorage.removeItem('user');
       navigate('/login');
     }
-  }, [navigate]);
+  }, [navigate, t]);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
             <USFlag size={18} />&nbsp;US
           </button>
         </div>
-        
+
         <button className="logout-btn" onClick={handleLogout}>
           {t['dashboard.logout']}
         </button>
@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
               <div className="action-card">
                 <h3>{t['dashboard.workshops.title']}</h3>
                 <p>{t['dashboard.workshops.description']}</p>
-                <button 
+                <button
                   className="action-btn primary"
                   onClick={() => setShowWorkshopForm(true)}
                 >
@@ -90,7 +90,7 @@ const Dashboard: React.FC = () => {
               <div className="action-card">
                 <h3>{t['dashboard.appointments.title']}</h3>
                 <p>{t['dashboard.appointments.description']}</p>
-                <button 
+                <button
                   className="action-btn secondary"
                   onClick={() => navigate('/')}
                 >
@@ -103,7 +103,7 @@ const Dashboard: React.FC = () => {
           <div className="workshop-form-section">
             <div className="section-header">
               <h2>{t['dashboard.workshops.form.title']}</h2>
-              <button 
+              <button
                 className="back-btn"
                 onClick={() => setShowWorkshopForm(false)}
               >

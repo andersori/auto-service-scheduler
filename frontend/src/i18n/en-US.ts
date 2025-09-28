@@ -62,6 +62,7 @@ export const enUS: Translations = {
   'console.error.fetchVehicleCatalog': 'Error fetching vehicle catalog:',
   'console.error.fetchTimeSlots': 'Error fetching time slots:',
   'console.error.fetchWorkshops': 'Error fetching workshops:',
+  'console.error.parseUser': 'Error parsing user data:',
 
   // User registration
   'user.registration.title': 'User Registration',

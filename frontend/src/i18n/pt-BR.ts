@@ -63,6 +63,7 @@ export const ptBR: Translations = {
   'console.error.fetchVehicleCatalog': 'Erro ao buscar catálogo de veículos:',
   'console.error.fetchTimeSlots': 'Erro ao buscar horários disponíveis:',
   'console.error.fetchWorkshops': 'Erro ao buscar oficinas:',
+  'console.error.parseUser': 'Erro ao processar dados do usuário:',
 
   // User registration
   'user.registration.title': 'Cadastro de Usuário',

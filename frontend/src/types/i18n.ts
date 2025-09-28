@@ -62,6 +62,7 @@ export interface Translations {
   'console.error.fetchVehicleCatalog': string;
   'console.error.fetchTimeSlots': string;
   'console.error.fetchWorkshops': string;
+  'console.error.parseUser': string;
 
   // User registration and login
   'user.registration.title': string;
