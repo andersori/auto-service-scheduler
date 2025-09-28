@@ -42,7 +42,7 @@ export const WorkshopList: React.FC = () => {
           subtitle={t['workshop.invite.subtitle']}
           showActions={true}
           actionText={t['workshop.invite.register']}
-          actionLink='/register'
+          actionLink='/dashboard'
         />
 
         <div className="page-header">
