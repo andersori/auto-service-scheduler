@@ -25,7 +25,7 @@ Website SaaS para agendamento de serviços em oficinas mecânicas.
 - **Detecção automática de idioma** do navegador
 
 ### Backend  
-- **Spring Boot 3.1.0** com Kotlin
+- **Spring Boot 3.5.5** com Kotlin
 - **Gradle** para gerenciamento de dependências e build
 - **H2 Database** (in-memory para desenvolvimento)
 - **JPA/Hibernate** para persistência
@@ -57,7 +57,7 @@ auto-service-scheduler/
 
 - **Node.js 18+** e npm
 - **Java 17+**
-- **Gradle 8.2+** (wrapper incluído)
+- **Gradle 8.14+** (wrapper incluído)
 
 ### Backend (Spring Boot)
 
