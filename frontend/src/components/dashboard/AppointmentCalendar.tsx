@@ -188,7 +188,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
           </button>
           
           <button 
-            className={`current-week-btn ${isCurrentWeek() ? 'active' : ''}`}
+            className={`action-btn primary ${isCurrentWeek() ? 'active' : ''}`}
             onClick={goToCurrentWeek}
           >
             {isCurrentWeek() ? t['calendar.currentWeek'] : t['calendar.currentWeek']}
@@ -207,7 +207,8 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
       {error && <div className="calendar-error">{error}</div>}
 
       <div className="calendar-grid">
-        <div className="calendar-week-header">
+        {/* Desktop/tablet: full header row */}
+        <div className="calendar-week-header desktop-header">
           {weekDays.map((day, index) => (
             <div key={index} className="calendar-day-header">
               <div className="day-name">{weekDayNames[index]}</div>
@@ -216,12 +217,17 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
             </div>
           ))}
         </div>
-
         <div className="calendar-week-body">
           {weekDays.map((day, index) => {
             const dayAppointments = getAppointmentsForDate(day);
             return (
               <div key={index} className="calendar-day">
+                {/* Mobile: show header above each day */}
+                <div className="calendar-day-header mobile-header">
+                  <div className="day-name">{weekDayNames[index]}</div>
+                  <div className="day-date">{day.getDate()}</div>
+                  <div className="day-month">{day.toLocaleDateString(language, { month: 'short' })}</div>
+                </div>
                 {loading ? (
                   <div className="calendar-loading">{t['calendar.loading']}</div>
                 ) : dayAppointments.length === 0 ? (
