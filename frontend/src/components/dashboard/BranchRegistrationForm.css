@@ -123,11 +123,12 @@
 }
 
 .service-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
-  display: block;
+  display: none;
 }
 
 .service-checkbox input[type="checkbox"]:checked {
   background-color: #667eea;
+  border-color: #667eea;
 }
 
 .service-checkbox:has(input[type="checkbox"]:checked) {
@@ -258,12 +259,6 @@
   border-color: #667eea;
 }
 
-.day-checkbox .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
 .day-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
   display: none;
 }
@@ -312,7 +307,7 @@
   background: #dc3545;
   color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 6px;
   width: 28px;
   height: 28px;
   display: flex;
