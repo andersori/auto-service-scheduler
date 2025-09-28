@@ -63,6 +63,11 @@ export const enUS: Translations = {
 
   // Errors
   'error.generateReceipt': 'Error generating receipt. Please try again.',
+  'error.loadWorkshops': 'Error loading workshops.',
+
+  // Messages
+  'message.selectWorkshop': 'Select a workshop',
+  'message.selectWorkshopToView': 'Please select a workshop to view appointments',
   'error.requiredFields': 'Please fill in all required fields.',
   'error.invalidPhone': 'Invalid phone. Use the format (999) 999-9999.',
 
@@ -156,4 +161,33 @@ export const enUS: Translations = {
 
   // Loading messages
   'loading.workshops': 'Loading workshops...',
+
+  // Calendar
+  'calendar.title': 'Appointments Calendar',
+  'calendar.subtitle': 'View weekly appointments',
+  'calendar.previousWeek': 'Previous Week',
+  'calendar.nextWeek': 'Next Week',
+  'calendar.currentWeek': 'Current Week',
+  'calendar.noAppointments': 'No appointments for this date',
+  'calendar.loading': 'Loading appointments...',
+  'calendar.error': 'Error loading appointments',
+
+  // Calendar days (short)
+  'calendar.days.monday': 'Mon',
+  'calendar.days.tuesday': 'Tue',
+  'calendar.days.wednesday': 'Wed',
+  'calendar.days.thursday': 'Thu',
+  'calendar.days.friday': 'Fri',
+  'calendar.days.saturday': 'Sat',
+  'calendar.days.sunday': 'Sun',
+
+  // Appointment preview
+  'appointment.preview.title': 'Appointment Details',
+  'appointment.preview.client': 'Client',
+  'appointment.preview.phone': 'Phone',
+  'appointment.preview.vehicle': 'Vehicle',
+  'appointment.preview.services': 'Services',
+  'appointment.preview.date': 'Date',
+  'appointment.preview.time': 'Time',
+  'appointment.preview.close': 'Close',
 };

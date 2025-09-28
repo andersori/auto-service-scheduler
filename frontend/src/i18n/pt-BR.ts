@@ -63,6 +63,11 @@ export const ptBR: Translations = {
 
   // Errors
   'error.generateReceipt': 'Erro ao gerar comprovante. Tente novamente.',
+  'error.loadWorkshops': 'Erro ao carregar oficinas.',
+
+  // Messages
+  'message.selectWorkshop': 'Selecione uma oficina',
+  'message.selectWorkshopToView': 'Selecione uma oficina para visualizar os agendamentos',
   'error.requiredFields': 'Por favor, preencha todos os campos obrigatórios.',
   'error.invalidPhone': 'Telefone inválido. Use o formato (99) 99999-9999.',
 
@@ -156,4 +161,33 @@ export const ptBR: Translations = {
 
   // Loading messages
   'loading.workshops': 'Carregando oficinas...',
+
+  // Calendar
+  'calendar.title': 'Calendário de Agendamentos',
+  'calendar.subtitle': 'Visualize os agendamentos da semana',
+  'calendar.previousWeek': 'Semana Anterior',
+  'calendar.nextWeek': 'Próxima Semana',
+  'calendar.currentWeek': 'Semana Atual',
+  'calendar.noAppointments': 'Nenhum agendamento para esta data',
+  'calendar.loading': 'Carregando agendamentos...',
+  'calendar.error': 'Erro ao carregar agendamentos',
+
+  // Calendar days (short)
+  'calendar.days.monday': 'Seg',
+  'calendar.days.tuesday': 'Ter',
+  'calendar.days.wednesday': 'Qua',
+  'calendar.days.thursday': 'Qui',
+  'calendar.days.friday': 'Sex',
+  'calendar.days.saturday': 'Sáb',
+  'calendar.days.sunday': 'Dom',
+
+  // Appointment preview
+  'appointment.preview.title': 'Detalhes do Agendamento',
+  'appointment.preview.client': 'Cliente',
+  'appointment.preview.phone': 'Telefone',
+  'appointment.preview.vehicle': 'Veículo',
+  'appointment.preview.services': 'Serviços',
+  'appointment.preview.date': 'Data',
+  'appointment.preview.time': 'Horário',
+  'appointment.preview.close': 'Fechar',
 };

@@ -65,6 +65,11 @@ export interface Translations {
   'error.generateReceipt': string;
   'error.requiredFields': string;
   'error.invalidPhone': string;
+  'error.loadWorkshops': string;
+
+  // Messages
+  'message.selectWorkshop': string;
+  'message.selectWorkshopToView': string;
 
   // Console error messages
   'console.error.fetchServiceTypes': string;
@@ -156,4 +161,33 @@ export interface Translations {
 
   // Loading messages
   'loading.workshops': string;
+
+  // Calendar
+  'calendar.title': string;
+  'calendar.subtitle': string;
+  'calendar.previousWeek': string;
+  'calendar.nextWeek': string;
+  'calendar.currentWeek': string;
+  'calendar.noAppointments': string;
+  'calendar.loading': string;
+  'calendar.error': string;
+
+  // Calendar days (short)
+  'calendar.days.monday': string;
+  'calendar.days.tuesday': string;
+  'calendar.days.wednesday': string;
+  'calendar.days.thursday': string;
+  'calendar.days.friday': string;
+  'calendar.days.saturday': string;
+  'calendar.days.sunday': string;
+
+  // Appointment preview
+  'appointment.preview.title': string;
+  'appointment.preview.client': string;
+  'appointment.preview.phone': string;
+  'appointment.preview.vehicle': string;
+  'appointment.preview.services': string;
+  'appointment.preview.date': string;
+  'appointment.preview.time': string;
+  'appointment.preview.close': string;
 }
