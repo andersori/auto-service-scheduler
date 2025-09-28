@@ -9,6 +9,7 @@ import com.autoservice.scheduler.repository.UserRepository
 import com.autoservice.scheduler.repository.WorkshopRepository
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 
@@ -16,7 +17,8 @@ import java.math.BigDecimal
 class DataLoader(
     private val serviceTypeRepository: ServiceTypeRepository,
     private val workshopRepository: WorkshopRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder
 ) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
@@ -84,24 +86,28 @@ class DataLoader(
                     name = "Admin Sistema",
                     email = "admin@autoservice.com",
                     phone = "(11) 9999-9999",
+                    password = passwordEncoder.encode("admin123"),
                     userType = UserType.ADMIN
                 ),
                 User(
                     name = "AutoService Centro",
                     email = "contato@oficina-centro.com",
                     phone = "(11) 3456-7890",
+                    password = passwordEncoder.encode("centro123"),
                     userType = UserType.WORKSHOP
                 ),
                 User(
                     name = "AutoService Zona Sul", 
                     email = "contato@oficina-zona-sul.com",
                     phone = "(11) 2345-6789",
+                    password = passwordEncoder.encode("zonasul123"),
                     userType = UserType.WORKSHOP
                 ),
                 User(
                     name = "AutoService Zona Norte",
                     email = "contact@oficina-zona-norte.com", 
                     phone = "(11) 1234-5678",
+                    password = passwordEncoder.encode("zonanorte123"),
                     userType = UserType.WORKSHOP
                 )
             )

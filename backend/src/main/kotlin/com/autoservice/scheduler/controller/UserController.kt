@@ -1,5 +1,7 @@
 package com.autoservice.scheduler.controller
 
+import com.autoservice.scheduler.dto.LoginDto
+import com.autoservice.scheduler.dto.LoginResponseDto
 import com.autoservice.scheduler.dto.UserRegistrationDto
 import com.autoservice.scheduler.dto.UserResponseDto
 import com.autoservice.scheduler.service.UserService
@@ -23,6 +25,21 @@ class UserController(
         return try {
             val registeredUser = userService.registerUser(userRegistrationDto)
             ResponseEntity.ok(registeredUser)
+        } catch (e: IllegalArgumentException) {
+            ResponseEntity.badRequest().body(mapOf("error" to e.message))
+        } catch (e: Exception) {
+            val locale = LocaleContextHolder.getLocale()
+            val errorMessage = messageSource.getMessage("error.internal", null, locale)
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(mapOf("error" to errorMessage))
+        }
+    }
+
+    @PostMapping("/login")
+    fun loginUser(@Valid @RequestBody loginDto: LoginDto): ResponseEntity<*> {
+        return try {
+            val loginResponse = userService.loginUser(loginDto)
+            ResponseEntity.ok(loginResponse)
         } catch (e: IllegalArgumentException) {
             ResponseEntity.badRequest().body(mapOf("error" to e.message))
         } catch (e: Exception) {
