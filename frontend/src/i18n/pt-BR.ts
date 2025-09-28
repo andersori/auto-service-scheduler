@@ -1,7 +1,9 @@
 import { Translations } from '../types/i18n';
 
 export const ptBR: Translations = {
-  // ...existing code...
+  // Header
+  'header.title': 'Agendamento Automotivo',
+
   // Form labels
   'form.title': 'Agendamento de Serviços',
   'form.clientInfo': 'Informações do Cliente',
@@ -47,11 +49,17 @@ export const ptBR: Translations = {
   'success.generateReceiptDateMessage': 'Gerado em',
   
   // Workshop list
-  'workshop.register': 'Cadastrar Oficina',
-  'workshop.list.title': 'Escolha uma Oficina',
-  'workshop.list.subtitle': 'Selecione a oficina mais próxima de você para agendar seu serviço',
   'workshop.services': 'Serviços disponíveis',
   'workshop.schedule': 'Agendar Serviço',
+  
+  // Workshop invite (landing)
+  'workshop.invite.register': 'Cadastrar Oficina',
+  'workshop.invite.title': 'Conecte sua Oficina a Novos Clientes',
+  'workshop.invite.subtitle': 'Facilite o contato com clientes e organize seus serviços de forma digital.',
+
+  // Registered workshops list
+  'workshop.list.registeredTitle': 'Oficinas Cadastradas',
+  'workshop.list.registeredSubtitle': 'Veja as oficinas já disponíveis para receber agendamentos online.',
 
   // Errors
   'error.generateReceipt': 'Erro ao gerar comprovante. Tente novamente.',
@@ -88,6 +96,8 @@ export const ptBR: Translations = {
   'user.placeholder.phone': '(11) 99999-9999',
   'user.placeholder.password': 'Digite sua senha',
   'user.placeholder.confirmPassword': 'Confirme sua senha',
+  'user.registration.alreadyWithAccount': 'Já tem uma conta?',
+  'user.registration.LoginLink': 'Faça login aqui',
 
   // Login form
   'user.login.title': 'Login',

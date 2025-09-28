@@ -5,7 +5,7 @@ import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import WorkshopRegistrationForm from './WorkshopRegistrationForm';
 import './Dashboard.css';
-import SimpleHeader from './header/SimpleHeader';
+import Header from './header/Header';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="app">
-      <SimpleHeader
+      <Header
         language={language}
         changeLanguage={changeLanguage}
         buttons={[

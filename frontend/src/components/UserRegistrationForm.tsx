@@ -7,7 +7,7 @@ import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import { formatPhone, isValidPhone, isValidEmail } from '../utils/validation';
 import './UserRegistrationForm.css';
-import SimpleHeader from './header/SimpleHeader';
+import Header from './header/Header';
 
 interface FormData {
   name: string;
@@ -132,7 +132,7 @@ const UserRegistrationForm: React.FC = () => {
 
   return (
     <div className="app">
-      <SimpleHeader
+      <Header
         language={language}
         changeLanguage={changeLanguage}
         handleLanguageChange={handleLanguageChange}
@@ -229,6 +229,18 @@ const UserRegistrationForm: React.FC = () => {
               {isLoading ? t['user.form.processing'] : t['user.form.submit']}
             </button>
           </form>
+
+          <div className="form-footer">
+            <p>{t['user.registration.alreadyWithAccount']}
+              <button
+                type="button"
+                className="link-btn"
+                onClick={() => navigate('/login')}
+              >
+                {t['user.registration.LoginLink']}
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </div>

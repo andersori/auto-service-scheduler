@@ -6,7 +6,7 @@ import './WorkshopList.css';
 import { BrazilFlag, USFlag } from './header/Flag';
 import { WorkshopService, Workshop } from '../services/workshopService';
 import MainTitle from './header/MainTitle';
-import SimpleHeader from './header/SimpleHeader';
+import Header from './header/Header';
 
 export const WorkshopList: React.FC = () => {
   const { language, changeLanguage } = useLanguage();
@@ -34,25 +34,20 @@ export const WorkshopList: React.FC = () => {
 
   return (
     <div className="app">
-      <SimpleHeader language={language} changeLanguage={changeLanguage} />
+      <Header language={language} changeLanguage={changeLanguage} />
 
       <div className="app-container">
         <MainTitle
-          title={t['workshop.list.title']}
-          subtitle={t['workshop.list.subtitle']}
+          title={t['workshop.invite.title']}
+          subtitle={t['workshop.invite.subtitle']}
           showActions={true}
-          actionText={t['workshop.register']}
-          actionLink='/login'
+          actionText={t['workshop.invite.register']}
+          actionLink='/register'
         />
 
         <div className="page-header">
-          <h1>{t['workshop.list.title']}</h1>
-          <p>{t['workshop.list.subtitle']}</p>
-          <div className="page-actions">
-            <Link to="/login" className="btn btn-secondary">
-              {t['workshop.register']}
-            </Link>
-          </div>
+          <h1>{t['workshop.list.registeredTitle']}</h1>
+          <p>{t['workshop.list.registeredSubtitle']}</p>
         </div>
 
         <div className="workshops-grid">

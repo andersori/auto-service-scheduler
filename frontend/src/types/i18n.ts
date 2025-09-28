@@ -1,6 +1,9 @@
 export type Language = 'pt-BR' | 'en-US';
 
 export interface Translations {
+  // Header
+  'header.title': string;
+
   // Form labels
   'form.title': string;
   'form.clientInfo': string;
@@ -46,11 +49,17 @@ export interface Translations {
   'success.generateReceiptDateMessage': string;
   
   // Workshop list
-  'workshop.register': string;
-  'workshop.list.title': string;
-  'workshop.list.subtitle': string;
   'workshop.services': string;
   'workshop.schedule': string;
+
+  // Workshop invite (landing)
+  'workshop.invite.register': string;
+  'workshop.invite.title': string;
+  'workshop.invite.subtitle': string;
+
+  // Registered workshops list
+  'workshop.list.registeredTitle': string;
+  'workshop.list.registeredSubtitle': string;
 
   // Error messages
   'error.generateReceipt': string;
@@ -87,6 +96,8 @@ export interface Translations {
   'user.placeholder.phone': string;
   'user.placeholder.password': string;
   'user.placeholder.confirmPassword': string;
+  'user.registration.alreadyWithAccount': string;
+  'user.registration.LoginLink': string;
 
   // Login form
   'user.login.title': string;

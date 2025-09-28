@@ -11,7 +11,7 @@ import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import { formatPhone, isValidPhone } from '../utils/validation';
 import './AppointmentForm.css';
-import SimpleHeader from './header/SimpleHeader';
+import Header from './header/Header';
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => CURRENT_YEAR - i);
@@ -209,9 +209,10 @@ export const AppointmentForm: React.FC = () => {
 
   return (
     <div className="app">
-      <SimpleHeader
+      <Header
         language={language}
         changeLanguage={changeLanguage}
+        handleLanguageChange={handleLanguageChange}
       />
 
       <div className="app-container">

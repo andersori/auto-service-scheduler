@@ -45,6 +45,36 @@
   line-height: 1.6;
 }
 
+/* Form */
+
+.form-footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.form-footer p {
+  color: #666;
+  margin: 0;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #667eea;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0;
+  margin-left: 5px;
+}
+
+.link-btn:hover {
+  color: #764ba2;
+}
+
 /* Buttons */
 .btn {
   display: inline-block;

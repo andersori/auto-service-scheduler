@@ -6,7 +6,7 @@ import { getTranslations } from '../i18n';
 import { useLanguage } from '../hooks/useLanguage';
 import { isValidEmail } from '../utils/validation';
 import './Login.css';
-import SimpleHeader from './header/SimpleHeader';
+import Header from './header/Header';
 
 interface FormData {
   email: string;
@@ -91,7 +91,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="app">
-      <SimpleHeader language={language} changeLanguage={changeLanguage} />
+      <Header language={language} changeLanguage={changeLanguage} />
 
       <div className="login-container">
         <div className="login-form">

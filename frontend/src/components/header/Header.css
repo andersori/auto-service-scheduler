@@ -1,3 +1,31 @@
+.header-title-link {
+  text-decoration: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.header-title-link:hover {
+  color: #007bff;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+/* Title on the left */
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3a4a;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  margin-right: 2rem;
+  margin-left: 0;
+  justify-content: flex-start;
+}
+
 .header-btns {
   display: flex;
   align-items: center;
@@ -25,7 +53,8 @@
   border-color: #ced4da;
   color: #007bff;
 }
-.simple-header {
+
+.header {
   background: #ffffff;
   border-bottom: 1px solid #e5e5e5;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -38,35 +67,35 @@
 }
 
 /* Make every direct child fill the header height and be vertically centered */
-.simple-header > * {
+.header > * {
   height: 100%;
   display: flex;
   align-items: center;
 }
 
-.simple-header-container {
+.header-container {
   width: 100%;
   padding: 0 1rem;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   height: 100%;
+  justify-content: flex-start;
 }
 
 /* Force SVGs and other inline elements to center properly */
-.simple-header svg,
-.simple-header img {
+.header svg,
+.header img {
   vertical-align: middle;
   display: inline-block;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .simple-header {
+  .header {
     height: 50px;
   }
   
-  .simple-header-container {
+  .header-container {
     padding: 0 0.75rem;
   }
 }
