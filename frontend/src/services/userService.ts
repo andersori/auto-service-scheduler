@@ -1,4 +1,4 @@
-import { UserRegistration, UserResponse } from '../types/user';
+import { UserRegistration, UserResponse, LoginData, LoginResponse } from '../types/user';
 import httpRequestService from './httpRequestService';
 
 const API_BASE_URL = 'http://localhost:8080/api/users';
@@ -20,6 +20,27 @@ export class UserService {
         throw new Error('EMAIL_EXISTS');
       }
       throw new Error(errorData.error || 'Registration failed');
+    }
+
+    return response.json();
+  }
+
+  static async loginUser(loginData: LoginData, language: string): Promise<LoginResponse> {
+    const response = await httpRequestService.post(
+      `${API_BASE_URL}/login`,
+      loginData,
+      {
+        'Content-Type': 'application/json',
+        'Accept-Language': language
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+      if (errorData.error && errorData.error.includes('inválidos')) {
+        throw new Error('INVALID_CREDENTIALS');
+      }
+      throw new Error(errorData.error || 'Login failed');
     }
 
     return response.json();
