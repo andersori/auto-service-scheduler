@@ -13,6 +13,18 @@ import { formatPhone, isValidPhone } from '../utils/validation';
 import './AppointmentForm.css';
 import Header from './header/Header';
 
+interface Branch {
+  id: string;
+  address: string;
+  services: string[];
+}
+
+interface Workshop {
+  id: string;
+  name: string;
+  branches: Branch[];
+}
+
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => CURRENT_YEAR - i);
 
@@ -29,6 +41,8 @@ export const AppointmentForm: React.FC = () => {
 
   const [serviceTypes, setServiceTypes] = useState<ServiceType[]>([]);
   const [isLoadingServiceTypes, setIsLoadingServiceTypes] = useState(false);
+  const [workshopData, setWorkshopData] = useState<Workshop | null>(null);
+  const [availableBranches, setAvailableBranches] = useState<Branch[]>([]);
 
   const [formData, setFormData] = useState<FormData>({
     clientName: '',
@@ -38,7 +52,8 @@ export const AppointmentForm: React.FC = () => {
     vehicleYear: '',
     serviceTypes: [],
     appointmentDate: '',
-    appointmentTime: ''
+    appointmentTime: '',
+    branchId: ''
   });
 
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
@@ -103,6 +118,37 @@ export const AppointmentForm: React.FC = () => {
     fetchVehicleCatalog();
   }, [fetchServiceTypes, fetchVehicleCatalog]);
 
+  // Load workshop branches
+  useEffect(() => {
+    if (!workshop) return;
+    
+    // Mock workshop data with branches for demonstration
+    const mockWorkshopData: Workshop = {
+      id: workshop,
+      name: workshop.charAt(0).toUpperCase() + workshop.slice(1).replace('-', ' '),
+      branches: [
+        {
+          id: 'branch-1',
+          address: '123 Main Street, Downtown',
+          services: ['Oil change', 'Full revision', 'Brakes', 'Suspension']
+        },
+        {
+          id: 'branch-2', 
+          address: '456 Oak Avenue, Uptown',
+          services: ['Alignment and balancing', 'Tire replacement', 'Air conditioning', 'Others']
+        }
+      ]
+    };
+    
+    setWorkshopData(mockWorkshopData);
+    setAvailableBranches(mockWorkshopData.branches);
+    
+    // Auto-select first branch if only one exists
+    if (mockWorkshopData.branches.length === 1) {
+      setFormData(prev => ({ ...prev, branchId: mockWorkshopData.branches[0].id }));
+    }
+  }, [workshop]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -127,6 +173,27 @@ export const AppointmentForm: React.FC = () => {
     setModelOptions(vehicleCatalog[brand] || []);
   };
 
+  const handleBranchChange = (selected: { value: string; label: string } | null) => {
+    const branchId = selected ? selected.value : '';
+    setFormData(prev => ({
+      ...prev,
+      branchId: branchId,
+      serviceTypes: [] // Reset selected services when branch changes
+    }));
+    
+    // Update available service types based on selected branch
+    if (branchId && workshopData) {
+      const selectedBranch = workshopData.branches.find(b => b.id === branchId);
+      if (selectedBranch) {
+        const branchServiceTypes: ServiceType[] = selectedBranch.services.map((service, index) => ({
+          id: index + 1,
+          name: service
+        }));
+        setServiceTypes(branchServiceTypes);
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!workshop) return;
@@ -134,7 +201,8 @@ export const AppointmentForm: React.FC = () => {
     // Validation
     if (!formData.clientName || !formData.clientPhone || !formData.vehicleBrand ||
       !formData.vehicleModel || !formData.vehicleYear || formData.serviceTypes.length === 0 ||
-      !formData.appointmentDate || !formData.appointmentTime) {
+      !formData.appointmentDate || !formData.appointmentTime || 
+      (availableBranches.length > 1 && !formData.branchId)) {
       alert(t['error.requiredFields']);
       return;
     }
@@ -309,6 +377,34 @@ export const AppointmentForm: React.FC = () => {
 
             <div className="form-section">
               <h3>{t['form.serviceScheduling']}</h3>
+              
+              {availableBranches.length > 1 && (
+                <div className="form-group">
+                  <label htmlFor="react-select-branch-input">{t['form.selectBranch']}</label>
+                  <Select
+                    inputId="react-select-branch-input"
+                    name="branchId"
+                    options={availableBranches.map(branch => ({ 
+                      value: branch.id, 
+                      label: `${branch.address} (${branch.services.length} services)` 
+                    }))}
+                    value={formData.branchId ? 
+                      availableBranches.find(branch => branch.id === formData.branchId) ?
+                        { 
+                          value: formData.branchId, 
+                          label: `${availableBranches.find(branch => branch.id === formData.branchId)!.address} (${availableBranches.find(branch => branch.id === formData.branchId)!.services.length} services)`
+                        } : null
+                      : null
+                    }
+                    onChange={handleBranchChange}
+                    placeholder={t['message.selectBranch']}
+                    isClearable
+                    isSearchable
+                    classNamePrefix="react-select"
+                  />
+                </div>
+              )}
+
               <div className="form-group">
                 <label htmlFor="react-select-serviceType-input">{t['form.serviceType']}</label>
                 <Select

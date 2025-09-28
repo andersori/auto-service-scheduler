@@ -19,6 +19,7 @@ export const ptBR: Translations = {
   'form.vehicleModel': 'Modelo *',
   'form.vehicleYear': 'Ano *',
   'form.serviceType': 'Tipo de serviço *',
+  'form.selectBranch': 'Selecionar Filial *',
   'form.appointmentDate': 'Data *',
   'form.appointmentTime': 'Horário *',
   'form.submit': 'Agendar Serviço',
@@ -31,6 +32,7 @@ export const ptBR: Translations = {
   'message.selectTime': 'Selecione o horário',
   'message.selectYear': 'Selecione o ano',
   'message.selectService': 'Selecione o serviço',
+  'message.selectBranch': 'Selecione a filial',
   
   // Service types
   'service.oilChange': 'Troca de óleo',
@@ -126,6 +128,7 @@ export const ptBR: Translations = {
   'dashboard.workshops.description': 'Registre uma nova oficina para oferecer serviços aos clientes',
   'dashboard.workshops.register': 'Cadastrar Oficina',
   'dashboard.workshops.form.title': 'Nova Oficina',
+  'dashboard.branches.manage': 'Gerenciar Filiais',
   'dashboard.appointments.title': 'Ver Agendamentos',
   'dashboard.appointments.description': 'Visualize agendamentos existentes e gerencie serviços',
   'dashboard.appointments.view': 'Ver Agendamentos',
@@ -153,6 +156,32 @@ export const ptBR: Translations = {
   'workshop.form.timeTo': 'às',
   'workshop.form.addTimeRange': '+ Adicionar Horário',
   'workshop.form.removeTimeRange': 'Remover horário',
+
+  // Branch form
+  'branch.form.address': 'Endereço da Filial *',
+  'branch.form.operatingHours': 'Horário de Funcionamento *',
+  'branch.form.services': 'Serviços Oferecidos *',
+  'branch.form.submit': 'Cadastrar Filial',
+  'branch.form.processing': 'Cadastrando...',
+  'branch.form.success': 'Filial cadastrada com sucesso!',
+  'branch.form.error': 'Erro ao cadastrar filial. Tente novamente.',
+  'branch.form.placeholder.address': 'Ex: Rua das Flores, 123 - Centro - São Paulo, SP',
+
+  // Branch management
+  'branch.management.title': 'Gerenciar Filiais',
+  'branch.management.subtitle': 'Crie e gerencie filiais para suas oficinas',
+  'branch.management.selectWorkshop': 'Selecionar Oficina *',
+  'branch.management.branches': 'Filiais',
+  'branch.management.addBranch': 'Adicionar Filial',
+  'branch.management.newBranch': 'Nova Filial',
+  'branch.management.noBranches': 'Nenhuma filial cadastrada ainda.',
+  'branch.management.noWorkshops': 'Nenhuma oficina encontrada',
+  'branch.management.createWorkshopFirst': 'Você precisa criar uma oficina primeiro antes de adicionar filiais.',
+  'branch.management.edit': 'Editar',
+  'branch.management.delete': 'Excluir',
+  
+  // Console errors
+  'console.error.branchRegistration': 'Erro no registro da filial:',
   
   // Days of the week
   'workshop.form.days.monday': 'Segunda-feira',

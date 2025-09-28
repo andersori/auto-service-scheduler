@@ -39,4 +39,5 @@ export interface FormData {
   serviceTypes: string[];
   appointmentDate: string;
   appointmentTime: string;
+  branchId?: string; // Optional for backward compatibility
 }

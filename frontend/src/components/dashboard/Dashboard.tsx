@@ -4,6 +4,7 @@ import { UserResponse } from '../../types/user';
 import { getTranslations } from '../../i18n';
 import { useLanguage } from '../../hooks/useLanguage';
 import WorkshopRegistrationForm from './WorkshopRegistrationForm';
+import BranchManagement from './BranchManagement';
 import AppointmentCalendarPage from './AppointmentCalendarPage';
 import './Dashboard.css';
 import Header from '../header/Header';
@@ -16,6 +17,7 @@ const Dashboard: React.FC = () => {
 
   const [user, setUser] = useState<UserResponse | null>(null);
   const [showWorkshopForm, setShowWorkshopForm] = useState(false);
+  const [showBranchManagement, setShowBranchManagement] = useState(false);
   const [showAppointments, setShowAppointments] = useState(false);
 
   useEffect(() => {
@@ -56,11 +58,12 @@ const Dashboard: React.FC = () => {
       />
 
       <div className="dashboard-container" style={{ position: 'relative' }}>
-        {(showWorkshopForm || showAppointments) && (
+        {(showWorkshopForm || showBranchManagement || showAppointments) && (
           <button
             className="icon-back-btn"
             onClick={() => {
               setShowWorkshopForm(false);
+              setShowBranchManagement(false);
               setShowAppointments(false);
             }}
             aria-label={t['dashboard.back']}
@@ -75,7 +78,7 @@ const Dashboard: React.FC = () => {
             <p className="user-info">{user.email} • {user.userType}</p>
           </div>
 
-          {!showWorkshopForm && !showAppointments ? (
+          {!showWorkshopForm && !showBranchManagement && !showAppointments ? (
             <div className="actions-section">
               <h2>{t['dashboard.actions.title']}</h2>
               <div className="action-cards">
@@ -87,6 +90,17 @@ const Dashboard: React.FC = () => {
                     onClick={() => setShowWorkshopForm(true)}
                   >
                     {t['dashboard.workshops.register']}
+                  </button>
+                </div>
+
+                <div className="action-card">
+                  <h3>{t['branch.management.title']}</h3>
+                  <p>{t['branch.management.subtitle']}</p>
+                  <button
+                    className="action-btn primary"
+                    onClick={() => setShowBranchManagement(true)}
+                  >
+                    {t['dashboard.branches.manage']}
                   </button>
                 </div>
 
@@ -107,6 +121,12 @@ const Dashboard: React.FC = () => {
           {showWorkshopForm && (
             <div className="workshop-form-section">
               <WorkshopRegistrationForm language={language} />
+            </div>
+          )}
+
+          {showBranchManagement && (
+            <div className="branch-management-section">
+              <BranchManagement language={language} />
             </div>
           )}
 

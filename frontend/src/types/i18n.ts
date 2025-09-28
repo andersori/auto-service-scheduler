@@ -17,6 +17,7 @@ export interface Translations {
   'form.vehicleModel': string;
   'form.vehicleYear': string;
   'form.serviceType': string;
+  'form.selectBranch': string;
   'form.appointmentDate': string;
   'form.appointmentTime': string;
   'form.submit': string;
@@ -29,6 +30,7 @@ export interface Translations {
   'message.selectTime': string;
   'message.selectYear': string;
   'message.selectService': string;
+  'message.selectBranch': string;
   
   // Service types
   'service.oilChange': string;
@@ -82,6 +84,7 @@ export interface Translations {
   'console.error.parseUser': string;
   'console.error.registration': string;
   'console.error.workshopRegistration': string;
+  'console.error.branchRegistration': string;
 
   // User registration and login
   'user.registration.title': string;
@@ -125,6 +128,7 @@ export interface Translations {
   'dashboard.workshops.description': string;
   'dashboard.workshops.register': string;
   'dashboard.workshops.form.title': string;
+  'dashboard.branches.manage': string;
   'dashboard.appointments.title': string;
   'dashboard.appointments.description': string;
   'dashboard.appointments.view': string;
@@ -152,6 +156,29 @@ export interface Translations {
   'workshop.form.timeTo': string;
   'workshop.form.addTimeRange': string;
   'workshop.form.removeTimeRange': string;
+
+  // Branch form
+  'branch.form.address': string;
+  'branch.form.operatingHours': string;
+  'branch.form.services': string;
+  'branch.form.submit': string;
+  'branch.form.processing': string;
+  'branch.form.success': string;
+  'branch.form.error': string;
+  'branch.form.placeholder.address': string;
+
+  // Branch management
+  'branch.management.title': string;
+  'branch.management.subtitle': string;
+  'branch.management.selectWorkshop': string;
+  'branch.management.branches': string;
+  'branch.management.addBranch': string;
+  'branch.management.newBranch': string;
+  'branch.management.noBranches': string;
+  'branch.management.noWorkshops': string;
+  'branch.management.createWorkshopFirst': string;
+  'branch.management.edit': string;
+  'branch.management.delete': string;
   
   // Days of the week
   'workshop.form.days.monday': string;
