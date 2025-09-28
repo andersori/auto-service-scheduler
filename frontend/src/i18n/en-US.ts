@@ -42,7 +42,7 @@ export const enUS: Translations = {
   'success.appointmentDetails': 'Appointment Details',
   'success.message': 'We will contact you for confirmation.',
   'success.backToForm': 'New Appointment',
-  'success.generateReceipt': 'Generate Receipt',
+  'success.generateReceipt': 'Save Receipt',
   'success.generateReceiptDateMessage': 'Generated on',
 
   // Workshop list

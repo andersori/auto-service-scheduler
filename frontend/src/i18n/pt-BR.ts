@@ -42,7 +42,7 @@ export const ptBR: Translations = {
   'success.appointmentDetails': 'Detalhes do Agendamento',
   'success.message': 'Entraremos em contato para confirmação.',
   'success.backToForm': 'Novo Agendamento',
-  'success.generateReceipt': 'Gerar Comprovante',
+  'success.generateReceipt': 'Salvar Comprovante',
   'success.generateReceiptDateMessage': 'Gerado em',
   
   // Workshop list
