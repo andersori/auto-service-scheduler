@@ -46,6 +46,7 @@ export interface Translations {
   'success.generateReceiptDateMessage': string;
   
   // Workshop list
+  'workshop.register': string;
   'workshop.list.title': string;
   'workshop.list.subtitle': string;
   'workshop.services': string;
@@ -55,10 +56,15 @@ export interface Translations {
   'error.generateReceipt': string;
   'error.requiredFields': string;
   'error.invalidPhone': string;
+
   // Console error messages
   'console.error.fetchServiceTypes': string;
   'console.error.fetchVehicleCatalog': string;
   'console.error.fetchTimeSlots': string;
+  'console.error.fetchWorkshops': string;
+  'console.error.parseUser': string;
+  'console.error.registration': string;
+  'console.error.workshopRegistration': string;
 
   // User registration and login
   'user.registration.title': string;

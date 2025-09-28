@@ -23,13 +23,13 @@ export const WorkshopList: React.FC = () => {
       const workshopsData = await WorkshopService.getAllWorkshops(language);
       setWorkshops(workshopsData);
     } catch (error) {
-      console.error('Failed to fetch workshops:', error);
+      console.error(t['console.error.fetchWorkshops'], error);
       // Fall back to default workshops if backend is not available
       setWorkshops(WorkshopService.getDefaultWorkshops(language));
     } finally {
       setIsLoading(false);
     }
-  }, [language]);
+  }, [language, t]);
 
   useEffect(() => {
     fetchWorkshops();
@@ -58,8 +58,8 @@ export const WorkshopList: React.FC = () => {
         <h1>{t['workshop.list.title']}</h1>
         <p>{t['workshop.list.subtitle']}</p>
         <div className="page-actions">
-          <Link to="/register" className="btn btn-secondary">
-            {language === 'pt-BR' ? 'Cadastrar Oficina' : 'Register Workshop'}
+          <Link to="/login" className="btn btn-secondary">
+            {t['workshop.register']}
           </Link>
         </div>
       </div>

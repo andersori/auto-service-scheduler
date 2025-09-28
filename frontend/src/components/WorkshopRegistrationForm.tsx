@@ -256,12 +256,9 @@ const WorkshopRegistrationForm: React.FC = () => {
       };
 
       console.log('Workshop registration data:', workshopData);
-      
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       alert(t['workshop.form.success']);
-      
       // Reset form
       setFormData({
         name: '',
@@ -272,7 +269,7 @@ const WorkshopRegistrationForm: React.FC = () => {
         services: []
       });
     } catch (error: any) {
-      console.error('Workshop registration error:', error);
+      console.error(t['console.error.workshopRegistration'], error);
       alert(t['workshop.form.error']);
     } finally {
       setIsLoading(false);

@@ -46,6 +46,7 @@ export const enUS: Translations = {
   'success.generateReceiptDateMessage': 'Generated on',
 
   // Workshop list
+  'workshop.register': 'Register Workshop',
   'workshop.list.title': 'Choose a Workshop',
   'workshop.list.subtitle': 'Select the workshop closest to you to schedule your service',
   'workshop.services': 'Available services',
@@ -60,6 +61,10 @@ export const enUS: Translations = {
   'console.error.fetchServiceTypes': 'Error fetching service types:',
   'console.error.fetchVehicleCatalog': 'Error fetching vehicle catalog:',
   'console.error.fetchTimeSlots': 'Error fetching time slots:',
+  'console.error.fetchWorkshops': 'Error fetching workshops:',
+  'console.error.parseUser': 'Error parsing user data:',
+  'console.error.registration': 'Registration error:',
+  'console.error.workshopRegistration': 'Workshop registration error:',
 
   // User registration
   'user.registration.title': 'User Registration',

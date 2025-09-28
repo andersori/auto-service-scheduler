@@ -1,6 +1,7 @@
 import { Translations } from '../types/i18n';
 
 export const ptBR: Translations = {
+  // ...existing code...
   // Form labels
   'form.title': 'Agendamento de Serviços',
   'form.clientInfo': 'Informações do Cliente',
@@ -46,6 +47,7 @@ export const ptBR: Translations = {
   'success.generateReceiptDateMessage': 'Gerado em',
   
   // Workshop list
+  'workshop.register': 'Cadastrar Oficina',
   'workshop.list.title': 'Escolha uma Oficina',
   'workshop.list.subtitle': 'Selecione a oficina mais próxima de você para agendar seu serviço',
   'workshop.services': 'Serviços disponíveis',
@@ -60,6 +62,10 @@ export const ptBR: Translations = {
   'console.error.fetchServiceTypes': 'Erro ao buscar tipos de serviço:',
   'console.error.fetchVehicleCatalog': 'Erro ao buscar catálogo de veículos:',
   'console.error.fetchTimeSlots': 'Erro ao buscar horários disponíveis:',
+  'console.error.fetchWorkshops': 'Erro ao buscar oficinas:',
+  'console.error.parseUser': 'Erro ao processar dados do usuário:',
+  'console.error.registration': 'Erro no registro:',
+  'console.error.workshopRegistration': 'Erro no registro da oficina:',
 
   // User registration
   'user.registration.title': 'Cadastro de Usuário',
