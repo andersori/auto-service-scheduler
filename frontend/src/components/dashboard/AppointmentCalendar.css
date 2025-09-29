@@ -6,6 +6,24 @@
   --status-cancelled: #e74c3c;
 }
 
+.calendar-status-filter {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 status, ajuste se mudar a quantidade */
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 16px;
+  margin-top: 8px;
+}
+
+.calendar-status-filter-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
 .appointment-card.status-created {
   background: var(--status-created);
   color: #fff;

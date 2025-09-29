@@ -19,6 +19,22 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
   const t = getTranslations(language);
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(getStartOfWeek(new Date()));
   const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
+  // Filtro de status
+  const statusOptions = [
+    { value: 'CREATED', label: 'Criada' },
+    { value: 'PENDING_CONFIRMATION', label: 'Pendente Confirmação' },
+    { value: 'CONFIRMED', label: 'Confirmada' },
+    { value: 'COMPLETED', label: 'Realizada' },
+    { value: 'CANCELLED', label: 'Cancelada' },
+  ];
+  const [selectedStatus, setSelectedStatus] = useState<string[]>(statusOptions.map(opt => opt.value));
+  const handleStatusChange = (status: string) => {
+    setSelectedStatus(prev =>
+      prev.includes(status)
+        ? prev.filter(s => s !== status)
+        : [...prev, status]
+    );
+  };
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<AppointmentPreview>({ appointment: null as any, visible: false });
@@ -52,10 +68,10 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
   // Parse appointment date string and extract time
   function parseAppointmentDateTime(dateString: string): { date: Date; time: string } {
     const appointmentDate = new Date(dateString);
-    const time = appointmentDate.toLocaleTimeString('pt-BR', { 
-      hour: '2-digit', 
+    const time = appointmentDate.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
       minute: '2-digit',
-      hour12: false 
+      hour12: false
     });
     return { date: appointmentDate, time };
   }
@@ -66,7 +82,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
     return appointments
       .filter(appointment => {
         const appointmentDate = formatDateForAPI(new Date(appointment.appointmentDate));
-        return appointmentDate === dateString;
+        return appointmentDate === dateString && selectedStatus.includes(appointment.status);
       })
       .sort((a, b) => {
         const aDate = new Date(a.appointmentDate);
@@ -158,7 +174,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
   const loadAppointments = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const allAppointments = await AppointmentService.getAllAppointments(workshop, language);
       setAppointments(allAppointments);
@@ -263,25 +279,25 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
           <h2>{t['calendar.title']}</h2>
           <p>{t['calendar.subtitle']}</p>
         </div>
-        
+
         <div className="calendar-navigation">
-          <button 
-            className="nav-btn" 
+          <button
+            className="nav-btn"
             onClick={goToPreviousWeek}
             aria-label={t['calendar.previousWeek']}
           >
             ←
           </button>
-          
-          <button 
+
+          <button
             className={`action-btn primary ${isCurrentWeek() ? 'active' : ''}`}
             onClick={goToCurrentWeek}
           >
             {isCurrentWeek() ? t['calendar.currentWeek'] : t['calendar.currentWeek']}
           </button>
-          
-          <button 
-            className="nav-btn" 
+
+          <button
+            className="nav-btn"
             onClick={goToNextWeek}
             aria-label={t['calendar.nextWeek']}
           >
@@ -291,6 +307,20 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
       </div>
 
       {error && <div className="calendar-error">{error}</div>}
+
+      <div className="calendar-status-filter">
+        {statusOptions.map(opt => (
+          <label key={opt.value} className='calendar-status-filter-item' >
+            <input
+              type="checkbox"
+              checked={selectedStatus.includes(opt.value)}
+              onChange={() => handleStatusChange(opt.value)}
+              style={{ accentColor: 'var(--status-' + opt.value.toLowerCase() + ')' }}
+            />
+            <span style={{ color: 'var(--status-' + opt.value.toLowerCase() + ')' }}>{opt.label}</span>
+          </label>
+        ))}
+      </div>
 
       <div className="calendar-grid">
         {/* Desktop/tablet: full header row */}
@@ -376,7 +406,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
                 ×
               </button>
             </div>
-            
+
             <div className="preview-body">
               <div className="preview-field">
                 <strong>{t['appointment.preview.status'] || 'Status'}:</strong>
@@ -389,17 +419,17 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
                 <strong>{t['appointment.preview.client']}:</strong>
                 <span>{preview.appointment.clientName}</span>
               </div>
-              
+
               <div className="preview-field">
                 <strong>{t['appointment.preview.phone']}:</strong>
                 <span>{preview.appointment.clientPhone}</span>
               </div>
-              
+
               <div className="preview-field">
                 <strong>{t['appointment.preview.vehicle']}:</strong>
                 <span>{preview.appointment.vehicleBrand} {preview.appointment.vehicleModel} {preview.appointment.vehicleYear}</span>
               </div>
-              
+
               <div className="preview-field">
                 <strong>{t['appointment.preview.services']}:</strong>
                 <div className="services-list">
@@ -408,18 +438,18 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
                   ))}
                 </div>
               </div>
-              
+
               <div className="preview-field">
                 <strong>{t['appointment.preview.date']}:</strong>
                 <span>{new Date(preview.appointment.appointmentDate).toLocaleDateString(language)}</span>
               </div>
-              
+
               <div className="preview-field">
                 <strong>{t['appointment.preview.time']}:</strong>
                 <span>{parseAppointmentDateTime(preview.appointment.appointmentDate).time}</span>
               </div>
             </div>
-            
+
             <div className="preview-footer">
               <button className="close-btn-primary" onClick={closePreview}>
                 {t['appointment.preview.close']}
