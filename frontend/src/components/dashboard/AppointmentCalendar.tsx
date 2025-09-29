@@ -256,7 +256,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
     })();
     return () => { mounted = false; };
   }, [workshop]);
-  
+
   React.useEffect(() => {
     const onResize = () => {
       setIsMobile(window.innerWidth <= 1050);
@@ -295,7 +295,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
 
   return (
     <div className="appointment-calendar">
-  <div className="calendar-header">
+      <div className="calendar-header">
 
         <div className="calendar-title-section">
           <h2>{t['calendar.title']}</h2>
