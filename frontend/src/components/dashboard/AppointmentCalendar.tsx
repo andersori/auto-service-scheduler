@@ -60,45 +60,87 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
     return { date: appointmentDate, time };
   }
 
-  // Filter appointments for a specific date
+  // Filter appointments for a specific date and sort by time (earliest first)
   function getAppointmentsForDate(date: Date): AppointmentResponse[] {
     const dateString = formatDateForAPI(date);
-    return appointments.filter(appointment => {
-      const appointmentDate = formatDateForAPI(new Date(appointment.appointmentDate));
-      return appointmentDate === dateString;
-    });
+    return appointments
+      .filter(appointment => {
+        const appointmentDate = formatDateForAPI(new Date(appointment.appointmentDate));
+        return appointmentDate === dateString;
+      })
+      .sort((a, b) => {
+        const aDate = new Date(a.appointmentDate);
+        const bDate = new Date(b.appointmentDate);
+        return aDate.getTime() - bDate.getTime();
+      });
   }
 
   // Generate mock appointments for demo purposes
   const generateMockAppointments = (): AppointmentResponse[] => {
     const today = new Date();
     const mockAppointments: AppointmentResponse[] = [];
-    
-    // Generate some mock appointments for this week
-    for (let i = 0; i < 5; i++) {
-      const appointmentDate = new Date(today);
-      appointmentDate.setDate(today.getDate() + (i - 2)); // Spread across the week
-      appointmentDate.setHours(9 + (i * 2), 0, 0, 0); // Different times
-      
-      mockAppointments.push({
-        id: i + 1,
-        clientName: [`João Silva`, `Maria Santos`, `Pedro Costa`, `Ana Lima`, `Carlos Oliveira`][i],
-        clientPhone: `(11) 9999-${9000 + i}`,
-        vehicleBrand: [`Toyota`, `Honda`, `Volkswagen`, `Ford`, `Chevrolet`][i],
-        vehicleModel: [`Corolla`, `Civic`, `Gol`, `Focus`, `Onix`][i],
-        vehicleYear: 2018 + i,
-        serviceTypes: [
-          [`Troca de óleo`],
-          [`Revisão completa`, `Freios`],
-          [`Alinhamento`],
-          [`Suspensão`, `Balanceamento`],
-          [`Ar condicionado`]
-        ][i],
-        appointmentDate: appointmentDate.toISOString(),
-        createdAt: today.toISOString()
-      });
+    const clientNames = [
+      'João Silva', 'Maria Santos', 'Pedro Costa', 'Ana Lima', 'Carlos Oliveira',
+      'Lucas Souza', 'Fernanda Rocha', 'Paulo Mendes', 'Juliana Alves', 'Rafael Dias'
+    ];
+    const brands = [
+      'Toyota', 'Honda', 'Volkswagen', 'Ford', 'Chevrolet',
+      'Hyundai', 'Fiat', 'Renault', 'Peugeot', 'Nissan'
+    ];
+    const models = [
+      'Corolla', 'Civic', 'Gol', 'Focus', 'Onix',
+      'HB20', 'Argo', 'Sandero', '208', 'Versa'
+    ];
+    const serviceTypesList = [
+      ['Troca de óleo'],
+      ['Revisão completa', 'Freios'],
+      ['Alinhamento'],
+      ['Suspensão', 'Balanceamento'],
+      ['Ar condicionado'],
+      ['Pneus'],
+      ['Elétrica'],
+      ['Diagnóstico'],
+      ['Embreagem'],
+      ['Bateria']
+    ];
+
+    // Para cada dia da semana (segunda a domingo)
+    for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+      const baseDate = new Date(today);
+      // Ajusta para o início da semana (segunda-feira)
+      const day = baseDate.getDay();
+      const diff = baseDate.getDate() - day + (day === 0 ? -6 : 1);
+      baseDate.setDate(diff + dayOffset);
+      baseDate.setHours(0, 0, 0, 0);
+
+      // Entre 5 e 10 agendamentos por dia, horários aleatórios entre 8h e 18h
+      const appointmentsCount = Math.floor(Math.random() * 6) + 5; // 5 a 10
+      const usedHours: number[] = [];
+      for (let i = 0; i < appointmentsCount; i++) {
+        // Gera um horário aleatório entre 8h e 18h, sem repetir no mesmo dia
+        let hour: number;
+        do {
+          hour = Math.floor(Math.random() * 11) + 8; // 8 a 18
+        } while (usedHours.includes(hour));
+        usedHours.push(hour);
+
+        const appointmentDate = new Date(baseDate);
+        appointmentDate.setHours(hour, 0, 0, 0);
+
+        mockAppointments.push({
+          id: dayOffset * 10 + i + 1,
+          clientName: clientNames[(i + dayOffset) % clientNames.length],
+          clientPhone: `(11) 9${(1000 + i + dayOffset * 10).toString().padStart(4, '0')}-000${i}`,
+          vehicleBrand: brands[(i + dayOffset) % brands.length],
+          vehicleModel: models[(i + dayOffset) % models.length],
+          vehicleYear: 2015 + ((i + dayOffset) % 10),
+          serviceTypes: serviceTypesList[(i + dayOffset) % serviceTypesList.length],
+          appointmentDate: appointmentDate.toISOString(),
+          createdAt: today.toISOString()
+        });
+      }
     }
-    
+    console.log('Generated mock appointments:', mockAppointments);
     return mockAppointments;
   };
 
@@ -229,7 +271,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
                   <div className="day-month">{day.toLocaleDateString(language, { month: 'short' })}</div>
                 </div>
                 {loading ? (
-                  <div className="calendar-loading">{t['calendar.loading']}</div>
+                  <div className="no-appointments calendar-loading">{t['calendar.loading']}</div>
                 ) : dayAppointments.length === 0 ? (
                   <div className="no-appointments">
                     {t['calendar.noAppointments']}
