@@ -1,9 +1,10 @@
 export type Language = 'pt-BR' | 'en-US';
 
 export interface Translations {
+  'appointment.preview.status': string;
   'calendar.expandDay': string;
   'calendar.minimizeDay': string;
-  
+
   'error.close': string;
 
   // Header

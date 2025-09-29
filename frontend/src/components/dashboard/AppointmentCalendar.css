@@ -1,3 +1,31 @@
+:root {
+  --status-created: #bdbdbd;
+  --status-pending_confirmation: #f7b731;
+  --status-confirmed: #3498db;
+  --status-completed: #27ae60;
+  --status-cancelled: #e74c3c;
+}
+
+.appointment-card.status-created {
+  background: var(--status-created);
+  color: #fff;
+}
+.appointment-card.status-pending_confirmation {
+  background: var(--status-pending_confirmation);
+  color: #fff;
+}
+.appointment-card.status-confirmed {
+  background: var(--status-confirmed);
+  color: #fff;
+}
+.appointment-card.status-completed {
+  background: var(--status-completed);
+  color: #fff;
+}
+.appointment-card.status-cancelled {
+  background: var(--status-cancelled);
+  color: #fff;
+}
 @media (max-width: 1050px) {
   .calendar-day.minimized {
     min-height: 0 !important;

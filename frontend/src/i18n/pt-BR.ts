@@ -1,6 +1,7 @@
 import { Translations } from '../types/i18n';
 
 export const ptBR: Translations = {
+  'appointment.preview.status': 'Status',
   'calendar.expandDay': 'Expandir',
   'calendar.minimizeDay': 'Minimizar',
 

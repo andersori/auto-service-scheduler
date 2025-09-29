@@ -127,6 +127,15 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
         const appointmentDate = new Date(baseDate);
         appointmentDate.setHours(hour, 0, 0, 0);
 
+        // Status alternando para simular variedade
+        const statusList: import('../../types/appointment').AppointmentStatus[] = [
+          'CREATED',
+          'PENDING_CONFIRMATION',
+          'CONFIRMED',
+          'COMPLETED',
+          'CANCELLED',
+        ];
+        const status = statusList[(i + dayOffset) % statusList.length];
         mockAppointments.push({
           id: dayOffset * 10 + i + 1,
           clientName: clientNames[(i + dayOffset) % clientNames.length],
@@ -136,7 +145,8 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
           vehicleYear: 2015 + ((i + dayOffset) % 10),
           serviceTypes: serviceTypesList[(i + dayOffset) % serviceTypesList.length],
           appointmentDate: appointmentDate.toISOString(),
-          createdAt: today.toISOString()
+          createdAt: today.toISOString(),
+          status: status,
         });
       }
     }
@@ -219,7 +229,16 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
   }, []);
   // Sempre expande todos os dias quando não for mobile
   React.useEffect(() => {
-    if (!isMobile) setMinimizedDays(Array(7).fill(false));
+    if (!isMobile) {
+      setMinimizedDays(Array(7).fill(false));
+    } else {
+      // Minimiza automaticamente todos os dias anteriores ao dia de hoje
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const week = getWeekDays(currentWeekStart);
+      const minimized = week.map((day) => day < today);
+      setMinimizedDays(minimized);
+    }
   }, [isMobile, currentWeekStart]);
   const handleToggleDay = (index: number) => {
     if (!isMobile) return;
@@ -319,7 +338,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
                         return (
                           <div
                             key={appointment.id}
-                            className="appointment-card"
+                            className={`appointment-card status-${appointment.status.toLowerCase()}`}
                             onClick={() => showAppointmentPreview(appointment)}
                             role="button"
                             tabIndex={0}
@@ -359,6 +378,13 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
             </div>
             
             <div className="preview-body">
+              <div className="preview-field">
+                <strong>{t['appointment.preview.status'] || 'Status'}:</strong>
+                <span style={{
+                  color: getComputedStyle(document.documentElement).getPropertyValue(`--status-${preview.appointment.status.toLowerCase()}`),
+                  fontWeight: 600
+                }}>{preview.appointment.status.replace('_', ' ')}</span>
+              </div>
               <div className="preview-field">
                 <strong>{t['appointment.preview.client']}:</strong>
                 <span>{preview.appointment.clientName}</span>

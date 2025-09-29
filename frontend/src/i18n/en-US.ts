@@ -1,6 +1,7 @@
 import { Translations } from '../types/i18n';
 
 export const enUS: Translations = {
+  'appointment.preview.status': 'Status',
   'calendar.expandDay': 'Expand',
   'calendar.minimizeDay': 'Minimize',
   'error.generateReceipt': 'Failed to generate receipt. Please try again.',
