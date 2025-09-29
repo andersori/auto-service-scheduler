@@ -21,11 +21,11 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
   const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
   // Filtro de status
   const statusOptions = [
-    { value: 'CREATED', label: 'Criada' },
-    { value: 'PENDING_CONFIRMATION', label: 'Pendente Confirmação' },
-    { value: 'CONFIRMED', label: 'Confirmada' },
-    { value: 'COMPLETED', label: 'Realizada' },
-    { value: 'CANCELLED', label: 'Cancelada' },
+    { value: 'CREATED', label: t['appointment.status.created'] },
+    { value: 'PENDING_CONFIRMATION', label: t['appointment.status.pending_confirmation'] },
+    { value: 'CONFIRMED', label: t['appointment.status.confirmed'] },
+    { value: 'COMPLETED', label: t['appointment.status.completed'] },
+    { value: 'CANCELLED', label: t['appointment.status.cancelled'] },
   ];
   const [selectedStatus, setSelectedStatus] = useState<string[]>(statusOptions.map(opt => opt.value));
   const handleStatusChange = (status: string) => {

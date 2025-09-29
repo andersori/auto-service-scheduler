@@ -1,9 +1,17 @@
 import { Translations } from '../types/i18n';
 
 export const enUS: Translations = {
+  // Status
+  'appointment.status.created': 'Created',
+  'appointment.status.pending_confirmation': 'Pending Confirmation',
+  'appointment.status.confirmed': 'Confirmed',
+  'appointment.status.completed': 'Completed',
+  'appointment.status.cancelled': 'Cancelled',
+
   'appointment.preview.status': 'Status',
   'calendar.expandDay': 'Expand',
   'calendar.minimizeDay': 'Minimize',
+
   'error.generateReceipt': 'Failed to generate receipt. Please try again.',
   'error.receiptContainerNotFound': 'Receipt container not found.',
   'error.close': 'Close error message',

@@ -1,6 +1,13 @@
 import { Translations } from '../types/i18n';
 
 export const ptBR: Translations = {
+  // Status labels
+  'appointment.status.created': 'Criada',
+  'appointment.status.pending_confirmation': 'Pendente Confirmação',
+  'appointment.status.confirmed': 'Confirmada',
+  'appointment.status.completed': 'Concluída',
+  'appointment.status.cancelled': 'Cancelada',
+
   'appointment.preview.status': 'Status',
   'calendar.expandDay': 'Expandir',
   'calendar.minimizeDay': 'Minimizar',
