@@ -144,23 +144,6 @@
   margin-top: 20px;
 }
 
-.back-btn {
-  background: #6c757d;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.back-btn:hover {
-  background: #5a6268;
-  transform: translateY(-1px);
-}
-
 .loading {
   display: flex;
   justify-content: center;

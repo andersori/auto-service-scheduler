@@ -9,6 +9,7 @@ export interface Translations {
   'appointment.status.cancelled': string,
 
   'appointment.preview.status': string;
+  'calendar.adminCreateAppointment': string;
   'calendar.expandDay': string;
   'calendar.minimizeDay': string;
 
@@ -33,6 +34,7 @@ export interface Translations {
   'form.appointmentTime': string;
   'form.submit': string;
   'form.processing': string;
+  'form.cancel': string;
   
   // Messages
   'message.success': string;

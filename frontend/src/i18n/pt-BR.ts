@@ -17,6 +17,7 @@ export const ptBR: Translations = {
   'error.close': 'Fechar aviso de erro',
 
   // Header
+  'calendar.adminCreateAppointment': 'Novo agendamento (Admin)',
   'header.title': 'Agendamento Automotivo',
 
   // Form labels
@@ -35,6 +36,7 @@ export const ptBR: Translations = {
   'form.appointmentTime': 'Horário *',
   'form.submit': 'Agendar Serviço',
   'form.processing': 'Processando...',
+  'form.cancel': 'Cancelar',
   
   // Messages
   'message.success': 'Agendamento realizado com sucesso!',

@@ -17,6 +17,7 @@ export const enUS: Translations = {
   'error.close': 'Close error message',
 
   // Header
+  'calendar.adminCreateAppointment': 'Create Appointment (Admin)',
   'header.title': 'Auto Service Scheduler',
 
   // Form labels
@@ -35,6 +36,7 @@ export const enUS: Translations = {
   'form.appointmentTime': 'Time *',
   'form.submit': 'Schedule Service',
   'form.processing': 'Processing...',
+  'form.cancel': 'Cancel',
 
   // Messages
   'message.success': 'Appointment scheduled successfully!',
