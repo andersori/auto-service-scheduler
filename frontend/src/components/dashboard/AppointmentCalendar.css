@@ -1,3 +1,41 @@
+@media (max-width: 1050px) {
+  .calendar-day.minimized {
+    min-height: 0 !important;
+    max-height: 48px;
+    overflow: hidden;
+    padding: 0;
+    border-bottom: 1px solid #e9ecef;
+    transition: max-height 0.2s;
+  }
+  .calendar-day.minimized .calendar-day-header.mobile-header {
+    border-bottom: none;
+  }
+  .calendar-day.minimized .appointments-list,
+  .calendar-day.minimized .no-appointments {
+    display: none !important;
+  }
+}
+@media (max-width: 1050px) {
+  .calendar-day.minimized .appointments-list,
+  .calendar-day.minimized .no-appointments {
+    display: none !important;
+  }
+  .calendar-day-header.mobile-header .minimize-day-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #667eea;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 8px;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .calendar-day-header.mobile-header .minimize-day-btn:hover {
+    color: #495057;
+  }
+}
 .appointment-calendar {
   width: 100%;
   max-width: 1200px;

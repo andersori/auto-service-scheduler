@@ -194,6 +194,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
     loadAppointments();
   }, [workshop, language, currentWeekStart]); // eslint-disable-line react-hooks/exhaustive-deps
 
+
   const weekDays = getWeekDays(currentWeekStart);
   const weekDayNames = [
     t['calendar.days.monday'],
@@ -204,6 +205,30 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
     t['calendar.days.saturday'],
     t['calendar.days.sunday'],
   ];
+
+  // Estado para controlar quais dias estão minimizados (mobile)
+  const [minimizedDays, setMinimizedDays] = useState<boolean[]>(Array(7).fill(false));
+  // Detecta se está em mobile (igual ao breakpoint do CSS)
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 1050);
+  React.useEffect(() => {
+    const onResize = () => {
+      setIsMobile(window.innerWidth <= 1050);
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  // Sempre expande todos os dias quando não for mobile
+  React.useEffect(() => {
+    if (!isMobile) setMinimizedDays(Array(7).fill(false));
+  }, [isMobile, currentWeekStart]);
+  const handleToggleDay = (index: number) => {
+    if (!isMobile) return;
+    setMinimizedDays((prev) => {
+      const copy = [...prev];
+      copy[index] = !copy[index];
+      return copy;
+    });
+  };
 
   // Check if current week is the current actual week
   const isCurrentWeek = () => {
@@ -262,47 +287,59 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
         <div className="calendar-week-body">
           {weekDays.map((day, index) => {
             const dayAppointments = getAppointmentsForDate(day);
+            // Detecta se está em mobile-header via CSS media query (JS não detecta, mas podemos sempre mostrar o botão e esconder via CSS se desktop)
+            const isMinimized = isMobile && minimizedDays[index];
             return (
-              <div key={index} className="calendar-day">
+              <div key={index} className={`calendar-day${isMinimized ? ' minimized' : ''}`}>
                 {/* Mobile: show header above each day */}
                 <div className="calendar-day-header mobile-header">
                   <div className="day-name">{weekDayNames[index]}</div>
                   <div className="day-date">{day.getDate()}</div>
                   <div className="day-month">{day.toLocaleDateString(language, { month: 'short' })}</div>
+                  <button
+                    className="minimize-day-btn"
+                    aria-label={isMinimized ? t['calendar.expandDay'] || 'Expandir' : t['calendar.minimizeDay'] || 'Minimizar'}
+                    onClick={() => handleToggleDay(index)}
+                    type="button"
+                  >
+                    {isMinimized ? '+' : '–'}
+                  </button>
                 </div>
-                {loading ? (
-                  <div className="no-appointments calendar-loading">{t['calendar.loading']}</div>
-                ) : dayAppointments.length === 0 ? (
-                  <div className="no-appointments">
-                    {t['calendar.noAppointments']}
-                  </div>
-                ) : (
-                  <div className="appointments-list">
-                    {dayAppointments.map((appointment) => {
-                      const { time } = parseAppointmentDateTime(appointment.appointmentDate);
-                      return (
-                        <div
-                          key={appointment.id}
-                          className="appointment-card"
-                          onClick={() => showAppointmentPreview(appointment)}
-                          role="button"
-                          tabIndex={0}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              showAppointmentPreview(appointment);
-                            }
-                          }}
-                        >
-                          <div className="appointment-time">{time}</div>
-                          <div className="appointment-client">{appointment.clientName}</div>
-                          <div className="appointment-service">
-                            {appointment.serviceTypes[0]}
-                            {appointment.serviceTypes.length > 1 && ` +${appointment.serviceTypes.length - 1}`}
+                {!isMinimized && (
+                  loading ? (
+                    <div className="no-appointments calendar-loading">{t['calendar.loading']}</div>
+                  ) : dayAppointments.length === 0 ? (
+                    <div className="no-appointments">
+                      {t['calendar.noAppointments']}
+                    </div>
+                  ) : (
+                    <div className="appointments-list">
+                      {dayAppointments.map((appointment) => {
+                        const { time } = parseAppointmentDateTime(appointment.appointmentDate);
+                        return (
+                          <div
+                            key={appointment.id}
+                            className="appointment-card"
+                            onClick={() => showAppointmentPreview(appointment)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                showAppointmentPreview(appointment);
+                              }
+                            }}
+                          >
+                            <div className="appointment-time">{time}</div>
+                            <div className="appointment-client">{appointment.clientName}</div>
+                            <div className="appointment-service">
+                              {appointment.serviceTypes[0]}
+                              {appointment.serviceTypes.length > 1 && ` +${appointment.serviceTypes.length - 1}`}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  )
                 )}
               </div>
             );

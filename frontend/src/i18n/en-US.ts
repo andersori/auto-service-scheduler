@@ -1,6 +1,8 @@
 import { Translations } from '../types/i18n';
 
 export const enUS: Translations = {
+  'calendar.expandDay': 'Expand',
+  'calendar.minimizeDay': 'Minimize',
   'error.generateReceipt': 'Failed to generate receipt. Please try again.',
   'error.receiptContainerNotFound': 'Receipt container not found.',
   'error.close': 'Close error message',

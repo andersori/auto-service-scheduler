@@ -1,6 +1,9 @@
 export type Language = 'pt-BR' | 'en-US';
 
 export interface Translations {
+  'calendar.expandDay': string;
+  'calendar.minimizeDay': string;
+  
   'error.close': string;
 
   // Header

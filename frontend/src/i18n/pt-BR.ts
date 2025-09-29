@@ -1,6 +1,9 @@
 import { Translations } from '../types/i18n';
 
 export const ptBR: Translations = {
+  'calendar.expandDay': 'Expandir',
+  'calendar.minimizeDay': 'Minimizar',
+
   'error.generateReceipt': 'Falha ao gerar comprovante. Tente novamente.',
   'error.receiptContainerNotFound': 'Container do comprovante não encontrado.',
   'error.close': 'Fechar aviso de erro',
