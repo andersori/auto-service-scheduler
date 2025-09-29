@@ -34,14 +34,14 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
     onSubmit,
     onCancel,
 }) => {
+    const phoneInputRef = useRef<HTMLInputElement>(null);
+    const [phoneError, setPhoneError] = useState(false);
     const t = getTranslations(language);
     const [branches, setBranches] = useState<Branch[]>([]);
     const [serviceTypes, setServiceTypes] = useState<ServiceType[]>([]);
     const [vehicleCatalog, setVehicleCatalog] = useState<VehicleCatalog>({});
     const [availableSlots, setAvailableSlots] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [isLoadingServiceTypes, setIsLoadingServiceTypes] = useState(false);
-    const [isLoadingVehicleCatalog, setIsLoadingVehicleCatalog] = useState(false);
     const [modelOptions, setModelOptions] = useState<string[]>([]);
 
     // Scroll the page to the top when the form mounts
@@ -60,6 +60,17 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
         appointmentTime: initialData.appointmentTime || '',
         branchId: initialData.branchId || ''
     });
+
+    // Quando a linguagem mudar, revalida e re-formata o telefone digitado
+    useEffect(() => {
+        if (formData.clientPhone) {
+            const masked = formatPhone(formData.clientPhone, language);
+            setFormData((prev: FormData) => ({
+                ...prev,
+                clientPhone: masked
+            }));
+        }
+    }, [language]);
 
     // Fetch branches (mock for now)
     useEffect(() => {
@@ -81,27 +92,27 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
 
     // Fetch service types
     const fetchServiceTypes = useCallback(async () => {
-        setIsLoadingServiceTypes(true);
+        setIsLoading(true);
         try {
             const types = await ServiceTypeService.getActiveServiceTypes(workshop);
             setServiceTypes(types);
         } catch (error) {
             setServiceTypes(ServiceTypeService.getDefaultServiceTypes());
         } finally {
-            setIsLoadingServiceTypes(false);
+            setIsLoading(false);
         }
     }, [workshop]);
 
     // Fetch vehicle catalog
     const fetchVehicleCatalog = useCallback(async () => {
-        setIsLoadingVehicleCatalog(true);
+        setIsLoading(true);
         try {
             const catalogResponse = await VehicleCatalogService.getVehicleCatalog(workshop, language);
             setVehicleCatalog(catalogResponse.vehicleCatalog);
         } catch (error) {
             setVehicleCatalog(VehicleCatalogService.getDefaultVehicleCatalog().vehicleCatalog);
         } finally {
-            setIsLoadingVehicleCatalog(false);
+            setIsLoading(false);
         }
     }, [workshop, language]);
 
@@ -166,10 +177,18 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
         const raw = e.target.value;
         const masked = formatPhone(raw, language);
         setFormData(prev => ({ ...prev, clientPhone: masked }));
+        if (phoneError) setPhoneError(false);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!isValidPhone(formData.clientPhone, language)) {
+            setPhoneError(true);
+            setTimeout(() => {
+                phoneInputRef.current?.focus();
+            }, 0);
+            return;
+        }
         setIsLoading(true);
         try {
             await onSubmit(formData);
@@ -209,7 +228,13 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                         onChange={handlePhoneChange}
                         placeholder={t['placeholder.phone']}
                         required
+                        ref={phoneInputRef}
+                        aria-invalid={phoneError}
+                        className={phoneError ? 'input-error' : ''}
                     />
+                    {phoneError && (
+                        <div className="input-error-message">{t['error.invalidPhone']}</div>
+                    )}
                 </div>
             </div>
             <div className="form-section">

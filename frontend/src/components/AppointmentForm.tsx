@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppointmentService } from '../services/appointmentService';
-import { ServiceTypeService } from '../services/serviceTypeService';
-import { VehicleCatalogService } from '../services/vehicleCatalogService';
-import { FormData, AvailableTimeSlot, ServiceType } from '../types/appointment';
-import { VehicleCatalog } from '../types/vehicle';
+import { FormData } from '../types/appointment';
 import { useLanguage } from '../hooks/useLanguage';
 import { getTranslations } from '../i18n';
 import AppointmentFormBase from './AppointmentFormBase';
