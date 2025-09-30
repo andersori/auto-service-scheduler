@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { Language } from '../types/i18n';
 import { getTranslations, detectLanguage } from '../i18n';

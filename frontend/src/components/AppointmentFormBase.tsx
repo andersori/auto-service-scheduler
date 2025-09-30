@@ -9,12 +9,7 @@ import { Language } from '../types/i18n';
 import { getTranslations } from '../i18n';
 import { formatPhone, isValidPhone } from '../utils/validation';
 import './AppointmentForm.css';
-
-interface Branch {
-    id: string;
-    address: string;
-    services: string[];
-}
+import { Branch } from '../types/branch';
 
 interface AppointmentFormBaseProps {
     workshop: string;
@@ -43,6 +38,8 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
     const [availableSlots, setAvailableSlots] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [modelOptions, setModelOptions] = useState<string[]>([]);
+    const [globalError, setGlobalError] = useState<string | null>(null);
+    const clientInfoTitleRef = useRef<HTMLHeadingElement>(null);
 
     // Scroll the page to the top when the form mounts
     useEffect(() => {
@@ -70,7 +67,7 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                 clientPhone: masked
             }));
         }
-    }, [language]);
+    }, [language, formData.clientPhone]);
 
     // Fetch branches (mock for now)
     useEffect(() => {
@@ -148,6 +145,7 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
             [name]: value
         }));
         if (name === 'appointmentDate') {
+            setAvailableSlots([]);
             setFormData(prev => ({ ...prev, appointmentTime: '' }));
             fetchAvailableTimeSlots(value);
         }
@@ -181,6 +179,7 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+        setGlobalError(null);
         if (!formData.clientName || !formData.clientPhone || !formData.vehicleBrand ||
             !formData.vehicleModel || !formData.vehicleYear || formData.serviceTypes.length === 0 ||
             !formData.appointmentDate || !formData.appointmentTime || !formData.branchId) {
@@ -198,6 +197,13 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
         setIsLoading(true);
         try {
             await onSubmit(formData);
+        } catch (error) {
+            setGlobalError(t['message.error']);
+            setTimeout(() => {
+                if (clientInfoTitleRef.current) {
+                    clientInfoTitleRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 0);
         } finally {
             setIsLoading(false);
         }
@@ -212,7 +218,10 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
     return (
         <form onSubmit={handleSubmit} className="form">
             <div className="form-section">
-                <h3>{t['form.clientInfo']}</h3>
+                {globalError && (
+                    <div className="error-banner">{globalError}</div>
+                )}
+                <h3 ref={clientInfoTitleRef}>{t['form.clientInfo']}</h3>
                 <div className="form-group">
                     <label htmlFor="clientName">{t['form.clientName']}</label>
                     <input
@@ -361,7 +370,11 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                         inputId="react-select-appointmentTime-input"
                         name="appointmentTime"
                         className="select-appointment-time"
-                        options={(availableSlots || []).map(time => ({ value: time, label: time }))}
+                        options={
+                            isLoading && (!availableSlots || availableSlots.length === 0)
+                                ? [ { value: '', label: t['calendar.loading'], isDisabled: true } as any ]
+                                : (availableSlots || []).map(time => ({ value: time, label: time }))
+                        }
                         value={formData.appointmentTime ? { value: formData.appointmentTime, label: formData.appointmentTime } : null}
                         onChange={(selected) => {
                             const time = selected ? selected.value : '';
@@ -372,15 +385,16 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                         isSearchable
                         isDisabled={!formData.appointmentDate}
                         classNamePrefix="react-select"
+                        isOptionDisabled={option => (option as any).isDisabled}
                     />
                 </div>
             </div>
             <div className="form-actions">
-                <button type="submit" className="submit-button" disabled={isLoading}>
+                <button type="submit" className="btn btn-primary" disabled={isLoading}>
                     {isLoading ? t['form.processing'] : t['form.submit']}
                 </button>
                 {onCancel && (
-                    <button type="button" className="cancel-button" onClick={onCancel}>
+                    <button type="button" className="btn btn-secondary" onClick={onCancel}>
                         {t['form.cancel'] || 'Cancel'}
                     </button>
                 )}
