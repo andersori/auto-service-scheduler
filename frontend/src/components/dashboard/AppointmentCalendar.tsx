@@ -3,6 +3,8 @@ import { AppointmentResponse } from '../../types/appointment';
 import { AppointmentService } from '../../services/appointmentService';
 import { getTranslations } from '../../i18n';
 import { Language } from '../../types/i18n';
+import AppointmentFormBase from '../AppointmentFormBase';
+import { FormData } from '../../types/appointment';
 import './AppointmentCalendar.css';
 
 interface AppointmentCalendarProps {
@@ -276,6 +278,36 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
     return currentWeekStart.getTime() === currentWeekStartActual.getTime();
   };
 
+  // Handle admin appointment creation
+  const handleAdminAppointmentSubmit = async (formData: FormData) => {
+    try {
+      const appointmentRequest = {
+        clientName: formData.clientName,
+        clientPhone: formData.clientPhone,
+        vehicleBrand: formData.vehicleBrand,
+        vehicleModel: formData.vehicleModel,
+        vehicleYear: parseInt(formData.vehicleYear),
+        serviceTypes: formData.serviceTypes,
+        appointmentDate: `${formData.appointmentDate}T${formData.appointmentTime}:00`
+      };
+      
+      await AppointmentService.createAppointment(appointmentRequest, workshop, language);
+      // Reload appointments to show the new one
+      await loadAppointments();
+      // Close the modal
+      setAdminModalOpen(false);
+      // Show success message
+      alert(t['message.success']);
+    } catch (error) {
+      console.error('Error creating admin appointment:', error);
+      alert(t['message.error']);
+    }
+  };
+
+  const handleCancelAdminAppointment = () => {
+    setAdminModalOpen(false);
+  };
+
   return (
     <div className="appointment-calendar">
       <div className="calendar-header">
@@ -286,6 +318,14 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
         </div>
 
         <div className="calendar-navigation">
+          <button
+            className="admin-create-btn"
+            onClick={() => setAdminModalOpen(true)}
+            aria-label={t['calendar.adminCreateAppointment']}
+          >
+            + {t['calendar.adminCreateAppointment']}
+          </button>
+
           <button
             className="nav-btn"
             onClick={goToPreviousWeek}
@@ -400,6 +440,28 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
           })}
         </div>
       </div>
+
+      {/* Admin Appointment Creation Modal */}
+      {adminModalOpen && (
+        <div className="appointment-preview-overlay" onClick={handleCancelAdminAppointment}>
+          <div className="admin-appointment-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="preview-header">
+              <h3>{t['calendar.adminCreateAppointment']}</h3>
+              <button className="close-btn" onClick={handleCancelAdminAppointment}>
+                ×
+              </button>
+            </div>
+            <div className="admin-modal-body">
+              <AppointmentFormBase
+                workshop={workshop}
+                language={language}
+                onSubmit={handleAdminAppointmentSubmit}
+                onCancel={handleCancelAdminAppointment}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Appointment Preview Modal */}
       {preview.visible && (
