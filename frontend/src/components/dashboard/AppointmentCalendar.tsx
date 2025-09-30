@@ -324,29 +324,28 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
           >
             + {t['calendar.adminCreateAppointment']}
           </button>
-
-          <button
-            className="nav-btn"
-            onClick={goToPreviousWeek}
-            aria-label={t['calendar.previousWeek']}
-          >
-            ←
-          </button>
-
-          <button
-            className={`action-btn primary ${isCurrentWeek() ? 'active' : ''}`}
-            onClick={goToCurrentWeek}
-          >
-            {isCurrentWeek() ? t['calendar.currentWeek'] : t['calendar.currentWeek']}
-          </button>
-
-          <button
-            className="nav-btn"
-            onClick={goToNextWeek}
-            aria-label={t['calendar.nextWeek']}
-          >
-            →
-          </button>
+          <div className="calendar-nav-group">
+            <button
+              className="nav-btn"
+              onClick={goToPreviousWeek}
+              aria-label={t['calendar.previousWeek']}
+            >
+              ←
+            </button>
+            <button
+              className={`action-btn primary ${isCurrentWeek() ? 'active' : ''}`}
+              onClick={goToCurrentWeek}
+            >
+              {isCurrentWeek() ? t['calendar.currentWeek'] : t['calendar.currentWeek']}
+            </button>
+            <button
+              className="nav-btn"
+              onClick={goToNextWeek}
+              aria-label={t['calendar.nextWeek']}
+            >
+              →
+            </button>
+          </div>
         </div>
       </div>
 

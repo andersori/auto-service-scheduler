@@ -1,4 +1,30 @@
-:root {
+/* Garante que os botões de navegação do calendário fiquem sempre juntos e responsivos */
+.calendar-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.calendar-nav-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .calendar-navigation {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .calendar-nav-group {
+    flex-direction: row;
+    gap: 6px;
+    width: 100%;
+    justify-content: center;
+  }
+}:root {
   --status-created: #bdbdbd;
   --status-pending_confirmation: #f7b731;
   --status-confirmed: #3498db;
