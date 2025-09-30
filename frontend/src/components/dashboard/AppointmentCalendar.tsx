@@ -286,28 +286,21 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
 
   // Handle admin appointment creation
   const handleAdminAppointmentSubmit = async (formData: FormData) => {
-    try {
-      const appointmentRequest = {
-        clientName: formData.clientName,
-        clientPhone: formData.clientPhone,
-        vehicleBrand: formData.vehicleBrand,
-        vehicleModel: formData.vehicleModel,
-        vehicleYear: parseInt(formData.vehicleYear),
-        serviceTypes: formData.serviceTypes,
-        appointmentDate: `${formData.appointmentDate}T${formData.appointmentTime}:00`
-      };
-      
-      await AppointmentService.createAppointment(appointmentRequest, workshop, language);
-      // Reload appointments to show the new one
-      await loadAppointments();
-      // Close the modal
-      setAdminModalOpen(false);
-      // Show success message
-      alert(t['message.success']);
-    } catch (error) {
-      console.error('Error creating admin appointment:', error);
-      alert(t['message.error']);
-    }
+    const appointmentRequest = {
+      clientName: formData.clientName,
+      clientPhone: formData.clientPhone,
+      vehicleBrand: formData.vehicleBrand,
+      vehicleModel: formData.vehicleModel,
+      vehicleYear: parseInt(formData.vehicleYear),
+      serviceTypes: formData.serviceTypes,
+      appointmentDate: `${formData.appointmentDate}T${formData.appointmentTime}:00`
+    };
+
+    await AppointmentService.createAppointment(appointmentRequest, workshop, language);
+    // Reload appointments to show the new one
+    await loadAppointments();
+    // Close the modal
+    setAdminModalOpen(false);
   };
 
   const handleCancelAdminAppointment = () => {

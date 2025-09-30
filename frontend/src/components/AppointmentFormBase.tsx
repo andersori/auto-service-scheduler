@@ -39,7 +39,7 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
     const [isLoading, setIsLoading] = useState(false);
     const [modelOptions, setModelOptions] = useState<string[]>([]);
     const [globalError, setGlobalError] = useState<string | null>(null);
-    const clientInfoTitleRef = useRef<HTMLHeadingElement>(null);
+    const errorRef = useRef<HTMLDivElement>(null);
 
     // Scroll the page to the top when the form mounts
     useEffect(() => {
@@ -199,11 +199,12 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
             await onSubmit(formData);
         } catch (error) {
             setGlobalError(t['message.error']);
+            // Aguarda o DOM atualizar a div de erro antes de rolar
             setTimeout(() => {
-                if (clientInfoTitleRef.current) {
-                    clientInfoTitleRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (errorRef.current) {
+                    errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-            }, 0);
+            }, 50);
         } finally {
             setIsLoading(false);
         }
@@ -216,12 +217,21 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={handleSubmit} className="form" >
             <div className="form-section">
                 {globalError && (
-                    <div className="error-banner">{globalError}</div>
+                    <div className="error-banner" ref={errorRef}>
+                        <span>{globalError}</span>
+                        <button
+                            className="close-error-btn"
+                            onClick={() => setGlobalError(null)}
+                            aria-label={t['error.close']}
+                        >
+                            ×
+                        </button>
+                    </div>
                 )}
-                <h3 ref={clientInfoTitleRef}>{t['form.clientInfo']}</h3>
+                <h3>{t['form.clientInfo']}</h3>
                 <div className="form-group">
                     <label htmlFor="clientName">{t['form.clientName']}</label>
                     <input
@@ -259,7 +269,11 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                     <Select
                         inputId="react-select-vehicleBrand-input"
                         name="vehicleBrand"
-                        options={Object.keys(vehicleCatalog).map(brand => ({ value: brand, label: brand }))}
+                        options={
+                            isLoading && (!Object.keys(vehicleCatalog) || Object.keys(vehicleCatalog).length === 0)
+                                ? [{ value: '', label: t['calendar.loading'], isDisabled: true } as any]
+                                : (Object.keys(vehicleCatalog) || []).map(brand => ({ value: brand, label: brand }))
+                        }
                         value={formData.vehicleBrand ? { value: formData.vehicleBrand, label: formData.vehicleBrand } : null}
                         onChange={handleBrandChange}
                         placeholder={t['form.vehicleBrand']}
@@ -274,7 +288,11 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                         <Select
                             inputId="react-select-vehicleModel-input"
                             name="vehicleModel"
-                            options={modelOptions.map(model => ({ value: model, label: model }))}
+                            options={
+                                isLoading && (!modelOptions || modelOptions.length === 0)
+                                    ? [{ value: '', label: t['calendar.loading'], isDisabled: true } as any]
+                                    : (modelOptions || []).map(model => ({ value: model, label: model }))
+                            }
                             value={formData.vehicleModel ? { value: formData.vehicleModel, label: formData.vehicleModel } : null}
                             onChange={(selected) => {
                                 const model = selected ? selected.value : '';
@@ -292,7 +310,11 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                         <Select
                             inputId="react-select-vehicleYear-input"
                             name="vehicleYear"
-                            options={YEARS.map(year => ({ value: year.toString(), label: year.toString() }))}
+                            options={
+                                isLoading && (!YEARS || YEARS.length === 0)
+                                    ? [{ value: '', label: t['calendar.loading'], isDisabled: true } as any]
+                                    : (YEARS || []).map(year => ({ value: year.toString(), label: year.toString() }))
+                            }
                             value={formData.vehicleYear ? { value: formData.vehicleYear, label: formData.vehicleYear } : null}
                             onChange={(selected) => {
                                 const year = selected ? selected.value : '';
@@ -314,10 +336,12 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                         <Select
                             inputId="react-select-branch-input"
                             name="branchId"
-                            options={branches.map(branch => ({
-                                value: branch.id,
-                                label: `${branch.address} (${branch.services.length} services)`
-                            }))}
+                            options={
+                                isLoading && (!branches || branches.length === 0)
+                                    ? [{ value: '', label: t['calendar.loading'], isDisabled: true } as any]
+                                    : (branches || []).map(branch => ({ value: branch.id, label: `${branch.address} (${branch.services.length} services)` }))
+
+                            }
                             value={formData.branchId ?
                                 branches.find(branch => branch.id === formData.branchId) ?
                                     {
@@ -339,7 +363,11 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                     <Select
                         inputId="react-select-serviceType-input"
                         name="serviceType"
-                        options={serviceTypes.map(service => ({ value: service.name, label: service.name }))}
+                        options={
+                            isLoading && (!serviceTypes || serviceTypes.length === 0)
+                                ? [{ value: '', label: t['calendar.loading'], isDisabled: true } as any]
+                                : (serviceTypes || []).map(service => ({ value: service.name, label: service.name }))
+                        }
                         value={formData.serviceTypes.map(type => ({ value: type, label: type }))}
                         onChange={(selected) => {
                             const types = selected ? (selected as any[]).map((item: any) => item.value) : [];
@@ -372,7 +400,7 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
                         className="select-appointment-time"
                         options={
                             isLoading && (!availableSlots || availableSlots.length === 0)
-                                ? [ { value: '', label: t['calendar.loading'], isDisabled: true } as any ]
+                                ? [{ value: '', label: t['calendar.loading'], isDisabled: true } as any]
                                 : (availableSlots || []).map(time => ({ value: time, label: time }))
                         }
                         value={formData.appointmentTime ? { value: formData.appointmentTime, label: formData.appointmentTime } : null}
