@@ -8,25 +8,11 @@ import AppointmentFormBase from './AppointmentFormBase';
 import Header from './header/Header';
 import './AppointmentForm.css';
 
-interface Branch {
-  id: string;
-  address: string;
-  services: string[];
-}
-
-interface Workshop {
-  id: string;
-  name: string;
-  branches: Branch[];
-}
-
 export const AppointmentForm: React.FC = () => {
   const navigate = useNavigate();
   const { workshop } = useParams<{ workshop: string }>();
   const { language, changeLanguage } = useLanguage();
   const t = getTranslations(language);
-
-  const [isLoading, setIsLoading] = useState(false);
 
   // Redirecionar para home se não há workshop na URL
   useEffect(() => {
@@ -42,14 +28,6 @@ export const AppointmentForm: React.FC = () => {
 
   // Handle submit
   const handleSubmit = async (formData: FormData) => {
-    // Validation
-    if (!formData.clientName || !formData.clientPhone || !formData.vehicleBrand ||
-      !formData.vehicleModel || !formData.vehicleYear || formData.serviceTypes.length === 0 ||
-      !formData.appointmentDate || !formData.appointmentTime || !formData.branchId) {
-      alert(t['error.requiredFields']);
-      return;
-    }
-    setIsLoading(true);
     try {
       const appointmentRequest = {
         clientName: formData.clientName,
@@ -77,8 +55,6 @@ export const AppointmentForm: React.FC = () => {
       });
     } catch (error) {
       alert(t['message.error']);
-    } finally {
-      setIsLoading(false);
     }
   };
 

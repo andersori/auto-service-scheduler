@@ -181,6 +181,12 @@ export const AppointmentFormBase: React.FC<AppointmentFormBaseProps> = ({
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+        if (!formData.clientName || !formData.clientPhone || !formData.vehicleBrand ||
+            !formData.vehicleModel || !formData.vehicleYear || formData.serviceTypes.length === 0 ||
+            !formData.appointmentDate || !formData.appointmentTime || !formData.branchId) {
+            alert(t['error.requiredFields']);
+            return;
+        }
         e.preventDefault();
         if (!isValidPhone(formData.clientPhone, language)) {
             setPhoneError(true);
