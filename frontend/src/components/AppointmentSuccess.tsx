@@ -5,6 +5,7 @@ import { Language } from '../types/i18n';
 import { getTranslations, detectLanguage } from '../i18n';
 import './AppointmentSuccess.css';
 import { BrazilFlag, USFlag } from './icon/Flag';
+import { BackIcon } from './icon/Back';
 
 interface LocationState {
   language: Language;
@@ -69,12 +70,23 @@ export const AppointmentSuccess: React.FC = () => {
   return (
     <div className="app">
       <div className="app-container">
-        <div className="language-info">
-          {language === 'pt-BR' ? (
-            <><BrazilFlag size={18} />&nbsp;BR</>
-          ) : (
-            <><USFlag size={18} />&nbsp;US</>
-          )}
+        <div className="success-header-row">
+          <button
+            className="icon-back-btn"
+            onClick={() => {
+              window.history.back();
+            }}
+            aria-label={t['dashboard.back']}
+          >
+            <BackIcon />
+          </button>
+          <div className="language-info">
+            {language === 'pt-BR' ? (
+              <><BrazilFlag size={18} />&nbsp;BR</>
+            ) : (
+              <><USFlag size={18} />&nbsp;US</>
+            )}
+          </div>
         </div>
 
         <div className="content-container">
@@ -126,9 +138,6 @@ export const AppointmentSuccess: React.FC = () => {
                   📄 {t['success.generateReceipt']}
                 </button>
               )}
-              <Link to="/" className="btn btn-secondary">
-                {t['success.backToForm']}
-              </Link>
             </div>
 
             <div className="generated-message">

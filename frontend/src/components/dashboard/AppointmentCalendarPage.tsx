@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import Select from 'react-select';
 import AppointmentCalendar from './AppointmentCalendar';
 import { WorkshopService, Workshop } from '../../services/workshopService';
 import { getTranslations } from '../../i18n';
@@ -50,8 +51,8 @@ const AppointmentCalendarPage: React.FC<AppointmentCalendarPageProps> = ({ langu
     loadWorkshops();
   }, [loadWorkshops]);
 
-  const handleWorkshopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedWorkshop(event.target.value);
+  const handleWorkshopChange = (option: { value: string; label: string } | null) => {
+    setSelectedWorkshop(option ? option.value : '');
   };
 
   if (loading) {
@@ -81,21 +82,22 @@ const AppointmentCalendarPage: React.FC<AppointmentCalendarPageProps> = ({ langu
         <label htmlFor="workshop-select" className="workshop-label">
           {t['form.title']}:
         </label>
-        <select
-          id="workshop-select"
-          value={selectedWorkshop}
+        <Select
+          inputId="workshop-select"
+          classNamePrefix="workshop-select"
+          value={
+            workshops
+              .map((w) => ({ value: w.id, label: w.name }))
+              .find((opt) => opt.value === selectedWorkshop) || null
+          }
           onChange={handleWorkshopChange}
-          className="workshop-select"
-        >
-          <option value="">
-            {t['message.selectWorkshop']}
-          </option>
-          {workshops.map((workshop) => (
-            <option key={workshop.id} value={workshop.id}>
-              {workshop.name}
-            </option>
-          ))}
-        </select>
+          options={[
+            { value: '', label: t['message.selectWorkshop'] },
+            ...workshops.map((w) => ({ value: w.id, label: w.name }))
+          ]}
+          placeholder={t['message.selectWorkshop']}
+          isClearable
+        />
       </div>
 
       {selectedWorkshop && (

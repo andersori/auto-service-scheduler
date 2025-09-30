@@ -78,6 +78,7 @@ const BranchRegistrationForm: React.FC<BranchRegistrationFormProps> = ({ worksho
     operatingHours: initialOperatingHours,
     services: []
   });
+  const [customService, setCustomService] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -97,11 +98,19 @@ const BranchRegistrationForm: React.FC<BranchRegistrationFormProps> = ({ worksho
       const services = prev.services.includes(service)
         ? prev.services.filter(s => s !== service)
         : [...prev.services, service];
-
       return { ...prev, services };
     });
+    if (errors.services) {
+      setErrors(prev => ({ ...prev, services: '' }));
+    }
+  };
 
-    // Clear services error when user selects a service
+  const handleAddCustomService = () => {
+    const trimmed = customService.trim();
+    if (!trimmed) return;
+    if (formData.services.includes(trimmed)) return;
+    setFormData(prev => ({ ...prev, services: [...prev.services, trimmed] }));
+    setCustomService('');
     if (errors.services) {
       setErrors(prev => ({ ...prev, services: '' }));
     }
@@ -340,6 +349,30 @@ const BranchRegistrationForm: React.FC<BranchRegistrationFormProps> = ({ worksho
                 {service}
               </label>
             ))}
+            {/* Custom services added by the user */}
+            {formData.services.filter(s => !serviceList.includes(s)).map(service => (
+              <label key={service} className="service-checkbox custom-service">
+                <input
+                  type="checkbox"
+                  checked={formData.services.includes(service)}
+                  onChange={() => handleServiceToggle(service)}
+                />
+                <span className="checkmark"></span>
+                {service}
+              </label>
+            ))}
+          </div>
+          <div className="custom-service-input">
+            <input
+              type="text"
+              value={customService}
+              onChange={e => setCustomService(e.target.value)}
+              placeholder={t['branch.form.placeholder.customService']}
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAddCustomService(); } }}
+            />
+            <button type="button" className="btn btn-secondary" onClick={handleAddCustomService} style={{ minWidth: 0, padding: '0 16px' }}>
+              {t['branch.form.addCustomService']}
+            </button>
           </div>
           {errors.services && <span className="error-message">{errors.services}</span>}
         </div>

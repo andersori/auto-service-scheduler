@@ -123,11 +123,12 @@
 }
 
 .service-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
-  display: block;
+  display: none;
 }
 
 .service-checkbox input[type="checkbox"]:checked {
   background-color: #667eea;
+  border-color: #667eea;
 }
 
 .service-checkbox:has(input[type="checkbox"]:checked) {
@@ -258,21 +259,8 @@
   border-color: #667eea;
 }
 
-.day-checkbox .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-  left: 6px;
-  top: 2px;
-  width: 6px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
 .day-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
-  display: block;
+  display: none;
 }
 
 .time-ranges {
@@ -319,8 +307,8 @@
   background: #dc3545;
   color: white;
   border: none;
-  border-radius: 50%;
-  width: 28px;
+  border-radius: 6px;
+  width: 58px;
   height: 28px;
   display: flex;
   align-items: center;
@@ -333,6 +321,12 @@
 
 .remove-time-btn:hover {
   background: #c82333;
+}
+
+.custom-service-input{
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .add-time-btn {

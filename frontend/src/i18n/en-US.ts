@@ -1,11 +1,23 @@
 import { Translations } from '../types/i18n';
 
 export const enUS: Translations = {
+  // Status
+  'appointment.status.created': 'Created',
+  'appointment.status.pending_confirmation': 'Pending Confirmation',
+  'appointment.status.confirmed': 'Confirmed',
+  'appointment.status.completed': 'Completed',
+  'appointment.status.cancelled': 'Cancelled',
+
+  'appointment.preview.status': 'Status',
+  'calendar.expandDay': 'Expand',
+  'calendar.minimizeDay': 'Minimize',
+
   'error.generateReceipt': 'Failed to generate receipt. Please try again.',
   'error.receiptContainerNotFound': 'Receipt container not found.',
   'error.close': 'Close error message',
 
   // Header
+  'calendar.adminCreateAppointment': 'Create Appointment (Admin)',
   'header.title': 'Auto Service Scheduler',
 
   // Form labels
@@ -24,6 +36,7 @@ export const enUS: Translations = {
   'form.appointmentTime': 'Time *',
   'form.submit': 'Schedule Service',
   'form.processing': 'Processing...',
+  'form.cancel': 'Cancel',
 
   // Messages
   'message.success': 'Appointment scheduled successfully!',
@@ -43,6 +56,7 @@ export const enUS: Translations = {
   'service.suspension': 'Suspension',
   'service.airConditioning': 'Air conditioning',
   'service.others': 'Others',
+
 
   // Placeholders
   'placeholder.phone': '(555) 123-4567',
@@ -166,6 +180,8 @@ export const enUS: Translations = {
   'branch.form.success': 'Branch registered successfully!',
   'branch.form.error': 'Error registering branch. Please try again.',
   'branch.form.placeholder.address': 'e.g., 123 Main Street, Downtown - New York, NY',
+  'branch.form.placeholder.customService': 'Add your own service',
+  'branch.form.addCustomService': '+',
 
   // Branch management
   'branch.management.title': 'Manage Branches',

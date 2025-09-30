@@ -1,11 +1,23 @@
 import { Translations } from '../types/i18n';
 
 export const ptBR: Translations = {
+  // Status labels
+  'appointment.status.created': 'Criada',
+  'appointment.status.pending_confirmation': 'Pendente Confirmação',
+  'appointment.status.confirmed': 'Confirmada',
+  'appointment.status.completed': 'Concluída',
+  'appointment.status.cancelled': 'Cancelada',
+
+  'appointment.preview.status': 'Status',
+  'calendar.expandDay': 'Expandir',
+  'calendar.minimizeDay': 'Minimizar',
+
   'error.generateReceipt': 'Falha ao gerar comprovante. Tente novamente.',
   'error.receiptContainerNotFound': 'Container do comprovante não encontrado.',
   'error.close': 'Fechar aviso de erro',
 
   // Header
+  'calendar.adminCreateAppointment': 'Novo agendamento (Admin)',
   'header.title': 'Agendamento Automotivo',
 
   // Form labels
@@ -24,6 +36,7 @@ export const ptBR: Translations = {
   'form.appointmentTime': 'Horário *',
   'form.submit': 'Agendar Serviço',
   'form.processing': 'Processando...',
+  'form.cancel': 'Cancelar',
   
   // Messages
   'message.success': 'Agendamento realizado com sucesso!',
@@ -44,6 +57,7 @@ export const ptBR: Translations = {
   'service.airConditioning': 'Ar condicionado',
   'service.others': 'Outros',
   
+
   // Placeholders
   'placeholder.phone': '(11) 99999-9999',
   
@@ -166,6 +180,8 @@ export const ptBR: Translations = {
   'branch.form.success': 'Filial cadastrada com sucesso!',
   'branch.form.error': 'Erro ao cadastrar filial. Tente novamente.',
   'branch.form.placeholder.address': 'Ex: Rua das Flores, 123 - Centro - São Paulo, SP',
+  'branch.form.placeholder.customService': 'Adicione seu próprio serviço',
+  'branch.form.addCustomService': '+',
 
   // Branch management
   'branch.management.title': 'Gerenciar Filiais',

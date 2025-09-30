@@ -8,6 +8,13 @@ export interface AppointmentRequest {
   appointmentDate: string;
 }
 
+export type AppointmentStatus =
+  | 'CREATED'
+  | 'PENDING_CONFIRMATION'
+  | 'CONFIRMED'
+  | 'COMPLETED'
+  | 'CANCELLED';
+
 export interface AppointmentResponse {
   id: number;
   clientName: string;
@@ -18,6 +25,7 @@ export interface AppointmentResponse {
   serviceTypes: string[];
   appointmentDate: string;
   createdAt: string;
+  status: AppointmentStatus;
 }
 
 export interface AvailableTimeSlot {

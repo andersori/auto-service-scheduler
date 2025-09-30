@@ -1,6 +1,18 @@
 export type Language = 'pt-BR' | 'en-US';
 
 export interface Translations {
+  // Appointment statuses
+  'appointment.status.created': string,
+  'appointment.status.pending_confirmation': string,
+  'appointment.status.confirmed': string,
+  'appointment.status.completed': string,
+  'appointment.status.cancelled': string,
+
+  'appointment.preview.status': string;
+  'calendar.adminCreateAppointment': string;
+  'calendar.expandDay': string;
+  'calendar.minimizeDay': string;
+
   'error.close': string;
 
   // Header
@@ -22,6 +34,7 @@ export interface Translations {
   'form.appointmentTime': string;
   'form.submit': string;
   'form.processing': string;
+  'form.cancel': string;
   
   // Messages
   'message.success': string;
@@ -166,6 +179,8 @@ export interface Translations {
   'branch.form.success': string;
   'branch.form.error': string;
   'branch.form.placeholder.address': string;
+  'branch.form.placeholder.customService': string;
+  'branch.form.addCustomService': string;
 
   // Branch management
   'branch.management.title': string;
