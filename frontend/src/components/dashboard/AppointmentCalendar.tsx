@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import AdminCreateAppointmentModal from './AdminCreateAppointmentModal';
-import { ServiceTypeService } from '../../services/serviceTypeService';
 import { AppointmentResponse } from '../../types/appointment';
 import { AppointmentService } from '../../services/appointmentService';
 import { getTranslations } from '../../i18n';
@@ -241,21 +239,6 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
 
   // Modal de criação de agendamento admin
   const [adminModalOpen, setAdminModalOpen] = useState(false);
-  const [serviceTypes, setServiceTypes] = useState<{ id: number; name: string }[]>([]);
-  // Carregar serviceTypes ao montar
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      try {
-        const types = await ServiceTypeService.getActiveServiceTypes(workshop);
-        if (mounted) setServiceTypes(types);
-      } catch (e) {
-        // fallback para default
-        if (mounted) setServiceTypes(ServiceTypeService.getDefaultServiceTypes());
-      }
-    })();
-    return () => { mounted = false; };
-  }, [workshop]);
 
   React.useEffect(() => {
     const onResize = () => {
@@ -300,17 +283,6 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
         <div className="calendar-title-section">
           <h2>{t['calendar.title']}</h2>
           <p>{t['calendar.subtitle']}</p>
-        </div>
-
-        {/* Secondary button for admin appointment creation */}
-        <div className="calendar-admin-action">
-          <button
-            className="action-btn secondary"
-            type="button"
-            onClick={() => setAdminModalOpen(true)}
-          >
-            {t['calendar.adminCreateAppointment'] || 'Create Appointment (Admin)'}
-          </button>
         </div>
 
         <div className="calendar-navigation">
@@ -428,16 +400,6 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
           })}
         </div>
       </div>
-
-      {/* Admin Create Appointment Modal */}
-      <AdminCreateAppointmentModal
-        open={adminModalOpen}
-        onClose={() => setAdminModalOpen(false)}
-        workshop={workshop}
-        language={language}
-        serviceTypes={serviceTypes}
-        onAppointmentCreated={loadAppointments}
-      />
 
       {/* Appointment Preview Modal */}
       {preview.visible && (
