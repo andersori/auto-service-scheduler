@@ -40,6 +40,7 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<AppointmentPreview>({ appointment: null as any, visible: false });
+  const [appointmentsReady, setAppointmentsReady] = useState(false);
 
   // Get the start of the week (Monday)
   function getStartOfWeek(date: Date): Date {
@@ -176,15 +177,20 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
   const loadAppointments = async () => {
     setLoading(true);
     setError(null);
+    setAppointmentsReady(false);
 
     try {
       const allAppointments = await AppointmentService.getAllAppointments(workshop, language);
       setAppointments(allAppointments);
+      // Use setTimeout to ensure appointments are processed and sorted before showing
+      setTimeout(() => setAppointmentsReady(true), 100);
     } catch (err) {
       // On error (like no backend), show mock data for demo purposes
       console.warn('Backend not available, showing mock data for demo');
       const mockData = generateMockAppointments();
       setAppointments(mockData);
+      // Use setTimeout to ensure appointments are processed and sorted before showing
+      setTimeout(() => setAppointmentsReady(true), 100);
       // Don't set error state, just show the mock data
     } finally {
       setLoading(false);
@@ -401,6 +407,8 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({ workshop, lan
                 </div>
                 {!isMinimized && (
                   loading ? (
+                    <div className="no-appointments calendar-loading">{t['calendar.loading']}</div>
+                  ) : !appointmentsReady ? (
                     <div className="no-appointments calendar-loading">{t['calendar.loading']}</div>
                   ) : dayAppointments.length === 0 ? (
                     <div className="no-appointments">
